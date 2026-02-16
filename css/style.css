@@ -1196,61 +1196,11 @@ section {
     background: var(--color-gray-50);
 }
 
-.contact-grid {
+/* Contact Cards Grid */
+.contact-cards {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: var(--space-2xl);
-    align-items: start;
-}
-
-.contact-text {
-    font-size: 1.0625rem;
-    color: var(--color-gray-500);
-    line-height: var(--line-height-relaxed);
-    margin-bottom: var(--space-lg);
-}
-
-.contact-details {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-}
-
-.contact-item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    font-size: 0.9375rem;
-    color: var(--color-gray-600);
-}
-
-.contact-item svg {
-    width: 20px;
-    height: 20px;
-    stroke: var(--color-red);
-    flex-shrink: 0;
-}
-
-.contact-phones {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.contact-phones a {
-    color: var(--color-gray-600);
-    transition: color var(--transition-fast);
-}
-
-.contact-phones a:hover {
-    color: var(--color-red);
-}
-
-/* Contact Action Cards */
-.contact-actions {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
 }
 
 .contact-card {
@@ -1547,10 +1497,13 @@ section {
         --section-padding: 80px;
     }
     
-    .about-grid,
-    .contact-grid {
+    .about-grid {
         grid-template-columns: 1fr;
         gap: var(--space-xl);
+    }
+    
+    .contact-cards {
+        grid-template-columns: 1fr;
     }
     
     .services-grid {
@@ -1753,6 +1706,10 @@ section {
     }
     
     /* Mobile Contact */
+    .contact-cards {
+        grid-template-columns: 1fr;
+    }
+    
     .contact-card {
         padding: var(--space-md);
     }

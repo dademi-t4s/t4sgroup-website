@@ -17,7 +17,7 @@ const translations = {
         'hero.title1': 'CRM e automazione',
         'hero.title2': 'per PMI che vogliono crescere',
         'hero.subtitle': 'Implementiamo Salesforce, integriamo i tuoi sistemi e automatizziamo i processi. Meno lavoro manuale, più tempo per vendere.',
-        'hero.cta1': 'Prenota una call gratuita',
+        'hero.cta1': 'Contattaci',
         'hero.cta2': 'Scopri come lavoriamo',
         'hero.note': 'Nessun impegno • Risposta entro 24h',
         'hero.scroll': 'Scorri',
@@ -26,7 +26,7 @@ const translations = {
         'about.tag': 'Chi Siamo',
         'about.title': 'Il team che semplifica il tuo Salesforce',
         'about.text1': 'Configuriamo, personalizziamo e integriamo Salesforce per aziende dai 5 ai 100 utenti. Parliamo la tua lingua: niente gergo tecnico, solo soluzioni che funzionano.',
-        'about.text2': 'Lavoriamo come estensione del tuo team. Un referente dedicato, tempi di risposta rapidi e la garanzia che ogni euro investito generi valore misurabile.',
+        'about.text2': 'Lavoriamo come estensione del tuo team. Un referente dedicato, tempi di risposta rapidi e la garanzia che ogni franco investito generi valore misurabile.',
         'about.stat1': 'Progetti Salesforce',
         'about.stat2': 'Clienti rinnovano',
         'about.stat3': 'Anni su Salesforce',
@@ -85,6 +85,8 @@ const translations = {
         // Footer
         'footer.tagline': 'Salesforce Partner per PMI. Configurazione, integrazione, formazione.',
         'footer.automation': 'Automazione',
+        'footer.integrations': 'Integrazioni',
+        'footer.reporting': 'Dashboard & Report',
         'footer.copyright': '© {year} T4S. Tutti i diritti riservati.',
         'footer.vat': 'CHE-000.000.000 IVA'
     },
@@ -102,7 +104,7 @@ const translations = {
         'hero.title1': 'CRM and automation',
         'hero.title2': 'for SMEs ready to grow',
         'hero.subtitle': 'We implement Salesforce, integrate your systems and automate processes. Less manual work, more time to sell.',
-        'hero.cta1': 'Book a free call',
+        'hero.cta1': 'Get in touch',
         'hero.cta2': 'See how we work',
         'hero.note': 'No commitment • Reply within 24h',
         'hero.scroll': 'Scroll',
@@ -111,7 +113,7 @@ const translations = {
         'about.tag': 'About Us',
         'about.title': 'The team that simplifies your Salesforce',
         'about.text1': 'We configure, customize and integrate Salesforce for companies with 5 to 100 users. We speak your language: no tech jargon, just solutions that work.',
-        'about.text2': 'We work as an extension of your team. A dedicated contact, fast response times and the guarantee that every euro invested generates measurable value.',
+        'about.text2': 'We work as an extension of your team. A dedicated contact, fast response times and the guarantee that every franc invested generates measurable value.',
         'about.stat1': 'Salesforce projects',
         'about.stat2': 'Clients renew',
         'about.stat3': 'Years on Salesforce',
@@ -170,6 +172,8 @@ const translations = {
         // Footer
         'footer.tagline': 'Salesforce Partner for SMEs. Setup, integration, training.',
         'footer.automation': 'Automation',
+        'footer.integrations': 'Integrations',
+        'footer.reporting': 'Dashboards & Reports',
         'footer.copyright': '© {year} T4S. All rights reserved.',
         'footer.vat': 'CHE-000.000.000 VAT'
     },
@@ -187,7 +191,7 @@ const translations = {
         'hero.title1': 'CRM und Automatisierung',
         'hero.title2': 'für wachstumsorientierte KMU',
         'hero.subtitle': 'Wir implementieren Salesforce, integrieren Ihre Systeme und automatisieren Prozesse. Weniger manuelle Arbeit, mehr Zeit zum Verkaufen.',
-        'hero.cta1': 'Kostenloses Gespräch buchen',
+        'hero.cta1': 'Kontaktieren Sie uns',
         'hero.cta2': 'So arbeiten wir',
         'hero.note': 'Keine Verpflichtung • Antwort innerhalb 24h',
         'hero.scroll': 'Scrollen',
@@ -255,6 +259,8 @@ const translations = {
         // Footer
         'footer.tagline': 'Salesforce Partner für KMU. Einrichtung, Integration, Schulung.',
         'footer.automation': 'Automatisierung',
+        'footer.integrations': 'Integrationen',
+        'footer.reporting': 'Dashboards & Berichte',
         'footer.copyright': '© {year} T4S. Alle Rechte vorbehalten.',
         'footer.vat': 'CHE-000.000.000 MwSt'
     }
