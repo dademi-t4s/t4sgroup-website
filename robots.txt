@@ -1,0 +1,5 @@
+# T4S - www.t4s.ch
+User-agent: *
+Allow: /
+
+Sitemap: https://www.t4s.ch/sitemap.xml

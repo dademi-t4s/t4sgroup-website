@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Pagina non trovata | T4S</title>
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-red: #C8102E;
+            --color-red-dark: #A00D24;
+            --color-blue-dark: #37474F;
+            --color-blue-darker: #263238;
+            --color-accent: #2196F3;
+            --color-white: #FFFFFF;
+            --color-gray-500: #737373;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--color-blue-darker) 0%, var(--color-blue-dark) 50%, var(--color-red-dark) 100%);
+            color: var(--color-white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 24px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 520px;
+        }
+
+        .error-code {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(5rem, 15vw, 9rem);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 16px;
+            background: linear-gradient(90deg, var(--color-red) 0%, var(--color-red) 45%, #64B5F6 55%, #2196F3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.0625rem;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn-primary {
+            background: var(--color-red);
+            color: var(--color-white);
+            box-shadow: 0 2px 8px rgba(200, 16, 46, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-red-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(200, 16, 46, 0.3);
+        }
+
+        .btn svg { transition: transform 0.15s ease; }
+        .btn:hover svg { transform: translateX(3px); }
+
+        .logo {
+            margin-bottom: 40px;
+        }
+
+        .logo img {
+            height: 48px;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <a href="/"><img src="img/logo.png" alt="T4S"></a>
+        </div>
+        <div class="error-code">404</div>
+        <h1>Pagina non trovata</h1>
+        <p>La pagina che cerchi non esiste o è stata spostata. Torna alla home per scoprire cosa possiamo fare per te.</p>
+        <a href="/" class="btn btn-primary">
+            <span>Torna alla Home</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </div>
+</body>
+</html>
