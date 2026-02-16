@@ -13,7 +13,7 @@ const translations = {
         'nav.contact': 'Contattaci',
         
         // Hero
-        'hero.badge': '✦ Salesforce Partner Certificato',
+        'hero.badge': '✦ Consulenti Salesforce Certificati',
         'hero.title1': 'CRM e automazione',
         'hero.title2': 'per PMI che vogliono crescere',
         'hero.subtitle': 'Implementiamo Salesforce, integriamo i tuoi sistemi e automatizziamo i processi. Meno lavoro manuale, più tempo per vendere.',
@@ -83,7 +83,7 @@ const translations = {
         'contact.phone.hint': 'Lun-Ven, 9:00-18:00',
         
         // Footer
-        'footer.tagline': 'Salesforce Partner per PMI. Configurazione, integrazione, formazione.',
+        'footer.tagline': 'Consulenti Salesforce per PMI. Configurazione, integrazione, formazione.',
         'footer.automation': 'Automazione',
         'footer.integrations': 'Integrazioni',
         'footer.reporting': 'Dashboard & Report',
@@ -100,7 +100,7 @@ const translations = {
         'nav.contact': 'Contact',
         
         // Hero
-        'hero.badge': '✦ Certified Salesforce Partner',
+        'hero.badge': '✦ Certified Salesforce Consultants',
         'hero.title1': 'CRM and automation',
         'hero.title2': 'for SMEs ready to grow',
         'hero.subtitle': 'We implement Salesforce, integrate your systems and automate processes. Less manual work, more time to sell.',
@@ -170,7 +170,7 @@ const translations = {
         'contact.phone.hint': 'Mon-Fri, 9:00-18:00',
         
         // Footer
-        'footer.tagline': 'Salesforce Partner for SMEs. Setup, integration, training.',
+        'footer.tagline': 'Certified Salesforce Consultants for SMEs. Setup, integration, training.',
         'footer.automation': 'Automation',
         'footer.integrations': 'Integrations',
         'footer.reporting': 'Dashboards & Reports',
@@ -187,7 +187,7 @@ const translations = {
         'nav.contact': 'Kontakt',
         
         // Hero
-        'hero.badge': '✦ Zertifizierter Salesforce Partner',
+        'hero.badge': '✦ Zertifizierte Salesforce-Berater',
         'hero.title1': 'CRM und Automatisierung',
         'hero.title2': 'für wachstumsorientierte KMU',
         'hero.subtitle': 'Wir implementieren Salesforce, integrieren Ihre Systeme und automatisieren Prozesse. Weniger manuelle Arbeit, mehr Zeit zum Verkaufen.',
@@ -257,7 +257,7 @@ const translations = {
         'contact.phone.hint': 'Mo-Fr, 9:00-18:00',
         
         // Footer
-        'footer.tagline': 'Salesforce Partner für KMU. Einrichtung, Integration, Schulung.',
+        'footer.tagline': 'Zertifizierte Salesforce-Berater für KMU. Einrichtung, Integration, Schulung.',
         'footer.automation': 'Automatisierung',
         'footer.integrations': 'Integrationen',
         'footer.reporting': 'Dashboards & Berichte',
