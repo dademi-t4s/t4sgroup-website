@@ -1,5 +1,5 @@
-# T4S - www.t4s.ch
+# T4S - www.t4sgroup.com
 User-agent: *
 Allow: /
 
-Sitemap: https://www.t4s.ch/sitemap.xml
+Sitemap: https://www.t4sgroup.com/sitemap.xml
