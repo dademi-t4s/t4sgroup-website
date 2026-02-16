@@ -1206,7 +1206,7 @@ section {
 .contact-card {
     display: block;
     background: var(--color-white);
-    padding: var(--space-lg);
+    padding: var(--space-lg) var(--space-md);
     border-radius: var(--radius-lg);
     border: 1px solid var(--color-gray-200);
     box-shadow: var(--shadow-card);
@@ -1217,7 +1217,6 @@ section {
 }
 
 .contact-card:hover {
-    transform: translateY(-4px);
     box-shadow: var(--shadow-card-hover);
     border-color: var(--color-gray-100);
 }
@@ -1231,11 +1230,6 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all var(--transition-normal);
-}
-
-.contact-card:hover .contact-card-icon {
-    transform: scale(1.1);
 }
 
 .contact-card-icon svg {
@@ -1253,61 +1247,56 @@ section {
     stroke: none;
 }
 
-.contact-card-wa:hover {
-    border-color: rgba(37, 211, 102, 0.3);
-}
-
 .contact-card h3 {
     font-size: 1.0625rem;
     font-weight: 600;
     color: var(--color-gray-900);
-    margin-bottom: 4px;
-}
-
-.contact-card-detail {
-    font-size: 0.9375rem;
-    color: var(--color-gray-600);
-    font-weight: 500;
+    margin-bottom: var(--space-sm);
 }
 
 .contact-card-links {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin-bottom: 2px;
+    gap: 8px;
+    margin-bottom: var(--space-xs);
 }
 
 .contact-link {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     font-size: 0.9375rem;
-    color: var(--color-gray-600);
-    font-weight: 500;
-    padding: 6px 12px;
-    border-radius: var(--radius-sm);
-    transition: all var(--transition-fast);
+    color: var(--color-white);
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    background: var(--color-red);
+    box-shadow: var(--shadow-button);
+    transition: all var(--transition-normal);
 }
 
 .contact-link:hover {
-    color: var(--color-red);
-    background: rgba(200, 16, 46, 0.05);
+    background: var(--color-red-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-button-hover);
+}
+
+.contact-card-wa .contact-link {
+    background: #25D366;
+    box-shadow: 0 2px 8px rgba(37, 211, 102, 0.25);
 }
 
 .contact-card-wa .contact-link:hover {
-    color: #25D366;
-    background: rgba(37, 211, 102, 0.05);
-}
-
-.contact-card-phones {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+    background: #1DA851;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
 }
 
 .contact-card-hint {
     display: block;
     font-size: 0.8125rem;
     color: var(--color-gray-400);
-    margin-top: 6px;
+    margin-top: var(--space-xs);
 }
 
 /* Section CTA - Call to Action blocks */
