@@ -3,510 +3,1374 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Meta Tags -->
     <title>T4S | CRM e Automazione per PMI</title>
-    <meta name="description" content="Consulenti Salesforce certificati in Svizzera. Implementiamo CRM, automatizziamo processi e integriamo sistemi per PMI dai 5 ai 100 utenti.">
-    <meta name="keywords" content="Salesforce Partner Svizzera, CRM PMI, implementazione Salesforce, automazione processi, integrazione sistemi, consulenza CRM">
-    <meta name="author" content="T4S">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://www.t4sgroup.com/">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.t4sgroup.com/">
-    <meta property="og:title" content="T4S | Consulenti Salesforce per PMI">
-    <meta property="og:description" content="Implementiamo Salesforce, automatizziamo processi e integriamo sistemi per PMI in Svizzera.">
-    <meta property="og:image" content="https://www.t4sgroup.com/img/og-image.jpg">
-    <meta property="og:locale" content="it_CH">
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="T4S | Consulenti Salesforce per PMI">
-    <meta name="twitter:description" content="Implementiamo Salesforce, automatizziamo processi e integriamo sistemi per PMI in Svizzera.">
-    <meta name="twitter:image" content="https://www.t4sgroup.com/img/og-image.jpg">
-    
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="img/icon_logo.png">
-    <link rel="apple-touch-icon" href="img/icon_logo.png">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Schema.org Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "T4S",
-        "description": "Consulenti Salesforce certificati in Svizzera. Implementazione CRM, automazione e integrazione sistemi per PMI.",
-        "url": "https://www.t4sgroup.com",
-        "logo": "https://www.t4sgroup.com/img/logo.png",
-        "address": {
-            "@type": "PostalAddress",
-            "addressCountry": "CH"
-        },
-        "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": ["+41-76-793-08-88", "+41-76-788-76-90"],
-            "email": ["dademi@t4sgroup.com", "odoka@t4sgroup.com"],
-            "contactType": "sales",
-            "availableLanguage": ["Italian", "English", "German"]
-        },
-        "sameAs": ["https://www.linkedin.com/company/t4sgroup"]
-    }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #1A2B3C;
+            --navy-light: #223548;
+            --navy-mid: #2B4055;
+            --blue: #29B6F6;
+            --blue-light: #4FC3F7;
+            --blue-glow: rgba(41,182,246,0.12);
+            --purple: #546E7A;
+            --purple-light: #78909C;
+            --red: #C8102E;
+            --red-dark: #A00D24;
+            --green: #10B981;
+            --orange: #F59E0B;
+            --white: #FFFFFF;
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E1;
+            --gray-400: #94A3B8;
+            --gray-500: #64748B;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-900: #0F172A;
+            --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font); color: var(--gray-600); line-height: 1.7; background: var(--white); -webkit-font-smoothing: antialiased; }
+        img { max-width: 100%; height: auto; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        .container { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+
+        /* =====================================================
+           NAV
+           ===================================================== */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 18px 0; transition: all 0.35s;
+        }
+        .nav.scrolled {
+            background: rgba(10,22,40,0.95); backdrop-filter: blur(20px);
+            padding: 12px 0; box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+        }
+        .nav-inner {
+            display: flex; align-items: center; justify-content: space-between;
+            max-width: 1160px; margin: 0 auto; padding: 0 28px;
+        }
+        .nav-logo img { height: 48px; transition: height 0.3s; }
+        .nav.scrolled .nav-logo img { height: 40px; }
+        .nav-links { display: flex; gap: 6px; align-items: center; }
+        .nav-links a {
+            padding: 10px 20px; font-size: 0.9rem; font-weight: 500;
+            color: rgba(255,255,255,0.7); border-radius: 10px; transition: all 0.25s;
+        }
+        .nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.08); }
+        .nav-links .nav-cta {
+            background: var(--red); color: var(--white) !important;
+            font-weight: 600; box-shadow: 0 4px 15px rgba(200,16,46,0.35);
+        }
+        .nav-links .nav-cta:hover { background: var(--red-dark); transform: translateY(-1px); }
+
+        /* =====================================================
+           HERO - Romi style: text left, visual right
+           ===================================================== */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center;
+            background: var(--navy); position: relative; overflow: hidden;
+            padding: 100px 0 80px;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: -40%; right: -20%;
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(41,182,246,0.1) 0%, transparent 65%);
+            border-radius: 50%;
+        }
+        .hero::after {
+            content: ''; position: absolute; bottom: -30%; left: -10%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(200,16,46,0.08) 0%, transparent 65%);
+            border-radius: 50%;
+        }
+        .hero-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+            align-items: center; position: relative; z-index: 1;
+        }
+        /* Brand T4S Animation */
+        .brand-anim {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 800;
+            margin-bottom: 16px; letter-spacing: 0.01em;
+            display: flex; align-items: baseline;
+        }
+        .brand-t { color: var(--red); }
+        .brand-4 { color: var(--red); margin: 0 2px; }
+        .brand-s { color: var(--blue); }
+        .brand-dim { color: var(--red); opacity: 0.7; }
+        .brand-word { color: var(--blue); opacity: 0.7; }
+        .brand-cursor {
+            display: inline-block; width: 2px; height: 0.85em;
+            background: var(--blue); margin-left: 2px;
+            animation: cursorBlink 1s step-end infinite; vertical-align: baseline;
+        }
+        @keyframes cursorBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .hero-subtitle {
+            display: inline-block; padding: 8px 16px;
+            background: rgba(200,16,46,0.1); border: 1px solid rgba(200,16,46,0.2);
+            border-radius: 100px; color: #E8354F;
+            font-size: 0.85rem; font-weight: 600; margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 4.5vw, 3.5rem); font-weight: 800;
+            color: var(--white); line-height: 1.12; letter-spacing: -0.03em;
+            margin-bottom: 20px;
+        }
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--red) 0%, var(--blue) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero-desc {
+            font-size: 1.125rem; color: var(--gray-400);
+            line-height: 1.8; margin-bottom: 36px; max-width: 460px;
+        }
+        .hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 15px 28px; font-size: 0.95rem; font-weight: 600;
+            border-radius: 10px; border: none; cursor: pointer; transition: all 0.3s;
+        }
+        .btn svg { transition: transform 0.2s; }
+        .btn:hover svg { transform: translateX(3px); }
+        .btn-blue { background: var(--red); color: var(--white); box-shadow: 0 4px 20px rgba(200,16,46,0.35); }
+        .btn-blue:hover { background: var(--red-dark); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,16,46,0.4); }
+        .btn-ghost { background: transparent; color: var(--gray-400); border: 1px solid rgba(255,255,255,0.15); }
+        .btn-ghost:hover { color: var(--white); border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); }
+        .hero-trust { display: flex; gap: 32px; }
+        .hero-trust-item { display: flex; align-items: center; gap: 10px; }
+        .hero-trust-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+        }
+        .hero-trust-icon.blue { background: rgba(200,16,46,0.12); }
+        .hero-trust-icon.purple { background: rgba(41,182,246,0.12); }
+        .hero-trust-icon.green { background: rgba(16,185,129,0.12); }
+        .hero-trust-text { font-size: 0.85rem; color: var(--gray-400); }
+        .hero-trust-text strong { color: var(--white); display: block; font-size: 1.25rem; }
+
+        /* Hero Visual: abstract floating cards */
+        .hero-visual { position: relative; }
+        .float-card {
+            background: var(--navy-light); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius-lg); padding: 28px; position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .float-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .float-card-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .float-card-title { font-size: 0.8rem; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px; }
+        .float-card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .float-stat {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: var(--radius); padding: 20px; text-align: center;
+        }
+        .dash-bar-wrap {
+            width: 100%; height: 4px; background: rgba(255,255,255,0.06);
+            border-radius: 4px; margin-bottom: 14px; overflow: hidden;
+        }
+        .dash-bar {
+            height: 100%; border-radius: 4px;
+            background: linear-gradient(90deg, var(--red), var(--blue));
+            width: 0%; transition: width 1.2s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .float-stat { transition: opacity 0.4s, transform 0.4s; }
+        .float-stat.fade-out { opacity: 0; transform: translateY(8px); }
+        .float-stat-value { font-size: 2rem; font-weight: 800; color: var(--white); margin-bottom: 4px; transition: color 0.3s; }
+        .float-stat-value .accent { color: var(--red); }
+        .float-stat-label { font-size: 0.75rem; color: var(--gray-500); font-weight: 500; }
+        .float-badge {
+            position: absolute; top: -16px; right: -16px;
+            background: var(--green); color: var(--white);
+            padding: 10px 18px; border-radius: 12px;
+            font-size: 0.8rem; font-weight: 700;
+            box-shadow: 0 8px 24px rgba(16,185,129,0.3);
+        }
+        .float-mini {
+            position: absolute; bottom: -20px; left: -20px;
+            background: var(--navy-mid); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius); padding: 14px 20px;
+            display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+        }
+        .float-mini-icon { font-size: 1.4rem; }
+        .float-mini-text { font-size: 0.8rem; color: var(--gray-400); }
+        .float-mini-text strong { color: var(--white); display: block; }
+
+        /* =====================================================
+           PILLARS - "Configura. Integra. Cresci." Romi-style
+           ===================================================== */
+        .pillars { padding: 120px 0; background: var(--white); }
+        .section-header { text-align: center; margin-bottom: 64px; }
+        .section-tag {
+            display: inline-block; padding: 6px 16px;
+            background: var(--blue-glow); color: var(--blue);
+            font-size: 0.8rem; font-weight: 700; border-radius: 100px;
+            margin-bottom: 16px;
+        }
+        .section-header h2 {
+            font-size: clamp(2rem, 3.5vw, 2.75rem); font-weight: 800;
+            color: var(--gray-900); letter-spacing: -0.02em; margin-bottom: 14px;
+        }
+        .section-header p { font-size: 1.1rem; color: var(--gray-500); max-width: 520px; margin: 0 auto; line-height: 1.7; }
+        .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .pillar {
+            background: var(--gray-50); border-radius: var(--radius-lg); padding: 40px 32px;
+            text-align: center; transition: all 0.35s; border: 1px solid transparent;
+        }
+        .pillar:hover { background: var(--white); border-color: var(--gray-200); box-shadow: 0 12px 40px rgba(0,0,0,0.06); transform: translateY(-4px); }
+        .pillar-icon {
+            width: 64px; height: 64px; border-radius: 16px; margin: 0 auto 24px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.75rem;
+        }
+        .pillar-icon.blue { background: linear-gradient(135deg, rgba(200,16,46,0.12), rgba(200,16,46,0.04)); }
+        .pillar-icon.purple { background: linear-gradient(135deg, rgba(41,182,246,0.15), rgba(41,182,246,0.05)); }
+        .pillar-icon.green { background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.05)); }
+        .pillar-step { font-size: 0.7rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+        .pillar h3 { font-size: 1.35rem; font-weight: 700; color: var(--gray-900); margin-bottom: 12px; }
+        .pillar p { font-size: 0.95rem; color: var(--gray-500); line-height: 1.7; }
+
+        /* =====================================================
+           SERVICES - 2-col + grid, Romi "Servizi su misura"
+           ===================================================== */
+        .services { padding: 120px 0; background: var(--navy); color: var(--white); }
+        .services .section-tag { background: rgba(200,16,46,0.12); color: #E8354F; }
+        .services .section-header h2 { color: var(--white); }
+        .services .section-header p { color: var(--gray-400); }
+        .services-top { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+        .service-big {
+            background: var(--navy-light); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius-lg); padding: 40px; transition: all 0.35s;
+        }
+        .service-big:hover { border-color: rgba(41,182,246,0.2); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.3); }
+        .service-big-icon {
+            width: 52px; height: 52px; border-radius: 14px; margin-bottom: 24px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .service-big-icon.blue { background: rgba(200,16,46,0.15); }
+        .service-big-icon.purple { background: rgba(41,182,246,0.15); }
+        .service-big-icon svg { width: 24px; height: 24px; }
+        .service-big h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; }
+        .service-big p { color: var(--gray-400); font-size: 0.95rem; line-height: 1.7; margin-bottom: 20px; }
+        .service-big-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .stag { padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; background: rgba(255,255,255,0.06); color: var(--gray-400); }
+        .stag.primary { background: var(--red); color: var(--white); }
+
+        .services-bottom { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .service-sm {
+            background: var(--navy-light); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius-lg); padding: 32px 24px; text-align: center;
+            transition: all 0.35s;
+        }
+        .service-sm:hover { border-color: rgba(200,16,46,0.15); transform: translateY(-4px); }
+        .service-sm-icon { font-size: 1.5rem; margin-bottom: 16px; }
+        .service-sm h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+        .service-sm p { font-size: 0.85rem; color: var(--gray-500); line-height: 1.6; }
+
+        /* =====================================================
+           CERTS
+           ===================================================== */
+        .certs { padding: 80px 0; background: var(--gray-50); }
+        .certs-inner { text-align: center; }
+        .certs-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--gray-400); margin-bottom: 36px; }
+        .certs-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .cert {
+            display: flex; align-items: center; gap: 16px;
+            padding: 20px 32px; background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--radius); transition: all 0.3s;
+        }
+        .cert:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.06); transform: translateY(-2px); }
+        .cert img { height: 32px; width: auto; opacity: 0.7; }
+        .cert-name { font-weight: 700; color: var(--gray-900); font-size: 0.95rem; }
+        .cert-badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--red); }
+
+        /* =====================================================
+           ABOUT
+           ===================================================== */
+        .about { padding: 120px 0; background: var(--white); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .about-content h2 { font-size: clamp(2rem, 3.5vw, 2.5rem); font-weight: 800; color: var(--gray-900); letter-spacing: -0.02em; margin-bottom: 20px; }
+        .about-content p { font-size: 1.05rem; color: var(--gray-500); line-height: 1.8; margin-bottom: 16px; }
+        .about-card {
+            background: linear-gradient(160deg, var(--navy) 0%, var(--navy-mid) 100%);
+            border-radius: var(--radius-xl); padding: 48px 40px; color: var(--white);
+            text-align: center; position: relative; overflow: hidden;
+        }
+        .about-card::before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(200,16,46,0.12) 0%, transparent 70%);
+        }
+        .about-card-icon {
+            width: 72px; height: 72px; margin: 0 auto 20px; position: relative;
+            background: rgba(41,182,246,0.12); border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .about-card-icon svg { width: 32px; height: 32px; }
+        .about-card h3 { font-size: 1.35rem; margin-bottom: 10px; position: relative; }
+        .about-card p { color: rgba(255,255,255,0.6); font-size: 1rem; position: relative; }
+
+        /* =====================================================
+           CONTACT - Big CTA + cards
+           ===================================================== */
+        .cta-banner {
+            padding: 100px 0; text-align: center;
+            background: linear-gradient(160deg, var(--navy) 0%, var(--navy-mid) 100%);
+            position: relative; overflow: hidden;
+        }
+        .cta-banner::before {
+            content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(200,16,46,0.1) 0%, transparent 65%);
+            border-radius: 50%;
+        }
+        .cta-banner h2 {
+            font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: var(--white);
+            letter-spacing: -0.02em; margin-bottom: 14px; position: relative;
+        }
+        .cta-banner p { color: var(--gray-400); font-size: 1.125rem; margin-bottom: 40px; position: relative; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+        .contact { padding: 100px 0; background: var(--gray-50); }
+        .contact-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 960px; margin: 0 auto; }
+        .cc {
+            background: var(--white); border-radius: var(--radius-lg); padding: 32px 24px;
+            border: 1px solid var(--gray-200); text-align: center; transition: all 0.3s;
+            position: relative; overflow: hidden;
+        }
+        .cc::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+        }
+        .cc:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); border-color: transparent; }
+        .cc:hover::before { transform: scaleX(1); }
+        .cc:nth-child(1)::before { background: var(--red); }
+        .cc:nth-child(2)::before { background: #25D366; }
+        .cc:nth-child(3)::before { background: var(--blue); }
+        .cc-icon {
+            width: 52px; height: 52px; border-radius: 14px; margin: 0 auto 18px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .cc-icon svg { width: 24px; height: 24px; }
+        .cc-icon.red { background: rgba(200,16,46,0.08); }
+        .cc-icon.red svg { stroke: var(--red); fill: none; }
+        .cc-icon.green { background: rgba(37,211,102,0.08); }
+        .cc-icon.green svg { fill: #25D366; stroke: none; }
+        .cc-icon.blue { background: rgba(41,182,246,0.08); }
+        .cc-icon.blue svg { stroke: var(--blue); fill: none; }
+        .cc h3 { font-size: 1rem; font-weight: 700; color: var(--gray-900); margin-bottom: 16px; }
+        .cc-links { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+        .cc-link {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 11px 16px; border-radius: 10px;
+            font-size: 0.85rem; font-weight: 600; color: var(--white); transition: all 0.25s;
+        }
+        .cc-link:hover { transform: translateY(-1px); }
+        .cc-link svg { width: 15px; height: 15px; flex-shrink: 0; }
+        .cc-link.red { background: var(--red); box-shadow: 0 3px 12px rgba(200,16,46,0.2); }
+        .cc-link.red:hover { background: var(--red-dark); box-shadow: 0 6px 20px rgba(200,16,46,0.3); }
+        .cc-link.green { background: #25D366; box-shadow: 0 3px 12px rgba(37,211,102,0.2); }
+        .cc-link.green:hover { background: #1DA851; box-shadow: 0 6px 20px rgba(37,211,102,0.3); }
+        .cc-link.green svg { fill: var(--white); stroke: none; }
+        .cc-link.blue { background: var(--blue); box-shadow: 0 3px 12px rgba(41,182,246,0.2); }
+        .cc-link.blue:hover { background: #0288D1; box-shadow: 0 6px 20px rgba(41,182,246,0.3); }
+        .cc-hint { font-size: 0.75rem; color: var(--gray-400); }
+        .contact-note { text-align: center; margin-top: 28px; font-size: 0.85rem; color: var(--gray-400); }
+
+        /* Language Selector */
+        .lang-sel { position: relative; margin-left: 12px; }
+        .lang-btn {
+            padding: 7px 14px; background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;
+            color: var(--white); font-size: 0.8rem; font-weight: 700;
+            cursor: pointer; transition: all 0.25s; font-family: var(--font);
+        }
+        .nav.scrolled .lang-btn { background: var(--gray-100); border-color: var(--gray-200); color: var(--navy); }
+        .lang-btn:hover { background: rgba(255,255,255,0.15); }
+        .nav.scrolled .lang-btn:hover { background: var(--gray-200); }
+        .lang-drop {
+            position: absolute; top: calc(100% + 8px); right: 0;
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: 10px; box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+            min-width: 150px; overflow: hidden;
+            opacity: 0; visibility: hidden; transform: translateY(-6px);
+            transition: all 0.25s; z-index: 100;
+        }
+        .lang-drop.open { opacity: 1; visibility: visible; transform: translateY(0); }
+        .lang-opt {
+            display: block; width: 100%; padding: 11px 16px; border: none;
+            background: none; color: var(--gray-600); font-size: 0.85rem;
+            font-weight: 500; cursor: pointer; text-align: left;
+            transition: all 0.2s; font-family: var(--font);
+        }
+        .lang-opt:hover { background: var(--gray-50); color: var(--navy); }
+        .lang-opt.active { background: var(--gray-50); color: var(--red); font-weight: 700; }
+
+        /* =====================================================
+           FOOTER
+           ===================================================== */
+        .footer { background: var(--navy); color: var(--white); padding: 80px 0 32px; }
+        .footer-grid {
+            display: grid; grid-template-columns: 2fr 1fr 1fr;
+            gap: 48px; padding-bottom: 48px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .footer-brand p { color: var(--gray-500); margin-top: 16px; max-width: 280px; line-height: 1.7; font-size: 0.9rem; }
+        .footer-brand img { height: 44px; }
+        .footer-col h4 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; color: var(--gray-400); }
+        .footer-col a { display: block; color: var(--gray-500); font-size: 0.9rem; margin-bottom: 12px; transition: color 0.2s; }
+        .footer-col a:hover { color: var(--white); }
+        .footer-bottom { padding-top: 32px; text-align: center; color: var(--gray-500); font-size: 0.85rem; }
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+        @media (max-width: 1024px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-desc { margin-left: auto; margin-right: auto; }
+            .hero-buttons { justify-content: center; }
+            .hero-trust { justify-content: center; flex-wrap: wrap; }
+            .hero-visual { margin-top: 48px; }
+            .brand-anim { justify-content: center; }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .services-top { grid-template-columns: 1fr; }
+            .services-bottom { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .container { padding: 0 20px; }
+            .nav-links { display: none; }
+            
+            /* Hero mobile */
+            .hero { padding: 90px 0 60px; min-height: auto; }
+            .hero h1 { font-size: 1.75rem; }
+            .hero-desc { font-size: 1rem; margin-bottom: 28px; }
+            .brand-anim { font-size: 1.25rem; flex-wrap: wrap; justify-content: center; }
+            .hero-subtitle { font-size: 0.75rem; padding: 6px 12px; }
+            .hero-buttons { flex-direction: column; align-items: stretch; }
+            .hero-buttons .btn { justify-content: center; }
+            .hero-trust { flex-direction: column; align-items: center; gap: 16px; }
+            .hero-visual { margin-top: 36px; }
+            .float-card { padding: 20px; }
+            .float-card-stats { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .float-stat { padding: 14px 10px; }
+            .float-stat-value { font-size: 1.5rem; }
+            .float-badge { top: -12px; right: -8px; padding: 8px 14px; font-size: 0.7rem; }
+            .float-mini { bottom: -14px; left: -8px; padding: 10px 14px; }
+            .float-mini-icon svg { width: 14px; height: 14px; }
+            
+            /* Sections mobile */
+            .pillars, .services, .about, .contact { padding: 80px 0; }
+            .cta-banner { padding: 64px 0; }
+            .section-header { margin-bottom: 40px; }
+            .section-header h2 { font-size: 1.5rem; }
+            .section-header p { font-size: 0.95rem; }
+            
+            .pillars-grid { grid-template-columns: 1fr; gap: 16px; }
+            .pillar { padding: 32px 24px; }
+            
+            .services-top { gap: 16px; }
+            .service-big { padding: 28px 20px; }
+            .services-bottom { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .service-sm { padding: 24px 16px; }
+            
+            .certs-grid { flex-direction: column; align-items: stretch; }
+            .cert { justify-content: center; }
+            
+            .about-grid { grid-template-columns: 1fr; gap: 32px; }
+            .about-content h2 { font-size: 1.5rem; }
+            .about-card { padding: 36px 24px; }
+            
+            .cta-banner h2 { font-size: 1.5rem; }
+            .cta-banner p { font-size: 0.95rem; }
+            
+            .contact-cards { grid-template-columns: 1fr; gap: 14px; }
+            .cc { padding: 24px 20px; }
+            
+            .footer { padding: 60px 0 24px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+        }
+        
+        @media (max-width: 380px) {
+            .hero h1 { font-size: 1.5rem; }
+            .brand-anim { font-size: 1.1rem; }
+            .float-card-stats { grid-template-columns: 1fr; }
+            .services-bottom { grid-template-columns: 1fr; }
+            .hero-trust-text strong { font-size: 1.1rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar" role="navigation" aria-label="Menu principale">
-        <div class="nav-container">
-            <a href="#home" class="nav-logo">
-                <img src="img/logo.png" alt="T4S - Consulenti Salesforce Svizzera">
-            </a>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link" data-i18n="nav.home">Home</a></li>
-                <li><a href="#chi-siamo" class="nav-link" data-i18n="nav.about">Chi Siamo</a></li>
-                <li><a href="#servizi" class="nav-link" data-i18n="nav.services">Servizi</a></li>
-                <li><a href="#contatti" class="nav-link nav-cta" data-i18n="nav.contact">Contattaci</a></li>
-            </ul>
-            <!-- Language Selector -->
-            <div class="lang-selector">
-                <button class="lang-current" id="lang-btn">
-                    <span class="lang-flag">IT</span>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="6 9 12 15 18 9"/>
-                    </svg>
-                </button>
-                <div class="lang-dropdown" id="lang-dropdown">
-                    <button class="lang-option active" data-lang="it">
-                        <span class="lang-flag">IT</span>
-                        <span>Italiano</span>
-                    </button>
-                    <button class="lang-option" data-lang="en">
-                        <span class="lang-flag">EN</span>
-                        <span>English</span>
-                    </button>
-                    <button class="lang-option" data-lang="de">
-                        <span class="lang-flag">DE</span>
-                        <span>Deutsch</span>
-                    </button>
-                </div>
+
+    <!-- Nav -->
+    <nav class="nav" id="navbar">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo"><img src="img/logo.png" alt="T4S"></a>
+            <div class="nav-links">
+                <a href="#metodo" data-t="nav.method">Il Metodo</a>
+                <a href="#servizi" data-t="nav.services">Servizi</a>
+                <a href="#chi-siamo" data-t="nav.about">Chi Siamo</a>
+                <a href="#contatti" class="nav-cta" data-t="nav.contact">Contattaci</a>
             </div>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="lang-sel">
+                <button class="lang-btn" id="langBtn">IT</button>
+                <div class="lang-drop" id="langDrop">
+                    <button class="lang-opt active" data-lang="it">IT · Italiano</button>
+                    <button class="lang-opt" data-lang="en">EN · English</button>
+                    <button class="lang-opt" data-lang="de">DE · Deutsch</button>
+                    <button class="lang-opt" data-lang="fr">FR · Français</button>
+                </div>
             </div>
         </div>
     </nav>
 
-    <main>
-    <!-- Hero Section -->
-    <section id="home" class="hero" aria-label="Introduzione T4S">
-        <div class="hero-bg">
-            <div class="hero-gradient"></div>
-            <div class="hero-particles"></div>
-        </div>
-        <div class="hero-content">
-            <!-- T4S Brand Animation -->
-            <div class="brand-tagline">
-                <span class="tagline-text" id="tagline-text">Tech 4 Swiss</span>
-                <span class="tagline-cursor"></span>
-            </div>
-            
-            <div class="hero-badge" data-i18n="hero.badge">
-                <span class="badge-icon">✦</span> Consulenti Salesforce Certificati
-            </div>
-            <h1 class="hero-title">
-                <span class="hero-line" data-i18n="hero.title1">CRM e automazione</span>
-                <span class="hero-line hero-highlight" data-i18n="hero.title2">per PMI che vogliono crescere</span>
-            </h1>
-            <p class="hero-subtitle" data-i18n="hero.subtitle">
-                Implementiamo Salesforce, integriamo i tuoi sistemi e automatizziamo i processi. 
-                Meno lavoro manuale, più tempo per vendere.
-            </p>
-            <div class="hero-cta">
-                <a href="#contatti" class="btn btn-primary btn-hero">
-                    <span data-i18n="hero.cta1">Contattaci</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </a>
-                <a href="#servizi" class="btn btn-secondary" data-i18n="hero.cta2">Scopri come lavoriamo</a>
-            </div>
-            <p class="hero-note" data-i18n="hero.note">Nessun impegno • Risposta entro 24h</p>
-        </div>
-        <div class="hero-scroll">
-            <span data-i18n="hero.scroll">Scorri</span>
-            <div class="scroll-indicator"></div>
-        </div>
-    </section>
-
-    <!-- Chi Siamo Section -->
-    <section id="chi-siamo" class="about" aria-labelledby="about-title">
+    <!-- Hero -->
+    <section class="hero">
         <div class="container">
-            <div class="about-grid">
-                <div class="about-content reveal-left">
-                    <span class="section-tag" data-i18n="about.tag">Chi Siamo</span>
-                    <h2 id="about-title" class="section-title" data-i18n="about.title">Il team che semplifica il tuo Salesforce</h2>
-                    <p class="about-text" data-i18n="about.text1">
-                        Configuriamo, personalizziamo e integriamo Salesforce per aziende dai 5 ai 100 utenti. 
-                        Parliamo la tua lingua: niente gergo tecnico, solo soluzioni che funzionano.
+            <div class="hero-grid">
+                <div>
+                    <div class="hero-subtitle"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--red)" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> <span data-t="hero.badge">Consulenti Salesforce Certificati in Svizzera</span></div>
+                    <div class="brand-anim">
+                        <span class="brand-t">T</span><span class="brand-dim">ech</span>
+                        <span class="brand-4">4</span>
+                        <span class="brand-s">S</span><span class="brand-word" id="brand-word">wiss</span>
+                        <span class="brand-cursor"></span>
+                    </div>
+                    <h1 data-t-html="hero.title">Il tuo CRM, <span class="highlight">fatto bene.</span></h1>
+                    <p class="hero-desc" data-t="hero.desc">
+                        Non siamo solo consulenti tecnici, siamo partner di business.
+                        Ti aiutiamo a ottenere risultati concreti dall'implementazione di Salesforce.
                     </p>
-                    <p class="about-text" data-i18n="about.text2">
-                        Lavoriamo come estensione del tuo team. Un referente dedicato, tempi di risposta rapidi 
-                        e la garanzia che ogni franco investito generi valore misurabile.
-                    </p>
-                    <div class="about-stats">
-                        <div class="stat">
-                            <span class="stat-number" data-target="20">0</span>
-                            <span class="stat-label" data-i18n="about.stat1">Progetti Salesforce</span>
+                    <div class="hero-buttons">
+                        <a href="#contatti" class="btn btn-blue">
+                            <span data-t="hero.cta1">Contattaci</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                        <a href="#servizi" class="btn btn-ghost" data-t="hero.cta2">Scopri i servizi</a>
+                    </div>
+                    <div class="hero-trust">
+                        <div class="hero-trust-item">
+                            <div class="hero-trust-icon blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></div>
+                            <div class="hero-trust-text"><strong>20+</strong><span data-t="hero.trust1">Progetti</span></div>
                         </div>
-                        <div class="stat">
-                            <span class="stat-number" data-target="100">0</span>
-                            <span class="stat-suffix">%</span>
-                            <span class="stat-label" data-i18n="about.stat2">Clienti rinnovano</span>
+                        <div class="hero-trust-item">
+                            <div class="hero-trust-icon purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+                            <div class="hero-trust-text"><strong>100%</strong><span data-t="hero.trust2">Rinnovano</span></div>
                         </div>
-                        <div class="stat">
-                            <span class="stat-number" data-target="5">0</span>
-                            <span class="stat-suffix">+</span>
-                            <span class="stat-label" data-i18n="about.stat3">Anni su Salesforce</span>
+                        <div class="hero-trust-item">
+                            <div class="hero-trust-icon green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                            <div class="hero-trust-text"><strong>5+ anni</strong><span data-t="hero.trust3">Esperienza</span></div>
                         </div>
                     </div>
                 </div>
-                <div class="about-visual reveal-right">
-                    <div class="visual-card">
-                        <div class="visual-icon">
+                <div class="hero-visual">
+                    <div class="float-card">
+                        <div class="float-badge" id="dash-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> <span id="badge-text">Live</span></div>
+                        <div class="float-card-header">
+                            <div class="float-card-dot" style="background:var(--blue)"></div>
+                            <div class="float-card-dot" style="background:var(--purple)"></div>
+                            <div class="float-card-dot" style="background:var(--green)"></div>
+                            <div class="float-card-title" id="dash-title">CRM DASHBOARD</div>
+                        </div>
+                        <div class="float-card-stats" id="dash-stats">
+                            <div class="float-stat">
+                                <div class="dash-bar-wrap"><div class="dash-bar" id="bar-0"></div></div>
+                                <div class="float-stat-value" id="val-0"></div>
+                                <div class="float-stat-label" id="lbl-0"></div>
+                            </div>
+                            <div class="float-stat">
+                                <div class="dash-bar-wrap"><div class="dash-bar" id="bar-1"></div></div>
+                                <div class="float-stat-value" id="val-1"></div>
+                                <div class="float-stat-label" id="lbl-1"></div>
+                            </div>
+                            <div class="float-stat">
+                                <div class="dash-bar-wrap"><div class="dash-bar" id="bar-2"></div></div>
+                                <div class="float-stat-value" id="val-2"></div>
+                                <div class="float-stat-label" id="lbl-2"></div>
+                            </div>
+                            <div class="float-stat">
+                                <div class="dash-bar-wrap"><div class="dash-bar" id="bar-3"></div></div>
+                                <div class="float-stat-value" id="val-3"></div>
+                                <div class="float-stat-label" id="lbl-3"></div>
+                            </div>
+                        </div>
+                        <div class="float-mini">
+                            <div class="float-mini-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--blue)" stroke="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+                            <div class="float-mini-text"><strong id="mini-title">Automatizzato</strong><span id="mini-sub">12 flow attivi</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pillars -->
+    <section class="pillars" id="metodo">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag" data-t="pillars.tag">Il nostro metodo</div>
+                <h2 data-t="pillars.title">Configura. Integra. Cresci.</h2>
+                <p data-t="pillars.subtitle">Tre fasi, un unico obiettivo: farti vendere di più con meno sforzo.</p>
+            </div>
+            <div class="pillars-grid">
+                <div class="pillar">
+                    <div class="pillar-icon blue"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+                    <div class="pillar-step">Step 01</div>
+                    <h3 data-t="pillars.p1.title">Configura</h3>
+                    <p data-t="pillars.p1.text">Creiamo il tuo Salesforce su misura. Pipeline, campi, automazioni: tutto pronto in 4-8 settimane. Voi pensate al cosa, noi al come.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon purple"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                    <div class="pillar-step">Step 02</div>
+                    <h3 data-t="pillars.p2.title">Integra</h3>
+                    <p data-t="pillars.p2.text">Colleghiamo Salesforce a ERP, e-commerce e contabilità. I dati viaggiano da soli, un unico sistema, tutto connesso.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon green"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+                    <div class="pillar-step">Step 03</div>
+                    <h3 data-t="pillars.p3.title">Cresci</h3>
+                    <p data-t="pillars.p3.text">Formiamo il team e ti affianchiamo nel tempo. Dashboard per decidere, automazioni per risparmiare ore, supporto continuo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services" id="servizi">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag" data-t="services.tag">Servizi su misura</div>
+                <h2 data-t="services.title">Una soluzione per ogni esigenza</h2>
+                <p data-t="services.subtitle">Dalla configurazione al go-live, pensiamo a tutto noi.</p>
+            </div>
+            <div class="services-top">
+                <div class="service-big">
+                    <div class="service-big-icon blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.5">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3 data-t="services.s1.title">Implementazioni CRM complete</h3>
+                    <p data-t="services.s1.text">Configuriamo Salesforce in modo personalizzato per le tue esigenze. Importazione dati, pipeline, automazioni, formazione del team. Il tuo CRM operativo al 100%.</p>
+                    <div class="service-big-tags">
+                        <span class="stag primary">Salesforce</span>
+                        <span class="stag">Sales Cloud</span>
+                        <span class="stag">Service Cloud</span>
+                        <span class="stag">Experience Cloud</span>
+                    </div>
+                </div>
+                <div class="service-big">
+                    <div class="service-big-icon purple">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5">
+                            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                        </svg>
+                    </div>
+                    <h3 data-t="services.s2.title">Integrazioni tecniche complete</h3>
+                    <p data-t="services.s2.text">Progettiamo l'architettura dati e integriamo Salesforce con i sistemi aziendali esistenti. API, automazioni, flussi: tutto connesso.</p>
+                    <div class="service-big-tags">
+                        <span class="stag primary">MuleSoft</span>
+                        <span class="stag">API REST</span>
+                        <span class="stag">Zapier</span>
+                        <span class="stag">ETL</span>
+                    </div>
+                </div>
+            </div>
+            <div class="services-top" style="margin-bottom:24px">
+                <div class="service-big">
+                    <div class="service-big-icon" style="background:rgba(16,185,129,0.15)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <h3 data-t="services.s3.title">Time & Material</h3>
+                    <p data-t="services.s3.text">Ti serve supporto specialistico? Mettiamo a disposizione i nostri consulenti certificati in modalita Time & Material. Paghi solo le ore che usi, senza vincoli. Ideale per progetti in corso o competenze che mancano nel tuo team.</p>
+                    <div class="service-big-tags">
+                        <span class="stag primary">Staff Augmentation</span>
+                        <span class="stag">Admin</span>
+                        <span class="stag">Developer</span>
+                        <span class="stag">Architect</span>
+                    </div>
+                </div>
+                <div class="service-big">
+                    <div class="service-big-icon" style="background:rgba(245,158,11,0.15)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.5">
+                            <path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 22"/><path d="M12 2a4 4 0 0 0-4 4c0 1.95 1.4 3.58 3.25 3.93"/><circle cx="12" cy="6" r="1" fill="var(--orange)"/>
+                            <path d="M5 18h14"/><path d="M5 14h14"/>
+                        </svg>
+                    </div>
+                    <h3 data-t="services.s4.title">AI & Automazione Intelligente</h3>
+                    <p data-t="services.s4.text">Integriamo modelli AI e LLM nei tuoi processi aziendali. Agenti autonomi che qualificano lead, rispondono ai clienti e generano report. Da Agentforce a soluzioni custom: scegliamo la tecnologia giusta per il tuo caso, non il contrario.</p>
+                    <div class="service-big-tags">
+                        <span class="stag primary">AI Agents</span>
+                        <span class="stag">LLM Integration</span>
+                        <span class="stag">Agentforce</span>
+                        <span class="stag">Process Automation</span>
+                    </div>
+                </div>
+            </div>
+            <div class="services-bottom">
+                <div class="service-sm">
+                    <div class="service-sm-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+                    <h3 data-t="services.sm1.title">Dashboard & Report</h3>
+                    <p data-t="services.sm1.text">Report automatici e dashboard in tempo reale per decidere meglio.</p>
+                </div>
+                <div class="service-sm">
+                    <div class="service-sm-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+                    <h3 data-t="services.sm2.title">Automazioni</h3>
+                    <p data-t="services.sm2.text">Follow-up, lead assignment, reminder: tutto parte in automatico.</p>
+                </div>
+                <div class="service-sm">
+                    <div class="service-sm-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+                    <h3 data-t="services.sm3.title">Portali Clienti</h3>
+                    <p data-t="services.sm3.text">Ticket, fatture, prenotazioni: i tuoi clienti fanno da soli.</p>
+                </div>
+                <div class="service-sm">
+                    <div class="service-sm-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+                    <h3 data-t="services.sm4.title">Migrazione Dati</h3>
+                    <p data-t="services.sm4.text">Da Excel o vecchi CRM a Salesforce senza perdere uno storico.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="certs">
+        <div class="container">
+            <div class="certs-inner">
+                <p class="certs-label" data-t="certs.label">Certificazioni</p>
+                <div class="certs-grid">
+                    <div class="cert">
+                        <img src="img/salesforce.png" alt="Salesforce">
+                        <div>
+                            <div class="cert-name">Salesforce</div>
+                            <div class="cert-badge">Certified</div>
+                        </div>
+                    </div>
+                    <div class="cert">
+                        <img src="img/tableau.png" alt="Tableau">
+                        <div>
+                            <div class="cert-name">Tableau</div>
+                            <div class="cert-badge">Certified</div>
+                        </div>
+                    </div>
+                    <div class="cert">
+                        <img src="img/mulesoft.png" alt="MuleSoft">
+                        <div>
+                            <div class="cert-name">MuleSoft</div>
+                            <div class="cert-badge">Certified</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about" id="chi-siamo">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content">
+                    <div class="section-tag" data-t="about.tag">Chi Siamo</div>
+                    <h2 data-t="about.title">Il team che semplifica il tuo Salesforce</h2>
+                    <p data-t="about.text1">Non siamo solo consulenti tecnici, siamo partner di business. Configuriamo, personalizziamo e integriamo Salesforce per aziende dai 5 ai 100 utenti.</p>
+                    <p data-t="about.text2">Un referente dedicato, tempi di risposta rapidi e la garanzia che ogni franco investito generi valore misurabile. Parliamo la tua lingua: niente gergo tecnico.</p>
+                </div>
+                <div>
+                    <div class="about-card">
+                        <div class="about-card-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                             </svg>
                         </div>
-                        <h3 data-i18n="about.card.title">Paghi solo quello che usi</h3>
-                        <p data-i18n="about.card.text">Progetti modulari, nessun vincolo annuale</p>
+                        <h3 data-t="about.card.title">Paghi solo quello che usi</h3>
+                        <p data-t="about.card.text">Progetti modulari, nessun vincolo annuale. Lavoriamo a obiettivi, non a ore.</p>
                     </div>
                 </div>
-            </div>
-            <!-- CTA dopo Chi Siamo -->
-            <div class="section-cta reveal">
-                <p class="cta-text" data-i18n="about.cta.text">Vuoi capire se possiamo aiutarti?</p>
-                <a href="#contatti" class="btn btn-primary">
-                    <span data-i18n="about.cta.button">Parliamone in 15 minuti</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </a>
             </div>
         </div>
     </section>
 
-    <!-- Partners Banner -->
-    <section class="partners-banner">
+    <!-- CTA Banner -->
+    <section class="cta-banner">
         <div class="container">
-            <div class="partners-content reveal-fade">
-                <p class="partners-label" data-i18n="partners.label">Certificazioni</p>
-                <div class="partners-grid">
-                    <div class="partner-item reveal-scale">
-                        <img src="img/salesforce.png" alt="Consulenti certificati Salesforce - T4S team con certificazioni Salesforce" class="partner-logo" width="120" height="40" loading="lazy">
-                        <div class="partner-info">
-                            <span class="partner-name">Salesforce</span>
-                            <span class="partner-badge">Certified</span>
-                        </div>
-                    </div>
-                    <div class="partner-item reveal-scale">
-                        <img src="img/tableau.png" alt="Certificazione Tableau - Consulenti certificati per dashboard e analytics" class="partner-logo" width="120" height="40" loading="lazy">
-                        <div class="partner-info">
-                            <span class="partner-name">Tableau</span>
-                            <span class="partner-badge">Certified</span>
-                        </div>
-                    </div>
-                    <div class="partner-item reveal-scale">
-                        <img src="img/mulesoft.png" alt="Certificazione MuleSoft - Esperti in integrazioni API e automazione" class="partner-logo" width="120" height="40" loading="lazy">
-                        <div class="partner-info">
-                            <span class="partner-name">MuleSoft</span>
-                            <span class="partner-badge">Certified</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <h2 data-t="cta.title">Prenota la tua consulenza</h2>
+            <p data-t="cta.text">Raccontaci cosa non funziona, ti proponiamo la soluzione. Scegli il canale che preferisci.</p>
+            <a href="#contatti" class="btn btn-blue" style="position:relative">
+                <span data-t="cta.btn">Contattaci ora</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
         </div>
     </section>
 
-    <!-- Servizi Section -->
-    <section id="servizi" class="services" aria-labelledby="services-title">
+    <!-- Contact -->
+    <section class="contact" id="contatti">
         <div class="container">
-            <div class="section-header reveal">
-                <span class="section-tag" data-i18n="services.tag">Cosa Facciamo</span>
-                <h2 id="services-title" class="section-title" data-i18n="services.title">Dalla configurazione al go-live, pensiamo a tutto noi</h2>
-                <p class="section-subtitle" data-i18n="services.subtitle">
-                    Ogni servizio include formazione, supporto e documentazione
-                </p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card reveal">
-                    <div class="service-header">
-                        <div class="service-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                <circle cx="9" cy="7" r="4"/>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
-                            </svg>
-                        </div>
-                        <span class="service-number">01</span>
+            <div class="contact-cards">
+                <div class="cc">
+                    <div class="cc-icon red">
+                        <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                     </div>
-                    <h3 data-i18n="services.s1.title">Implementazione CRM</h3>
-                    <p data-i18n="services.s1.text">Configuri Salesforce una volta, vendi meglio per sempre. Importiamo i tuoi dati, creiamo le pipeline e formiamo il team in 4-8 settimane.</p>
-                    <div class="service-tech">
-                        <span class="tech-tag primary">Salesforce</span>
-                        <span class="tech-tag">Sales Cloud</span>
-                        <span class="tech-tag">Service Cloud</span>
+                    <h3 data-t="contact.email">Scrivici un'email</h3>
+                    <div class="cc-links">
+                        <a href="mailto:dademi@t4sgroup.com" class="cc-link red">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            dademi@t4sgroup.com
+                        </a>
+                        <a href="mailto:odoka@t4sgroup.com" class="cc-link red">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            odoka@t4sgroup.com
+                        </a>
                     </div>
+                    <span class="cc-hint" data-t="contact.emailHint">Rispondiamo entro 24 ore</span>
                 </div>
-
-                <div class="service-card reveal">
-                    <div class="service-header">
-                        <div class="service-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <line x1="18" y1="20" x2="18" y2="10"/>
-                                <line x1="12" y1="20" x2="12" y2="4"/>
-                                <line x1="6" y1="20" x2="6" y2="14"/>
-                            </svg>
-                        </div>
-                        <span class="service-number">02</span>
+                <div class="cc">
+                    <div class="cc-icon green">
+                        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                     </div>
-                    <h3 data-i18n="services.s2.title">Dashboard e Report</h3>
-                    <p data-i18n="services.s2.text">Vedi in tempo reale chi sta vendendo, cosa funziona e dove intervenire. Report automatici ogni lunedì nella tua inbox.</p>
-                    <div class="service-tech">
-                        <span class="tech-tag primary">Tableau</span>
-                        <span class="tech-tag">SF Reports</span>
-                        <span class="tech-tag">Einstein</span>
+                    <h3 data-t="contact.wa">Scrivici su WhatsApp</h3>
+                    <div class="cc-links">
+                        <a href="https://wa.me/41767930888" target="_blank" rel="noopener noreferrer" class="cc-link green">
+                            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            +41 76 793 08 88
+                        </a>
+                        <a href="https://wa.me/41767887690" target="_blank" rel="noopener noreferrer" class="cc-link green">
+                            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            +41 76 788 76 90
+                        </a>
                     </div>
+                    <span class="cc-hint" data-t="contact.waHint">Risposta immediata</span>
                 </div>
-
-                <div class="service-card reveal">
-                    <div class="service-header">
-                        <div class="service-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <polyline points="16 18 22 12 16 6"/>
-                                <polyline points="8 6 2 12 8 18"/>
-                            </svg>
-                        </div>
-                        <span class="service-number">03</span>
+                <div class="cc">
+                    <div class="cc-icon blue">
+                        <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     </div>
-                    <h3 data-i18n="services.s3.title">Integrazioni</h3>
-                    <p data-i18n="services.s3.text">Colleghiamo Salesforce al gestionale, all'e-commerce, alla contabilità. I dati viaggiano da soli, tu smetti di copiarli a mano.</p>
-                    <div class="service-tech">
-                        <span class="tech-tag primary">MuleSoft</span>
-                        <span class="tech-tag">API REST</span>
-                        <span class="tech-tag">Zapier</span>
+                    <h3 data-t="contact.phone">Chiamaci</h3>
+                    <div class="cc-links">
+                        <a href="tel:+41767930888" class="cc-link blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            +41 76 793 08 88
+                        </a>
+                        <a href="tel:+41767887690" class="cc-link blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            +41 76 788 76 90
+                        </a>
                     </div>
-                </div>
-
-                <div class="service-card reveal">
-                    <div class="service-header">
-                        <div class="service-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                                <line x1="8" y1="21" x2="16" y2="21"/>
-                                <line x1="12" y1="17" x2="12" y2="21"/>
-                            </svg>
-                        </div>
-                        <span class="service-number">04</span>
-                    </div>
-                    <h3 data-i18n="services.s4.title">Portali Clienti</h3>
-                    <p data-i18n="services.s4.text">I tuoi clienti aprono ticket, scaricano fatture e prenotano appuntamenti da soli. Meno telefonate, più autonomia.</p>
-                    <div class="service-tech">
-                        <span class="tech-tag primary">Experience Cloud</span>
-                        <span class="tech-tag">LWC</span>
-                    </div>
-                </div>
-
-                <div class="service-card reveal">
-                    <div class="service-header">
-                        <div class="service-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
-                            </svg>
-                        </div>
-                        <span class="service-number">05</span>
-                    </div>
-                    <h3 data-i18n="services.s5.title">Automazioni</h3>
-                    <p data-i18n="services.s5.text">Email di follow-up, assegnazione lead, reminder scadenze: tutto parte in automatico. Il tuo team si concentra solo sulle attività ad alto valore.</p>
-                    <div class="service-tech">
-                        <span class="tech-tag primary">Flow</span>
-                        <span class="tech-tag">Process Builder</span>
-                        <span class="tech-tag">Apex</span>
-                    </div>
-                </div>
-
-                <div class="service-card reveal">
-                    <div class="service-header">
-                        <div class="service-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-                            </svg>
-                        </div>
-                        <span class="service-number">06</span>
-                    </div>
-                    <h3 data-i18n="services.s6.title">Migrazione Dati</h3>
-                    <p data-i18n="services.s6.text">Passi da Excel, Access o un vecchio CRM? Migriamo tutto senza perdere uno storico. Garantito.</p>
-                    <div class="service-tech">
-                        <span class="tech-tag primary">Data Loader</span>
-                        <span class="tech-tag">ETL</span>
-                        <span class="tech-tag">Mapping</span>
-                    </div>
-                </div>
-            </div>
-            <!-- CTA dopo Servizi -->
-            <div class="section-cta reveal">
-                <p class="cta-text" data-i18n="services.cta.text">Non sai da dove iniziare? Ti guidiamo noi.</p>
-                <a href="#contatti" class="btn btn-primary">
-                    <span data-i18n="services.cta.button">Richiedi una consulenza gratuita</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </a>
-                <p class="cta-note" data-i18n="services.cta.note">Rispondiamo entro 24 ore</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Prodotti Section - Commentato: da riattivare quando i prodotti saranno pubblici
-    <section id="prodotti" class="products" aria-labelledby="products-title">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="section-tag" data-i18n="products.tag">Prodotti</span>
-                <h2 id="products-title" class="section-title" data-i18n="products.title">Software pronti per il tuo settore</h2>
-                <p class="section-subtitle" data-i18n="products.subtitle">
-                    Soluzioni già testate sul campo, attive in pochi giorni
-                </p>
-            </div>
-            
-            <div class="product-showcase reveal-scale">
-                <div class="product-intro">
-                    <span class="product-badge" data-i18n="products.cliniksup.badge">Per Dentisti</span>
-                </div>
-                <div class="product-main">
-                    <img src="img/cliniksup-logo.png" alt="CliniksUp - Software gestionale per studi dentistici" class="product-logo">
-                    <h3 class="product-name">CliniksUp</h3>
-                </div>
-                <p class="product-tagline" data-i18n="products.cliniksup.tagline">Gestisci lo studio, non le scartoffie</p>
-                <div class="product-highlights">
-                    <span data-i18n="products.cliniksup.f1">Agenda drag & drop</span>
-                    <span class="dot"></span>
-                    <span data-i18n="products.cliniksup.f2">Schede pazienti</span>
-                    <span class="dot"></span>
-                    <span data-i18n="products.cliniksup.f5">Accesso da ovunque</span>
-                </div>
-                <a href="#contatti" class="btn btn-primary">
-                    <span data-i18n="products.cliniksup.cta">Vedi come funziona</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </section>
-    -->
-
-    <!-- Contact Section -->
-    <section id="contatti" class="contact" aria-labelledby="contact-title">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="section-tag" data-i18n="contact.tag">Iniziamo</span>
-                <h2 id="contact-title" class="section-title" data-i18n="contact.title">Raccontaci cosa non funziona</h2>
-                <p class="section-subtitle" data-i18n="contact.text">
-                    Descrivi il problema, ti proponiamo la soluzione. Scegli il canale che preferisci.
-                </p>
-            </div>
-            <div class="contact-cards reveal">
-                <div class="contact-card">
-                    <div class="contact-card-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                            <polyline points="22,6 12,13 2,6"/>
-                        </svg>
-                    </div>
-                    <h3 data-i18n="contact.email.title">Scrivici un'email</h3>
-                    <div class="contact-card-links">
-                        <a href="mailto:dademi@t4sgroup.com" class="contact-link">dademi@t4sgroup.com</a>
-                        <a href="mailto:odoka@t4sgroup.com" class="contact-link">odoka@t4sgroup.com</a>
-                    </div>
-                    <span class="contact-card-hint" data-i18n="contact.email.hint">Rispondiamo entro 24 ore</span>
-                </div>
-                <div class="contact-card contact-card-wa">
-                    <div class="contact-card-icon contact-card-icon-wa">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                        </svg>
-                    </div>
-                    <h3 data-i18n="contact.wa.title">Scrivici su WhatsApp</h3>
-                    <div class="contact-card-links">
-                        <a href="https://wa.me/41767930888" target="_blank" rel="noopener noreferrer" class="contact-link">+41 76 793 08 88</a>
-                        <a href="https://wa.me/41767887690" target="_blank" rel="noopener noreferrer" class="contact-link">+41 76 788 76 90</a>
-                    </div>
-                    <span class="contact-card-hint" data-i18n="contact.wa.hint">Risposta immediata</span>
-                </div>
-                <div class="contact-card">
-                    <div class="contact-card-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                        </svg>
-                    </div>
-                    <h3 data-i18n="contact.phone.title">Chiamaci</h3>
-                    <div class="contact-card-links">
-                        <a href="tel:+41767930888" class="contact-link">+41 76 793 08 88</a>
-                        <a href="tel:+41767887690" class="contact-link">+41 76 788 76 90</a>
-                    </div>
-                    <span class="contact-card-hint" data-i18n="contact.phone.hint">Lun-Ven, 9:00-18:00</span>
+                    <span class="cc-hint" data-t="contact.phoneHint">Lun-Ven, 9:00-18:00</span>
                 </div>
             </div>
         </div>
     </section>
-    </main>
 
     <!-- Footer -->
-    <footer class="footer" role="contentinfo">
+    <footer class="footer">
         <div class="container">
-            <div class="footer-content">
+            <div class="footer-grid">
                 <div class="footer-brand">
-                    <a href="#home" class="footer-logo">
-                        <img src="img/logo.png" alt="T4S - Consulenti Salesforce Svizzera" loading="lazy">
-                    </a>
-                    <p data-i18n="footer.tagline">Consulenti Salesforce per PMI. Configurazione, integrazione, formazione.</p>
+                    <img src="img/logo.png" alt="T4S">
+                    <p data-t="footer.tagline">Consulenti Salesforce per PMI. Configurazione, integrazione, formazione.</p>
                 </div>
-                <div class="footer-links">
+                <div class="footer-col">
                     <h4>Menu</h4>
-                    <ul>
-                        <li><a href="#home" data-i18n="nav.home">Home</a></li>
-                        <li><a href="#chi-siamo" data-i18n="nav.about">Chi Siamo</a></li>
-                        <li><a href="#servizi" data-i18n="nav.services">Servizi</a></li>
-                        <li><a href="#contatti" data-i18n="contact.tag">Contatti</a></li>
-                    </ul>
+                    <a href="#" data-t="nav.home">Home</a>
+                    <a href="#chi-siamo" data-t="nav.about">Chi Siamo</a>
+                    <a href="#servizi" data-t="nav.services">Servizi</a>
+                    <a href="#contatti" data-t="nav.contact">Contatti</a>
                 </div>
-                <div class="footer-links">
-                    <h4 data-i18n="nav.services">Servizi</h4>
-                    <ul>
-                        <li><a href="#servizi">CRM</a></li>
-                        <li><a href="#servizi" data-i18n="footer.automation">Automazione</a></li>
-                        <li><a href="#servizi" data-i18n="footer.integrations">Integrazioni</a></li>
-                        <li><a href="#servizi" data-i18n="footer.reporting">Dashboard & Report</a></li>
-                    </ul>
+                <div class="footer-col">
+                    <h4 data-t="nav.services">Servizi</h4>
+                    <a href="#servizi">CRM</a>
+                    <a href="#servizi" data-t="footer.automation">Automazione</a>
+                    <a href="#servizi" data-t="footer.integrations">Integrazioni</a>
+                    <a href="#servizi" data-t="footer.reporting">Dashboard</a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p id="footer-copyright" data-i18n="footer.copyright">&copy; 2025 T4S. Tutti i diritti riservati.</p>
-                <!-- P.IVA: da aggiungere quando disponibile
-                <p class="footer-vat"><span data-i18n="footer.vat">CHE-000.000.000 IVA</span></p>
-                -->
+                <p id="footer-copy"></p>
             </div>
         </div>
     </footer>
 
-    <script src="js/i18n.js"></script>
-    <script src="js/main.js"></script>
+    <script>
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        }, { passive: true });
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const t = document.querySelector(a.getAttribute('href'));
+                if (t) window.scrollTo({ top: t.offsetTop - 70, behavior: 'smooth' });
+            });
+        });
+        document.getElementById('footer-copy').textContent = `© ${new Date().getFullYear()} T4S Group Sagl. Tutti i diritti riservati.`;
+
+
+        // Animated Dashboard
+        (function() {
+            const screens = [
+                {
+                    title: 'CRM DASHBOARD', badge: 'Live', badgeColor: '#10B981',
+                    mini: ['Automatizzato', '12 flow attivi'],
+                    stats: [
+                        { val: 'CHF 1.2<span class="accent">M</span>', lbl: 'Pipeline attiva', bar: 78 },
+                        { val: '94<span class="accent">%</span>', lbl: 'Win rate', bar: 94 },
+                        { val: '3.2<span class="accent">k</span>', lbl: 'Contatti gestiti', bar: 65 },
+                        { val: '↓ 60<span class="accent">%</span>', lbl: 'Lavoro manuale', bar: 40 },
+                    ]
+                },
+                {
+                    title: 'SALES PIPELINE', badge: 'Q1 2026', badgeColor: '#29B6F6',
+                    mini: ['Pipeline sana', '34 deal aperti'],
+                    stats: [
+                        { val: '47<span class="accent">%</span>', lbl: 'Conversion rate', bar: 47 },
+                        { val: 'CHF 840<span class="accent">k</span>', lbl: 'Forecast Q1', bar: 84 },
+                        { val: '12<span class="accent">gg</span>', lbl: 'Tempo medio chiusura', bar: 30 },
+                        { val: '↑ 23<span class="accent">%</span>', lbl: 'vs trimestre prec.', bar: 73 },
+                    ]
+                },
+                {
+                    title: 'SERVICE METRICS', badge: 'Real-time', badgeColor: '#C8102E',
+                    mini: ['SLA rispettati', '99.2% uptime'],
+                    stats: [
+                        { val: '< 2<span class="accent">h</span>', lbl: 'Tempo risposta medio', bar: 88 },
+                        { val: '156', lbl: 'Ticket risolti / mese', bar: 72 },
+                        { val: '4.8<span class="accent">/5</span>', lbl: 'CSAT score', bar: 96 },
+                        { val: '↓ 35<span class="accent">%</span>', lbl: 'Ticket escalation', bar: 35 },
+                    ]
+                },
+                {
+                    title: 'MARKETING KPI', badge: 'Aggiornato', badgeColor: '#F59E0B',
+                    mini: ['Campaign attive', '5 journey live'],
+                    stats: [
+                        { val: '28<span class="accent">%</span>', lbl: 'Open rate email', bar: 56 },
+                        { val: '1.4<span class="accent">k</span>', lbl: 'Lead generati', bar: 62 },
+                        { val: 'CHF 18', lbl: 'Costo per lead', bar: 25 },
+                        { val: '↑ 41<span class="accent">%</span>', lbl: 'ROI campagne', bar: 82 },
+                    ]
+                }
+            ];
+
+            let current = 0;
+            const stats = document.querySelectorAll('.float-stat');
+
+            function showScreen(idx) {
+                const s = screens[idx];
+                document.getElementById('dash-title').textContent = s.title;
+                document.getElementById('badge-text').textContent = s.badge;
+                document.getElementById('dash-badge').style.background = s.badgeColor;
+                document.getElementById('mini-title').textContent = s.mini[0];
+                document.getElementById('mini-sub').textContent = s.mini[1];
+
+                stats.forEach(el => el.classList.add('fade-out'));
+
+                setTimeout(() => {
+                    s.stats.forEach((st, i) => {
+                        document.getElementById('val-' + i).innerHTML = st.val;
+                        document.getElementById('lbl-' + i).textContent = st.lbl;
+                        document.getElementById('bar-' + i).style.width = '0%';
+                    });
+                    stats.forEach(el => el.classList.remove('fade-out'));
+                    setTimeout(() => {
+                        s.stats.forEach((st, i) => {
+                            document.getElementById('bar-' + i).style.width = st.bar + '%';
+                        });
+                    }, 100);
+                }, 400);
+            }
+
+            showScreen(0);
+
+            setInterval(() => {
+                current = (current + 1) % screens.length;
+                showScreen(current);
+            }, 4000);
+        })();
+
+        // T4S Brand animation
+        (function() {
+            const wordEl = document.getElementById('brand-word');
+            const dimEl = document.querySelector('.brand-dim');
+            if (!wordEl || !dimEl) return;
+
+            const combos = [
+                { t: 'ech',        s: 'wiss' },
+                { t: 'rust',       s: 'ervice' },
+                { t: 'eam',        s: 'alesforce' },
+                { t: 'ransform',   s: 'uccess' },
+                { t: 'ools',       s: 'olutions' },
+            ];
+
+            let idx = 0;
+            const typeSpeed = 65;
+            const deleteSpeed = 40;
+            const pause = 2500;
+
+            async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+            async function deleteWord(el) {
+                const text = el.textContent;
+                for (let i = text.length; i >= 0; i--) {
+                    el.textContent = text.substring(0, i);
+                    await sleep(deleteSpeed);
+                }
+            }
+
+            async function typeWord(el, text) {
+                for (let i = 0; i <= text.length; i++) {
+                    el.textContent = text.substring(0, i);
+                    await sleep(typeSpeed);
+                }
+            }
+
+            async function loop() {
+                while (true) {
+                    await sleep(pause);
+                    await Promise.all([deleteWord(dimEl), deleteWord(wordEl)]);
+                    idx = (idx + 1) % combos.length;
+                    await sleep(300);
+                    await Promise.all([typeWord(dimEl, combos[idx].t), typeWord(wordEl, combos[idx].s)]);
+                }
+            }
+
+            setTimeout(loop, 2000);
+        })();
+
+        // =====================================================
+        // i18n – Internationalization
+        // =====================================================
+        (function() {
+            const T = {
+                it: {
+                    'nav.home': 'Home',
+                    'nav.method': 'Il Metodo',
+                    'nav.services': 'Servizi',
+                    'nav.about': 'Chi Siamo',
+                    'nav.contact': 'Contattaci',
+                    'hero.badge': 'Consulenti Salesforce Certificati in Svizzera',
+                    'hero.title': 'Il tuo CRM, <span class="highlight">fatto bene.</span>',
+                    'hero.desc': 'Non siamo solo consulenti tecnici, siamo partner di business. Ti aiutiamo a ottenere risultati concreti dall\'implementazione di Salesforce.',
+                    'hero.cta1': 'Contattaci',
+                    'hero.cta2': 'Scopri i servizi',
+                    'hero.trust1': 'Progetti',
+                    'hero.trust2': 'Rinnovano',
+                    'hero.trust3': 'Esperienza',
+                    'pillars.tag': 'Il nostro metodo',
+                    'pillars.title': 'Configura. Integra. Cresci.',
+                    'pillars.subtitle': 'Tre fasi, un unico obiettivo: farti vendere di più con meno sforzo.',
+                    'pillars.p1.title': 'Configura',
+                    'pillars.p1.text': 'Creiamo il tuo Salesforce su misura. Pipeline, campi, automazioni: tutto pronto in 4-8 settimane. Voi pensate al cosa, noi al come.',
+                    'pillars.p2.title': 'Integra',
+                    'pillars.p2.text': 'Colleghiamo Salesforce a ERP, e-commerce e contabilità. I dati viaggiano da soli, un unico sistema, tutto connesso.',
+                    'pillars.p3.title': 'Cresci',
+                    'pillars.p3.text': 'Formiamo il team e ti affianchiamo nel tempo. Dashboard per decidere, automazioni per risparmiare ore, supporto continuo.',
+                    'services.tag': 'Servizi su misura',
+                    'services.title': 'Una soluzione per ogni esigenza',
+                    'services.subtitle': 'Dalla configurazione al go-live, pensiamo a tutto noi.',
+                    'services.s1.title': 'Implementazioni CRM complete',
+                    'services.s1.text': 'Configuriamo Salesforce in modo personalizzato per le tue esigenze. Importazione dati, pipeline, automazioni, formazione del team. Il tuo CRM operativo al 100%.',
+                    'services.s2.title': 'Integrazioni tecniche complete',
+                    'services.s2.text': 'Progettiamo l\'architettura dati e integriamo Salesforce con i sistemi aziendali esistenti. API, automazioni, flussi: tutto connesso.',
+                    'services.s3.title': 'Time & Material',
+                    'services.s3.text': 'Ti serve supporto specialistico? Mettiamo a disposizione i nostri consulenti certificati in modalità Time & Material. Paghi solo le ore che usi, senza vincoli. Ideale per progetti in corso o competenze che mancano nel tuo team.',
+                    'services.s4.title': 'AI & Automazione Intelligente',
+                    'services.s4.text': 'Integriamo modelli AI e LLM nei tuoi processi aziendali. Agenti autonomi che qualificano lead, rispondono ai clienti e generano report. Da Agentforce a soluzioni custom: scegliamo la tecnologia giusta per il tuo caso, non il contrario.',
+                    'services.sm1.title': 'Dashboard & Report',
+                    'services.sm1.text': 'Report automatici e dashboard in tempo reale per decidere meglio.',
+                    'services.sm2.title': 'Automazioni',
+                    'services.sm2.text': 'Follow-up, lead assignment, reminder: tutto parte in automatico.',
+                    'services.sm3.title': 'Portali Clienti',
+                    'services.sm3.text': 'Ticket, fatture, prenotazioni: i tuoi clienti fanno da soli.',
+                    'services.sm4.title': 'Migrazione Dati',
+                    'services.sm4.text': 'Da Excel o vecchi CRM a Salesforce senza perdere uno storico.',
+                    'certs.label': 'Certificazioni',
+                    'about.tag': 'Chi Siamo',
+                    'about.title': 'Il team che semplifica il tuo Salesforce',
+                    'about.text1': 'Non siamo solo consulenti tecnici, siamo partner di business. Configuriamo, personalizziamo e integriamo Salesforce per aziende dai 5 ai 100 utenti.',
+                    'about.text2': 'Un referente dedicato, tempi di risposta rapidi e la garanzia che ogni franco investito generi valore misurabile. Parliamo la tua lingua: niente gergo tecnico.',
+                    'about.card.title': 'Paghi solo quello che usi',
+                    'about.card.text': 'Progetti modulari, nessun vincolo annuale. Lavoriamo a obiettivi, non a ore.',
+                    'cta.title': 'Prenota la tua consulenza',
+                    'cta.text': 'Raccontaci cosa non funziona, ti proponiamo la soluzione. Scegli il canale che preferisci.',
+                    'cta.btn': 'Contattaci ora',
+                    'contact.email': 'Scrivici un\'email',
+                    'contact.wa': 'Scrivici su WhatsApp',
+                    'contact.phone': 'Chiamaci',
+                    'contact.emailHint': 'Rispondiamo entro 24 ore',
+                    'contact.waHint': 'Risposta immediata',
+                    'contact.phoneHint': 'Lun-Ven, 9:00-18:00',
+                    'footer.tagline': 'Consulenti Salesforce per PMI. Configurazione, integrazione, formazione.',
+                    'footer.automation': 'Automazione',
+                    'footer.integrations': 'Integrazioni',
+                    'footer.reporting': 'Dashboard',
+                    'footer.copyright': '© {year} T4S Group Sagl. Tutti i diritti riservati.'
+                },
+                en: {
+                    'nav.home': 'Home',
+                    'nav.method': 'Our Method',
+                    'nav.services': 'Services',
+                    'nav.about': 'About Us',
+                    'nav.contact': 'Contact',
+                    'hero.badge': 'Certified Salesforce Consultants in Switzerland',
+                    'hero.title': 'Your CRM, <span class="highlight">done right.</span>',
+                    'hero.desc': 'We\'re not just technical consultants — we\'re business partners. We help you get real results from your Salesforce implementation.',
+                    'hero.cta1': 'Get in touch',
+                    'hero.cta2': 'Explore services',
+                    'hero.trust1': 'Projects',
+                    'hero.trust2': 'Renew',
+                    'hero.trust3': 'Experience',
+                    'pillars.tag': 'Our method',
+                    'pillars.title': 'Configure. Integrate. Grow.',
+                    'pillars.subtitle': 'Three phases, one goal: help you sell more with less effort.',
+                    'pillars.p1.title': 'Configure',
+                    'pillars.p1.text': 'We build your Salesforce from scratch. Pipelines, fields, automations — ready in 4-8 weeks. You focus on the what, we handle the how.',
+                    'pillars.p2.title': 'Integrate',
+                    'pillars.p2.text': 'We connect Salesforce to your ERP, e-commerce and accounting. Data flows on its own — one system, fully connected.',
+                    'pillars.p3.title': 'Grow',
+                    'pillars.p3.text': 'We train your team and stay by your side. Dashboards for decisions, automations to save hours, ongoing support.',
+                    'services.tag': 'Tailored services',
+                    'services.title': 'A solution for every need',
+                    'services.subtitle': 'From setup to go-live, we handle everything.',
+                    'services.s1.title': 'Full CRM implementations',
+                    'services.s1.text': 'We configure Salesforce to fit your needs. Data import, pipelines, automations, team training. Your CRM fully operational.',
+                    'services.s2.title': 'Complete technical integrations',
+                    'services.s2.text': 'We design your data architecture and integrate Salesforce with your existing systems. APIs, automations, flows — all connected.',
+                    'services.s3.title': 'Time & Material',
+                    'services.s3.text': 'Need specialist support? We provide certified consultants on a Time & Material basis. Pay only for the hours you use, no strings attached. Ideal for ongoing projects or skills gaps in your team.',
+                    'services.s4.title': 'AI & Intelligent Automation',
+                    'services.s4.text': 'We integrate AI models and LLMs into your business processes. Autonomous agents that qualify leads, respond to clients and generate reports. From Agentforce to custom solutions — we choose the right tech for your case, not the other way around.',
+                    'services.sm1.title': 'Dashboards & Reports',
+                    'services.sm1.text': 'Automated reports and real-time dashboards for better decisions.',
+                    'services.sm2.title': 'Automations',
+                    'services.sm2.text': 'Follow-ups, lead assignment, reminders — everything runs on autopilot.',
+                    'services.sm3.title': 'Customer Portals',
+                    'services.sm3.text': 'Tickets, invoices, bookings: your clients self-serve.',
+                    'services.sm4.title': 'Data Migration',
+                    'services.sm4.text': 'From Excel or legacy CRMs to Salesforce without losing any history.',
+                    'certs.label': 'Certifications',
+                    'about.tag': 'About Us',
+                    'about.title': 'The team that simplifies your Salesforce',
+                    'about.text1': 'We\'re not just technical consultants — we\'re business partners. We configure, customize and integrate Salesforce for companies with 5 to 100 users.',
+                    'about.text2': 'A dedicated contact, fast response times and the guarantee that every franc invested generates measurable value. We speak your language — no jargon.',
+                    'about.card.title': 'Pay only for what you use',
+                    'about.card.text': 'Modular projects, no annual lock-in. We work towards goals, not hours.',
+                    'cta.title': 'Book your consultation',
+                    'cta.text': 'Tell us what\'s not working — we\'ll propose the solution. Choose the channel you prefer.',
+                    'cta.btn': 'Contact us now',
+                    'contact.email': 'Send us an email',
+                    'contact.wa': 'Message us on WhatsApp',
+                    'contact.phone': 'Call us',
+                    'contact.emailHint': 'We reply within 24 hours',
+                    'contact.waHint': 'Instant reply',
+                    'contact.phoneHint': 'Mon-Fri, 9:00-18:00',
+                    'footer.tagline': 'Salesforce consultants for SMEs. Setup, integration, training.',
+                    'footer.automation': 'Automation',
+                    'footer.integrations': 'Integrations',
+                    'footer.reporting': 'Dashboards',
+                    'footer.copyright': '© {year} T4S Group Sagl. All rights reserved.'
+                },
+                de: {
+                    'nav.home': 'Home',
+                    'nav.method': 'Methode',
+                    'nav.services': 'Leistungen',
+                    'nav.about': 'Über uns',
+                    'nav.contact': 'Kontakt',
+                    'hero.badge': 'Zertifizierte Salesforce-Berater in der Schweiz',
+                    'hero.title': 'Ihr CRM, <span class="highlight">richtig gemacht.</span>',
+                    'hero.desc': 'Wir sind nicht nur technische Berater — wir sind Geschäftspartner. Wir helfen Ihnen, konkrete Ergebnisse aus Ihrer Salesforce-Implementierung zu erzielen.',
+                    'hero.cta1': 'Kontaktieren Sie uns',
+                    'hero.cta2': 'Leistungen entdecken',
+                    'hero.trust1': 'Projekte',
+                    'hero.trust2': 'Verlängern',
+                    'hero.trust3': 'Erfahrung',
+                    'pillars.tag': 'Unsere Methode',
+                    'pillars.title': 'Konfigurieren. Integrieren. Wachsen.',
+                    'pillars.subtitle': 'Drei Phasen, ein Ziel: mehr verkaufen mit weniger Aufwand.',
+                    'pillars.p1.title': 'Konfigurieren',
+                    'pillars.p1.text': 'Wir bauen Ihr Salesforce massgeschneidert auf. Pipelines, Felder, Automatisierungen — in 4-8 Wochen einsatzbereit. Sie denken ans Was, wir ans Wie.',
+                    'pillars.p2.title': 'Integrieren',
+                    'pillars.p2.text': 'Wir verbinden Salesforce mit ERP, E-Commerce und Buchhaltung. Die Daten fliessen von selbst — ein System, alles verbunden.',
+                    'pillars.p3.title': 'Wachsen',
+                    'pillars.p3.text': 'Wir schulen Ihr Team und begleiten Sie langfristig. Dashboards für Entscheidungen, Automatisierungen zum Zeitsparen, laufender Support.',
+                    'services.tag': 'Massgeschneiderte Leistungen',
+                    'services.title': 'Eine Lösung für jeden Bedarf',
+                    'services.subtitle': 'Von der Einrichtung bis zum Go-live — wir übernehmen alles.',
+                    'services.s1.title': 'Komplette CRM-Implementierungen',
+                    'services.s1.text': 'Wir konfigurieren Salesforce individuell für Ihre Anforderungen. Datenimport, Pipelines, Automatisierungen, Teamschulung. Ihr CRM zu 100% einsatzbereit.',
+                    'services.s2.title': 'Komplette technische Integrationen',
+                    'services.s2.text': 'Wir entwerfen Ihre Datenarchitektur und integrieren Salesforce mit Ihren bestehenden Systemen. APIs, Automatisierungen, Flows — alles verbunden.',
+                    'services.s3.title': 'Time & Material',
+                    'services.s3.text': 'Brauchen Sie Spezialisten-Support? Wir stellen unsere zertifizierten Berater auf Time & Material-Basis zur Verfügung. Sie zahlen nur die genutzten Stunden, ohne Bindung. Ideal für laufende Projekte oder fehlende Kompetenzen in Ihrem Team.',
+                    'services.s4.title': 'AI & Intelligente Automatisierung',
+                    'services.s4.text': 'Wir integrieren KI-Modelle und LLMs in Ihre Geschäftsprozesse. Autonome Agenten, die Leads qualifizieren, Kunden betreuen und Reports erstellen. Von Agentforce bis Custom-Lösungen — wir wählen die richtige Technologie für Ihren Fall.',
+                    'services.sm1.title': 'Dashboards & Berichte',
+                    'services.sm1.text': 'Automatische Reports und Echtzeit-Dashboards für bessere Entscheidungen.',
+                    'services.sm2.title': 'Automatisierungen',
+                    'services.sm2.text': 'Follow-ups, Lead-Zuweisung, Erinnerungen — alles läuft automatisch.',
+                    'services.sm3.title': 'Kundenportale',
+                    'services.sm3.text': 'Tickets, Rechnungen, Buchungen: Ihre Kunden helfen sich selbst.',
+                    'services.sm4.title': 'Datenmigration',
+                    'services.sm4.text': 'Von Excel oder alten CRMs zu Salesforce, ohne eine Historie zu verlieren.',
+                    'certs.label': 'Zertifizierungen',
+                    'about.tag': 'Über uns',
+                    'about.title': 'Das Team, das Ihr Salesforce vereinfacht',
+                    'about.text1': 'Wir sind nicht nur technische Berater — wir sind Geschäftspartner. Wir konfigurieren, passen an und integrieren Salesforce für Unternehmen mit 5 bis 100 Nutzern.',
+                    'about.text2': 'Ein fester Ansprechpartner, schnelle Reaktionszeiten und die Garantie, dass jeder investierte Franken messbaren Mehrwert schafft. Wir sprechen Ihre Sprache — kein Fachchinesisch.',
+                    'about.card.title': 'Zahlen Sie nur, was Sie nutzen',
+                    'about.card.text': 'Modulare Projekte, keine Jahresbindung. Wir arbeiten auf Ziele hin, nicht auf Stunden.',
+                    'cta.title': 'Beratung buchen',
+                    'cta.text': 'Erzählen Sie uns, was nicht funktioniert — wir schlagen die Lösung vor. Wählen Sie Ihren bevorzugten Kanal.',
+                    'cta.btn': 'Jetzt kontaktieren',
+                    'contact.email': 'Schreiben Sie uns eine E-Mail',
+                    'contact.wa': 'Schreiben Sie uns auf WhatsApp',
+                    'contact.phone': 'Rufen Sie uns an',
+                    'contact.emailHint': 'Wir antworten innerhalb 24 Stunden',
+                    'contact.waHint': 'Sofortige Antwort',
+                    'contact.phoneHint': 'Mo-Fr, 9:00-18:00',
+                    'footer.tagline': 'Salesforce-Berater für KMU. Einrichtung, Integration, Schulung.',
+                    'footer.automation': 'Automatisierung',
+                    'footer.integrations': 'Integrationen',
+                    'footer.reporting': 'Dashboards',
+                    'footer.copyright': '© {year} T4S Group Sagl. Alle Rechte vorbehalten.'
+                },
+                fr: {
+                    'nav.home': 'Accueil',
+                    'nav.method': 'Méthode',
+                    'nav.services': 'Services',
+                    'nav.about': 'À propos',
+                    'nav.contact': 'Contactez-nous',
+                    'hero.badge': 'Consultants Salesforce certifiés en Suisse',
+                    'hero.title': 'Votre CRM, <span class="highlight">bien fait.</span>',
+                    'hero.desc': 'Nous ne sommes pas de simples consultants techniques — nous sommes des partenaires business. Nous vous aidons à obtenir des résultats concrets de votre implémentation Salesforce.',
+                    'hero.cta1': 'Contactez-nous',
+                    'hero.cta2': 'Découvrir nos services',
+                    'hero.trust1': 'Projets',
+                    'hero.trust2': 'Renouvellent',
+                    'hero.trust3': 'Expérience',
+                    'pillars.tag': 'Notre méthode',
+                    'pillars.title': 'Configurer. Intégrer. Croître.',
+                    'pillars.subtitle': 'Trois phases, un seul objectif : vendre plus avec moins d\'effort.',
+                    'pillars.p1.title': 'Configurer',
+                    'pillars.p1.text': 'Nous créons votre Salesforce sur mesure. Pipelines, champs, automatisations — prêt en 4 à 8 semaines. Vous pensez au quoi, nous au comment.',
+                    'pillars.p2.title': 'Intégrer',
+                    'pillars.p2.text': 'Nous connectons Salesforce à votre ERP, e-commerce et comptabilité. Les données circulent automatiquement — un seul système, tout connecté.',
+                    'pillars.p3.title': 'Croître',
+                    'pillars.p3.text': 'Nous formons votre équipe et vous accompagnons dans la durée. Tableaux de bord pour décider, automatisations pour gagner du temps, support continu.',
+                    'services.tag': 'Services sur mesure',
+                    'services.title': 'Une solution pour chaque besoin',
+                    'services.subtitle': 'De la configuration au go-live, nous gérons tout.',
+                    'services.s1.title': 'Implémentations CRM complètes',
+                    'services.s1.text': 'Nous configurons Salesforce de manière personnalisée selon vos besoins. Import de données, pipelines, automatisations, formation d\'équipe. Votre CRM opérationnel à 100%.',
+                    'services.s2.title': 'Intégrations techniques complètes',
+                    'services.s2.text': 'Nous concevons l\'architecture de données et intégrons Salesforce à vos systèmes existants. APIs, automatisations, flux — tout connecté.',
+                    'services.s3.title': 'Time & Material',
+                    'services.s3.text': 'Besoin d\'un support spécialisé ? Nous mettons à disposition nos consultants certifiés en mode Time & Material. Vous payez uniquement les heures utilisées, sans engagement. Idéal pour les projets en cours ou les compétences manquantes.',
+                    'services.s4.title': 'IA & Automatisation Intelligente',
+                    'services.s4.text': 'Nous intégrons des modèles IA et LLM dans vos processus métier. Agents autonomes qui qualifient les leads, répondent aux clients et génèrent des rapports. D\'Agentforce aux solutions custom — nous choisissons la bonne technologie.',
+                    'services.sm1.title': 'Tableaux de bord & Rapports',
+                    'services.sm1.text': 'Rapports automatiques et tableaux de bord en temps réel pour mieux décider.',
+                    'services.sm2.title': 'Automatisations',
+                    'services.sm2.text': 'Follow-up, attribution de leads, rappels — tout se déclenche automatiquement.',
+                    'services.sm3.title': 'Portails Clients',
+                    'services.sm3.text': 'Tickets, factures, réservations : vos clients se débrouillent seuls.',
+                    'services.sm4.title': 'Migration de données',
+                    'services.sm4.text': 'D\'Excel ou d\'anciens CRM vers Salesforce, sans perdre un seul historique.',
+                    'certs.label': 'Certifications',
+                    'about.tag': 'À propos',
+                    'about.title': 'L\'équipe qui simplifie votre Salesforce',
+                    'about.text1': 'Nous ne sommes pas de simples consultants techniques — nous sommes des partenaires business. Nous configurons, personnalisons et intégrons Salesforce pour les entreprises de 5 à 100 utilisateurs.',
+                    'about.text2': 'Un interlocuteur dédié, des temps de réponse rapides et la garantie que chaque franc investi génère une valeur mesurable. Nous parlons votre langue — pas de jargon technique.',
+                    'about.card.title': 'Payez uniquement ce que vous utilisez',
+                    'about.card.text': 'Projets modulaires, aucun engagement annuel. Nous travaillons par objectifs, pas à l\'heure.',
+                    'cta.title': 'Réservez votre consultation',
+                    'cta.text': 'Dites-nous ce qui ne fonctionne pas, nous proposons la solution. Choisissez votre canal préféré.',
+                    'cta.btn': 'Contactez-nous maintenant',
+                    'contact.email': 'Écrivez-nous un email',
+                    'contact.wa': 'Écrivez-nous sur WhatsApp',
+                    'contact.phone': 'Appelez-nous',
+                    'contact.emailHint': 'Réponse sous 24 heures',
+                    'contact.waHint': 'Réponse immédiate',
+                    'contact.phoneHint': 'Lun-Ven, 9h00-18h00',
+                    'footer.tagline': 'Consultants Salesforce pour PME. Configuration, intégration, formation.',
+                    'footer.automation': 'Automatisation',
+                    'footer.integrations': 'Intégrations',
+                    'footer.reporting': 'Tableaux de bord',
+                    'footer.copyright': '© {year} T4S Group Sagl. Tous droits réservés.'
+                }
+            };
+
+            const langNames = { it: 'IT', en: 'EN', de: 'DE', fr: 'FR' };
+            let curLang = localStorage.getItem('t4s-lang') || 'it';
+
+            function applyLang(lang) {
+                curLang = lang;
+                const dict = T[lang] || T.it;
+
+                document.querySelectorAll('[data-t]').forEach(el => {
+                    const key = el.getAttribute('data-t');
+                    if (dict[key] != null) el.textContent = dict[key];
+                });
+
+                document.querySelectorAll('[data-t-html]').forEach(el => {
+                    const key = el.getAttribute('data-t-html');
+                    if (dict[key] != null) el.innerHTML = dict[key];
+                });
+
+                document.documentElement.lang = lang;
+
+                const footerCopy = document.getElementById('footer-copy');
+                if (footerCopy) {
+                    footerCopy.textContent = (dict['footer.copyright'] || '').replace('{year}', new Date().getFullYear());
+                }
+            }
+
+            // Language selector
+            const langBtn = document.getElementById('langBtn');
+            const langDrop = document.getElementById('langDrop');
+
+            if (langBtn && langDrop) {
+                langBtn.addEventListener('click', e => {
+                    e.stopPropagation();
+                    langDrop.classList.toggle('open');
+                });
+
+                document.addEventListener('click', () => langDrop.classList.remove('open'));
+
+                langDrop.querySelectorAll('.lang-opt').forEach(opt => {
+                    opt.addEventListener('click', () => {
+                        const lang = opt.dataset.lang;
+                        curLang = lang;
+                        localStorage.setItem('t4s-lang', lang);
+                        langBtn.textContent = langNames[lang];
+                        langDrop.querySelectorAll('.lang-opt').forEach(o => o.classList.remove('active'));
+                        opt.classList.add('active');
+                        langDrop.classList.remove('open');
+                        applyLang(lang);
+                    });
+                });
+            }
+
+            // Apply saved language on load
+            if (curLang !== 'it') {
+                langBtn.textContent = langNames[curLang];
+                langDrop.querySelectorAll('.lang-opt').forEach(o => {
+                    o.classList.toggle('active', o.dataset.lang === curLang);
+                });
+                applyLang(curLang);
+            }
+        })();
+    </script>
 </body>
 </html>

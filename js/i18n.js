@@ -87,7 +87,7 @@ const translations = {
         'footer.automation': 'Automazione',
         'footer.integrations': 'Integrazioni',
         'footer.reporting': 'Dashboard & Report',
-        'footer.copyright': '© {year} T4S. Tutti i diritti riservati.',
+        'footer.copyright': '© {year} T4S Group Sagl. Tutti i diritti riservati.',
         'footer.vat': 'CHE-000.000.000 IVA'
     },
     
@@ -174,7 +174,7 @@ const translations = {
         'footer.automation': 'Automation',
         'footer.integrations': 'Integrations',
         'footer.reporting': 'Dashboards & Reports',
-        'footer.copyright': '© {year} T4S. All rights reserved.',
+        'footer.copyright': '© {year} T4S Group Sagl. All rights reserved.',
         'footer.vat': 'CHE-000.000.000 VAT'
     },
     
@@ -261,7 +261,7 @@ const translations = {
         'footer.automation': 'Automatisierung',
         'footer.integrations': 'Integrationen',
         'footer.reporting': 'Dashboards & Berichte',
-        'footer.copyright': '© {year} T4S. Alle Rechte vorbehalten.',
+        'footer.copyright': '© {year} T4S Group Sagl. Alle Rechte vorbehalten.',
         'footer.vat': 'CHE-000.000.000 MwSt'
     }
 };
