@@ -219,6 +219,31 @@
         .ba-row.after-row .ba-row-icon svg { stroke: var(--green); }
         .ba-row-text { font-size: 0.875rem; }
 
+        .ba-float-top {
+            position: absolute; top: -14px; right: -14px;
+            background: var(--green); color: var(--white);
+            padding: 8px 16px; border-radius: 10px;
+            font-size: 0.75rem; font-weight: 700;
+            box-shadow: 0 8px 24px rgba(16,185,129,0.3);
+            display: flex; align-items: center; gap: 6px;
+            z-index: 2; opacity: 0; transform: scale(0.8) translateY(4px);
+            transition: opacity 0.4s, transform 0.4s, background 0.5s;
+        }
+        .ba-float-top.visible { opacity: 1; transform: scale(1) translateY(0); }
+        .ba-float-top.state-before { background: var(--red); }
+        .ba-float-bottom {
+            position: absolute; bottom: -18px; left: -14px;
+            background: var(--navy-mid); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius); padding: 12px 18px;
+            display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+            z-index: 2; opacity: 0; transform: scale(0.8) translateY(-4px);
+            transition: opacity 0.4s 0.2s, transform 0.4s 0.2s;
+        }
+        .ba-float-bottom.visible { opacity: 1; transform: scale(1) translateY(0); }
+        .ba-float-bottom strong { color: var(--white); display: block; font-size: 0.8rem; }
+        .ba-float-bottom span { color: var(--gray-400); font-size: 0.7rem; }
+
         @keyframes cardShake {
             0%, 100% { transform: translateX(0); }
             20% { transform: translateX(-2px) rotate(-0.3deg); }
@@ -483,6 +508,8 @@
             .ba-card { padding: 24px 20px; }
             .ba-row { padding: 10px 12px; font-size: 0.85rem; }
             .ba-rows { min-height: 170px; }
+            .ba-float-top { top: -12px; right: -6px; padding: 6px 12px; font-size: 0.7rem; }
+            .ba-float-bottom { bottom: -14px; left: -6px; padding: 10px 14px; }
             
             /* Sections mobile */
             .pillars, .services, .about, .contact { padding: 80px 0; }

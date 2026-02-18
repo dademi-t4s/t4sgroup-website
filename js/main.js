@@ -18,24 +18,51 @@
             const badge = document.getElementById('ba-badge');
             const label = document.getElementById('ba-label');
             const bar = document.getElementById('ba-bar');
+            const floatTop = document.getElementById('ba-float-top');
+            const floatTopText = document.getElementById('ba-float-top-text');
+            const floatBottom = document.getElementById('ba-float-bottom');
+            const floatBotTitle = document.getElementById('ba-float-bot-title');
+            const floatBotSub = document.getElementById('ba-float-bot-sub');
             if (!card || !rows) return;
 
             const xIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
             const checkIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
 
-            const beforeItems = [
-                'Excel sparsi ovunque',
-                'Lead persi o non assegnati',
-                'Zero visibilità sulla pipeline',
-                'Follow-up dimenticati'
-            ];
+            const texts = {
+                it: {
+                    before: ['Excel sparsi ovunque', 'Lead persi o non assegnati', 'Zero visibilità sulla pipeline', 'Follow-up dimenticati'],
+                    after: ['Pipeline strutturata e visibile', 'Follow-up automatici', 'Dashboard KPI in tempo reale', 'Team formato e autonomo'],
+                    labelBefore: 'PRIMA', labelAfter: 'DOPO',
+                    floatTopBefore: 'Senza CRM', floatTopAfter: 'Salesforce Ready',
+                    floatTitle: 'T4S Group', floatSub: 'Il tuo partner CRM'
+                },
+                en: {
+                    before: ['Spreadsheets everywhere', 'Lost or unassigned leads', 'No pipeline visibility', 'Forgotten follow-ups'],
+                    after: ['Structured, visible pipeline', 'Automated follow-ups', 'Real-time KPI dashboards', 'Trained, autonomous team'],
+                    labelBefore: 'BEFORE', labelAfter: 'AFTER',
+                    floatTopBefore: 'No CRM', floatTopAfter: 'Salesforce Ready',
+                    floatTitle: 'T4S Group', floatSub: 'Your CRM partner'
+                },
+                de: {
+                    before: ['Excel-Dateien überall', 'Verlorene oder nicht zugewiesene Leads', 'Keine Pipeline-Übersicht', 'Vergessene Follow-ups'],
+                    after: ['Strukturierte, sichtbare Pipeline', 'Automatische Follow-ups', 'Echtzeit-KPI-Dashboards', 'Geschultes, autonomes Team'],
+                    labelBefore: 'VORHER', labelAfter: 'NACHHER',
+                    floatTopBefore: 'Ohne CRM', floatTopAfter: 'Salesforce Ready',
+                    floatTitle: 'T4S Group', floatSub: 'Ihr CRM-Partner'
+                },
+                fr: {
+                    before: ['Fichiers Excel partout', 'Leads perdus ou non assignés', 'Aucune visibilité pipeline', 'Follow-ups oubliés'],
+                    after: ['Pipeline structurée et visible', 'Follow-ups automatiques', 'Tableaux de bord KPI en temps réel', 'Équipe formée et autonome'],
+                    labelBefore: 'AVANT', labelAfter: 'APRÈS',
+                    floatTopBefore: 'Sans CRM', floatTopAfter: 'Salesforce Ready',
+                    floatTitle: 'T4S Group', floatSub: 'Votre partenaire CRM'
+                }
+            };
 
-            const afterItems = [
-                'Pipeline strutturata e visibile',
-                'Follow-up automatici',
-                'Dashboard KPI in tempo reale',
-                'Team formato e autonomo'
-            ];
+            function getLang() {
+                return localStorage.getItem('t4s-lang') || 'it';
+            }
+            function t() { return texts[getLang()] || texts.it; }
 
             const SHOW_DURATION = 3000;
             const STAGGER = 120;
@@ -73,12 +100,23 @@
             }
 
             function setBefore() {
+                const l = t();
                 badge.className = 'ba-badge before';
                 badge.querySelector('svg').outerHTML = xIcon;
-                label.textContent = 'PRIMA';
+                label.textContent = l.labelBefore;
                 card.classList.remove('state-after');
                 card.classList.add('shaking');
                 setTimeout(() => card.classList.remove('shaking'), 400);
+                floatTop.classList.remove('visible');
+                floatTop.classList.add('state-before');
+                floatBottom.classList.remove('visible');
+                setTimeout(() => {
+                    floatTopText.textContent = l.floatTopBefore;
+                    floatTop.classList.add('visible');
+                    floatBotTitle.textContent = l.floatTitle;
+                    floatBotSub.textContent = l.floatSub;
+                    floatBottom.classList.add('visible');
+                }, 400);
                 bar.className = 'ba-progress-bar before';
                 bar.style.transition = 'none';
                 bar.style.width = '0%';
@@ -86,14 +124,22 @@
                     bar.style.transition = `width ${SHOW_DURATION}ms linear`;
                     bar.style.width = '100%';
                 });
-                return showRows(beforeItems, 'before');
+                return showRows(l.before, 'before');
             }
 
             function setAfter() {
+                const l = t();
                 badge.className = 'ba-badge after';
                 badge.querySelector('svg').outerHTML = checkIcon;
-                label.textContent = 'DOPO';
+                label.textContent = l.labelAfter;
                 card.classList.add('state-after');
+                floatTop.classList.remove('visible', 'state-before');
+                floatBottom.classList.remove('visible');
+                setTimeout(() => {
+                    floatTopText.textContent = l.floatTopAfter;
+                    floatTop.classList.add('visible');
+                    floatBottom.classList.add('visible');
+                }, 400);
                 bar.className = 'ba-progress-bar after';
                 bar.style.transition = 'none';
                 bar.style.width = '0%';
@@ -101,7 +147,7 @@
                     bar.style.transition = `width ${SHOW_DURATION}ms linear`;
                     bar.style.width = '100%';
                 });
-                return showRows(afterItems, 'after');
+                return showRows(l.after, 'after');
             }
 
             async function loop() {
