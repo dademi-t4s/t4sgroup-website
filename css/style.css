@@ -252,8 +252,8 @@
         }
         .ba-chart.visible { opacity: 1; transform: scale(1); }
         .ba-chart svg { width: 100%; height: 130px; }
-        .ba-chart-line { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
-        .ba-chart-area { opacity: 0.1; }
+        .ba-chart-line { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .ba-chart-area { opacity: 0.08; }
         .ba-chart-line.line1 { stroke: var(--blue); }
         .ba-chart-line.line2 { stroke: var(--red); }
         .ba-chart-area.area1 { fill: var(--blue); }

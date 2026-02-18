@@ -102,55 +102,92 @@
                     const dot1 = document.getElementById('chart-dot1');
                     const dot2 = document.getElementById('chart-dot2');
 
-                    const pts1 = [[0,85],[40,70],[80,80],[120,55],[160,60],[200,35],[240,25],[280,18],[300,15]];
-                    const pts2 = [[0,95],[40,90],[80,85],[120,75],[160,50],[200,55],[240,38],[280,30],[300,22]];
+                    const pts1 = [[0,88],[30,75],[60,82],[100,60],[140,65],[180,40],[220,30],[260,22],[300,18]];
+                    const pts2 = [[0,95],[30,92],[60,88],[100,78],[140,55],[180,58],[220,42],[260,32],[300,25]];
+
+                    function lerp(a, b, t) { return a + (b - a) * t; }
+
+                    function getPointAt(pts, progress) {
+                        const totalLen = pts.length - 1;
+                        const exact = progress * totalLen;
+                        const i = Math.min(Math.floor(exact), totalLen - 1);
+                        const frac = exact - i;
+                        return [lerp(pts[i][0], pts[i+1][0], frac), lerp(pts[i][1], pts[i+1][1], frac)];
+                    }
+
+                    function smoothPath(points) {
+                        if (points.length < 2) return `M${points[0][0]},${points[0][1]}`;
+                        let d = `M${points[0][0]},${points[0][1]}`;
+                        for (let i = 0; i < points.length - 1; i++) {
+                            const p0 = points[Math.max(i - 1, 0)];
+                            const p1 = points[i];
+                            const p2 = points[i + 1];
+                            const p3 = points[Math.min(i + 2, points.length - 1)];
+                            const cp1x = p1[0] + (p2[0] - p0[0]) / 6;
+                            const cp1y = p1[1] + (p2[1] - p0[1]) / 6;
+                            const cp2x = p2[0] - (p3[0] - p1[0]) / 6;
+                            const cp2y = p2[1] - (p3[1] - p1[1]) / 6;
+                            d += ` C${cp1x},${cp1y} ${cp2x},${cp2y} ${p2[0]},${p2[1]}`;
+                        }
+                        return d;
+                    }
+
+                    function buildPartialPoints(pts, progress) {
+                        const totalLen = pts.length - 1;
+                        const exact = progress * totalLen;
+                        const fullCount = Math.floor(exact);
+                        const result = [];
+                        for (let i = 0; i <= Math.min(fullCount, totalLen); i++) {
+                            result.push(pts[i]);
+                        }
+                        if (fullCount < totalLen) {
+                            const frac = exact - fullCount;
+                            result.push(getPointAt(pts, progress));
+                        }
+                        return result;
+                    }
 
                     requestAnimationFrame(() => chart.classList.add('visible'));
 
-                    let step = 0;
-                    const totalSteps = pts1.length;
-                    const stepTime = CHART_DURATION / totalSteps;
+                    const startTime = performance.now();
+                    const drawDuration = CHART_DURATION;
+                    dot1.classList.add('visible');
+                    dot2.classList.add('visible');
 
-                    function drawStep() {
-                        if (step >= totalSteps) {
-                            dot1.classList.add('visible');
-                            dot2.classList.add('visible');
+                    function animate(now) {
+                        const elapsed = now - startTime;
+                        const raw = Math.min(elapsed / drawDuration, 1);
+                        const progress = 1 - Math.pow(1 - raw, 2);
+
+                        const partial1 = buildPartialPoints(pts1, progress);
+                        const partial2 = buildPartialPoints(pts2, progress);
+
+                        const d1 = smoothPath(partial1);
+                        const d2 = smoothPath(partial2);
+                        line1.setAttribute('d', d1);
+                        line2.setAttribute('d', d2);
+
+                        const last1 = partial1[partial1.length - 1];
+                        const last2 = partial2[partial2.length - 1];
+                        area1.setAttribute('d', d1 + ` L${last1[0]},120 L${pts1[0][0]},120 Z`);
+                        area2.setAttribute('d', d2 + ` L${last2[0]},120 L${pts2[0][0]},120 Z`);
+
+                        dot1.setAttribute('cx', last1[0]);
+                        dot1.setAttribute('cy', last1[1]);
+                        dot2.setAttribute('cx', last2[0]);
+                        dot2.setAttribute('cy', last2[1]);
+
+                        if (raw < 1) {
+                            requestAnimationFrame(animate);
+                        } else {
                             setTimeout(() => {
                                 chart.classList.remove('visible');
                                 setTimeout(resolve, 400);
                             }, 600);
-                            return;
                         }
-
-                        const slice1 = pts1.slice(0, step + 1);
-                        const slice2 = pts2.slice(0, step + 1);
-
-                        const d1 = 'M' + slice1.map(p => p.join(',')).join(' L');
-                        const d2 = 'M' + slice2.map(p => p.join(',')).join(' L');
-
-                        line1.setAttribute('d', d1);
-                        line2.setAttribute('d', d2);
-
-                        const lastPt1 = slice1[slice1.length - 1];
-                        const lastPt2 = slice2[slice2.length - 1];
-                        area1.setAttribute('d', d1 + ` L${lastPt1[0]},120 L0,120 Z`);
-                        area2.setAttribute('d', d2 + ` L${lastPt2[0]},120 L0,120 Z`);
-
-                        dot1.setAttribute('cx', lastPt1[0]);
-                        dot1.setAttribute('cy', lastPt1[1]);
-                        dot2.setAttribute('cx', lastPt2[0]);
-                        dot2.setAttribute('cy', lastPt2[1]);
-
-                        if (step > 0) {
-                            dot1.classList.add('visible');
-                            dot2.classList.add('visible');
-                        }
-
-                        step++;
-                        setTimeout(drawStep, stepTime);
                     }
 
-                    setTimeout(drawStep, 300);
+                    setTimeout(() => requestAnimationFrame(animate), 300);
                 });
             }
 
