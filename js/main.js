@@ -73,7 +73,7 @@
                     const l = t();
                     rows.innerHTML = `
                         <div class="ba-chart" id="ba-chart">
-                            <div class="ba-chart-label">Crescita con Salesforce</div>
+                            <div class="ba-chart-label">Crescita con T4S</div>
                             <svg viewBox="0 0 300 120" preserveAspectRatio="none">
                                 <g class="ba-chart-grid">
                                     <line x1="0" y1="30" x2="300" y2="30"/>
