@@ -34,28 +34,32 @@
                     after: ['Pipeline strutturata e visibile', 'Follow-up automatici', 'Dashboard KPI in tempo reale', 'Team formato e autonomo'],
                     labelBefore: 'PRIMA', labelAfter: 'DOPO',
                     floatTopBefore: 'Senza CRM', floatTopAfter: 'Salesforce Ready',
-                    floatTitle: 'T4S Group', floatSub: 'Il tuo partner CRM'
+                    floatTitle: 'T4S Group', floatSub: 'Il tuo partner CRM',
+                    chartLabel: 'Crescita con T4S', chartLine1: 'Leads', chartLine2: 'Ricavi'
                 },
                 en: {
                     before: ['Spreadsheets everywhere', 'Lost or unassigned leads', 'No pipeline visibility', 'Forgotten follow-ups'],
                     after: ['Structured, visible pipeline', 'Automated follow-ups', 'Real-time KPI dashboards', 'Trained, autonomous team'],
                     labelBefore: 'BEFORE', labelAfter: 'AFTER',
                     floatTopBefore: 'No CRM', floatTopAfter: 'Salesforce Ready',
-                    floatTitle: 'T4S Group', floatSub: 'Your CRM partner'
+                    floatTitle: 'T4S Group', floatSub: 'Your CRM partner',
+                    chartLabel: 'Growth with T4S', chartLine1: 'Leads', chartLine2: 'Revenue'
                 },
                 de: {
                     before: ['Excel-Dateien überall', 'Verlorene oder nicht zugewiesene Leads', 'Keine Pipeline-Übersicht', 'Vergessene Follow-ups'],
                     after: ['Strukturierte, sichtbare Pipeline', 'Automatische Follow-ups', 'Echtzeit-KPI-Dashboards', 'Geschultes, autonomes Team'],
                     labelBefore: 'VORHER', labelAfter: 'NACHHER',
                     floatTopBefore: 'Ohne CRM', floatTopAfter: 'Salesforce Ready',
-                    floatTitle: 'T4S Group', floatSub: 'Ihr CRM-Partner'
+                    floatTitle: 'T4S Group', floatSub: 'Ihr CRM-Partner',
+                    chartLabel: 'Wachstum mit T4S', chartLine1: 'Leads', chartLine2: 'Umsatz'
                 },
                 fr: {
                     before: ['Fichiers Excel partout', 'Leads perdus ou non assignés', 'Aucune visibilité pipeline', 'Follow-ups oubliés'],
                     after: ['Pipeline structurée et visible', 'Follow-ups automatiques', 'Tableaux de bord KPI en temps réel', 'Équipe formée et autonome'],
                     labelBefore: 'AVANT', labelAfter: 'APRÈS',
                     floatTopBefore: 'Sans CRM', floatTopAfter: 'Salesforce Ready',
-                    floatTitle: 'T4S Group', floatSub: 'Votre partenaire CRM'
+                    floatTitle: 'T4S Group', floatSub: 'Votre partenaire CRM',
+                    chartLabel: 'Croissance avec T4S', chartLine1: 'Leads', chartLine2: 'Revenus'
                 }
             };
 
@@ -68,12 +72,15 @@
             const CHART_DURATION = 2200;
             const STAGGER = 120;
 
+            const pts1 = [[0,88],[30,75],[60,82],[100,60],[140,65],[180,40],[220,30],[260,22],[300,18]];
+            const pts2 = [[0,95],[30,92],[60,88],[100,78],[140,55],[180,58],[220,42],[260,32],[300,25]];
+
             function showChart() {
                 return new Promise(resolve => {
                     const l = t();
                     rows.innerHTML = `
                         <div class="ba-chart" id="ba-chart">
-                            <div class="ba-chart-label">Crescita con T4S</div>
+                            <div class="ba-chart-label">${l.chartLabel}</div>
                             <svg viewBox="0 0 300 120" preserveAspectRatio="none">
                                 <g class="ba-chart-grid">
                                     <line x1="0" y1="30" x2="300" y2="30"/>
@@ -84,12 +91,12 @@
                                 <path class="ba-chart-area area2" id="chart-area2" d=""/>
                                 <path class="ba-chart-line line1" id="chart-line1" d=""/>
                                 <path class="ba-chart-line line2" id="chart-line2" d=""/>
-                                <circle class="ba-chart-dot dot1" id="chart-dot1" cx="0" cy="0"/>
-                                <circle class="ba-chart-dot dot2" id="chart-dot2" cx="0" cy="0"/>
+                                <circle class="ba-chart-dot dot1" id="chart-dot1" cx="${pts1[0][0]}" cy="${pts1[0][1]}" style="opacity:0"/>
+                                <circle class="ba-chart-dot dot2" id="chart-dot2" cx="${pts2[0][0]}" cy="${pts2[0][1]}" style="opacity:0"/>
                             </svg>
                             <div class="ba-chart-legend">
-                                <div class="ba-chart-legend-item"><div class="ba-chart-legend-dot l1"></div>Leads</div>
-                                <div class="ba-chart-legend-item"><div class="ba-chart-legend-dot l2"></div>Revenue</div>
+                                <div class="ba-chart-legend-item"><div class="ba-chart-legend-dot l1"></div>${l.chartLine1}</div>
+                                <div class="ba-chart-legend-item"><div class="ba-chart-legend-dot l2"></div>${l.chartLine2}</div>
                             </div>
                         </div>
                     `;
@@ -101,9 +108,6 @@
                     const area2 = document.getElementById('chart-area2');
                     const dot1 = document.getElementById('chart-dot1');
                     const dot2 = document.getElementById('chart-dot2');
-
-                    const pts1 = [[0,88],[30,75],[60,82],[100,60],[140,65],[180,40],[220,30],[260,22],[300,18]];
-                    const pts2 = [[0,95],[30,92],[60,88],[100,78],[140,55],[180,58],[220,42],[260,32],[300,25]];
 
                     function lerp(a, b, t) { return a + (b - a) * t; }
 
@@ -149,12 +153,11 @@
 
                     requestAnimationFrame(() => chart.classList.add('visible'));
 
-                    const startTime = performance.now();
+                    let startTime = null;
                     const drawDuration = CHART_DURATION;
-                    dot1.classList.add('visible');
-                    dot2.classList.add('visible');
 
                     function animate(now) {
+                        if (!startTime) startTime = now;
                         const elapsed = now - startTime;
                         const raw = Math.min(elapsed / drawDuration, 1);
                         const progress = 1 - Math.pow(1 - raw, 2);
@@ -174,8 +177,10 @@
 
                         dot1.setAttribute('cx', last1[0]);
                         dot1.setAttribute('cy', last1[1]);
+                        dot1.style.opacity = '1';
                         dot2.setAttribute('cx', last2[0]);
                         dot2.setAttribute('cy', last2[1]);
+                        dot2.style.opacity = '1';
 
                         if (raw < 1) {
                             requestAnimationFrame(animate);
