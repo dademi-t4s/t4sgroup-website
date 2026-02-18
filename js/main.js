@@ -11,85 +11,112 @@
         document.getElementById('footer-copy').textContent = `© ${new Date().getFullYear()} T4S Group Sagl. Tutti i diritti riservati.`;
 
 
-        // Animated Dashboard
+        // Before/After Animation
         (function() {
-            const screens = [
-                {
-                    title: 'CRM DASHBOARD', badge: 'Live', badgeColor: '#10B981',
-                    mini: ['Automatizzato', '12 flow attivi'],
-                    stats: [
-                        { val: 'CHF 1.2<span class="accent">M</span>', lbl: 'Pipeline attiva', bar: 78 },
-                        { val: '94<span class="accent">%</span>', lbl: 'Win rate', bar: 94 },
-                        { val: '3.2<span class="accent">k</span>', lbl: 'Contatti gestiti', bar: 65 },
-                        { val: '↓ 60<span class="accent">%</span>', lbl: 'Lavoro manuale', bar: 40 },
-                    ]
-                },
-                {
-                    title: 'SALES PIPELINE', badge: 'Q1 2026', badgeColor: '#29B6F6',
-                    mini: ['Pipeline sana', '34 deal aperti'],
-                    stats: [
-                        { val: '47<span class="accent">%</span>', lbl: 'Conversion rate', bar: 47 },
-                        { val: 'CHF 840<span class="accent">k</span>', lbl: 'Forecast Q1', bar: 84 },
-                        { val: '12<span class="accent">gg</span>', lbl: 'Tempo medio chiusura', bar: 30 },
-                        { val: '↑ 23<span class="accent">%</span>', lbl: 'vs trimestre prec.', bar: 73 },
-                    ]
-                },
-                {
-                    title: 'SERVICE METRICS', badge: 'Real-time', badgeColor: '#C8102E',
-                    mini: ['SLA rispettati', '99.2% uptime'],
-                    stats: [
-                        { val: '< 2<span class="accent">h</span>', lbl: 'Tempo risposta medio', bar: 88 },
-                        { val: '156', lbl: 'Ticket risolti / mese', bar: 72 },
-                        { val: '4.8<span class="accent">/5</span>', lbl: 'CSAT score', bar: 96 },
-                        { val: '↓ 35<span class="accent">%</span>', lbl: 'Ticket escalation', bar: 35 },
-                    ]
-                },
-                {
-                    title: 'MARKETING KPI', badge: 'Aggiornato', badgeColor: '#F59E0B',
-                    mini: ['Campaign attive', '5 journey live'],
-                    stats: [
-                        { val: '28<span class="accent">%</span>', lbl: 'Open rate email', bar: 56 },
-                        { val: '1.4<span class="accent">k</span>', lbl: 'Lead generati', bar: 62 },
-                        { val: 'CHF 18', lbl: 'Costo per lead', bar: 25 },
-                        { val: '↑ 41<span class="accent">%</span>', lbl: 'ROI campagne', bar: 82 },
-                    ]
-                }
+            const card = document.getElementById('ba-card');
+            const rows = document.getElementById('ba-rows');
+            const badge = document.getElementById('ba-badge');
+            const label = document.getElementById('ba-label');
+            const bar = document.getElementById('ba-bar');
+            if (!card || !rows) return;
+
+            const xIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+            const checkIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
+
+            const beforeItems = [
+                'Excel sparsi ovunque',
+                'Lead persi o non assegnati',
+                'Zero visibilità sulla pipeline',
+                'Follow-up dimenticati'
             ];
 
-            let current = 0;
-            const stats = document.querySelectorAll('.float-stat');
+            const afterItems = [
+                'Pipeline strutturata e visibile',
+                'Follow-up automatici',
+                'Dashboard KPI in tempo reale',
+                'Team formato e autonomo'
+            ];
 
-            function showScreen(idx) {
-                const s = screens[idx];
-                document.getElementById('dash-title').textContent = s.title;
-                document.getElementById('badge-text').textContent = s.badge;
-                document.getElementById('dash-badge').style.background = s.badgeColor;
-                document.getElementById('mini-title').textContent = s.mini[0];
-                document.getElementById('mini-sub').textContent = s.mini[1];
+            const SHOW_DURATION = 3000;
+            const STAGGER = 120;
 
-                stats.forEach(el => el.classList.add('fade-out'));
-
-                setTimeout(() => {
-                    s.stats.forEach((st, i) => {
-                        document.getElementById('val-' + i).innerHTML = st.val;
-                        document.getElementById('lbl-' + i).textContent = st.lbl;
-                        document.getElementById('bar-' + i).style.width = '0%';
-                    });
-                    stats.forEach(el => el.classList.remove('fade-out'));
-                    setTimeout(() => {
-                        s.stats.forEach((st, i) => {
-                            document.getElementById('bar-' + i).style.width = st.bar + '%';
-                        });
-                    }, 100);
-                }, 400);
+            function createRow(text, type) {
+                const row = document.createElement('div');
+                row.className = 'ba-row ' + type + '-row';
+                row.innerHTML = `
+                    <div class="ba-row-icon">${type === 'before' ? xIcon : checkIcon}</div>
+                    <span class="ba-row-text">${text}</span>
+                `;
+                return row;
             }
 
-            showScreen(0);
+            function showRows(items, type) {
+                rows.innerHTML = '';
+                const rowEls = items.map(text => {
+                    const el = createRow(text, type);
+                    rows.appendChild(el);
+                    return el;
+                });
+                rowEls.forEach((el, i) => {
+                    setTimeout(() => el.classList.add('visible'), 50 + i * STAGGER);
+                });
+                return rowEls;
+            }
 
-            setInterval(() => {
-                current = (current + 1) % screens.length;
-                showScreen(current);
-            }, 4000);
+            function exitRows(rowEls) {
+                return new Promise(resolve => {
+                    rowEls.forEach((el, i) => {
+                        setTimeout(() => el.classList.replace('visible', 'exit'), i * 80);
+                    });
+                    setTimeout(resolve, rowEls.length * 80 + 300);
+                });
+            }
+
+            function setBefore() {
+                badge.className = 'ba-badge before';
+                badge.querySelector('svg').outerHTML = xIcon;
+                label.textContent = 'PRIMA';
+                card.classList.remove('state-after');
+                card.classList.add('shaking');
+                setTimeout(() => card.classList.remove('shaking'), 400);
+                bar.className = 'ba-progress-bar before';
+                bar.style.transition = 'none';
+                bar.style.width = '0%';
+                requestAnimationFrame(() => {
+                    bar.style.transition = `width ${SHOW_DURATION}ms linear`;
+                    bar.style.width = '100%';
+                });
+                return showRows(beforeItems, 'before');
+            }
+
+            function setAfter() {
+                badge.className = 'ba-badge after';
+                badge.querySelector('svg').outerHTML = checkIcon;
+                label.textContent = 'DOPO';
+                card.classList.add('state-after');
+                bar.className = 'ba-progress-bar after';
+                bar.style.transition = 'none';
+                bar.style.width = '0%';
+                requestAnimationFrame(() => {
+                    bar.style.transition = `width ${SHOW_DURATION}ms linear`;
+                    bar.style.width = '100%';
+                });
+                return showRows(afterItems, 'after');
+            }
+
+            async function loop() {
+                while (true) {
+                    const beforeRows = setBefore();
+                    await new Promise(r => setTimeout(r, SHOW_DURATION));
+                    await exitRows(beforeRows);
+
+                    const afterRows = setAfter();
+                    await new Promise(r => setTimeout(r, SHOW_DURATION));
+                    await exitRows(afterRows);
+                }
+            }
+
+            loop();
         })();
 
         // T4S Brand animation
