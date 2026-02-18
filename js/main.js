@@ -65,7 +65,94 @@
             function t() { return texts[getLang()] || texts.it; }
 
             const SHOW_DURATION = 3000;
+            const CHART_DURATION = 2200;
             const STAGGER = 120;
+
+            function showChart() {
+                return new Promise(resolve => {
+                    const l = t();
+                    rows.innerHTML = `
+                        <div class="ba-chart" id="ba-chart">
+                            <div class="ba-chart-label">Crescita con Salesforce</div>
+                            <svg viewBox="0 0 300 120" preserveAspectRatio="none">
+                                <g class="ba-chart-grid">
+                                    <line x1="0" y1="30" x2="300" y2="30"/>
+                                    <line x1="0" y1="60" x2="300" y2="60"/>
+                                    <line x1="0" y1="90" x2="300" y2="90"/>
+                                </g>
+                                <path class="ba-chart-area area1" id="chart-area1" d=""/>
+                                <path class="ba-chart-area area2" id="chart-area2" d=""/>
+                                <path class="ba-chart-line line1" id="chart-line1" d=""/>
+                                <path class="ba-chart-line line2" id="chart-line2" d=""/>
+                                <circle class="ba-chart-dot dot1" id="chart-dot1" cx="0" cy="0"/>
+                                <circle class="ba-chart-dot dot2" id="chart-dot2" cx="0" cy="0"/>
+                            </svg>
+                            <div class="ba-chart-legend">
+                                <div class="ba-chart-legend-item"><div class="ba-chart-legend-dot l1"></div>Leads</div>
+                                <div class="ba-chart-legend-item"><div class="ba-chart-legend-dot l2"></div>Revenue</div>
+                            </div>
+                        </div>
+                    `;
+
+                    const chart = document.getElementById('ba-chart');
+                    const line1 = document.getElementById('chart-line1');
+                    const line2 = document.getElementById('chart-line2');
+                    const area1 = document.getElementById('chart-area1');
+                    const area2 = document.getElementById('chart-area2');
+                    const dot1 = document.getElementById('chart-dot1');
+                    const dot2 = document.getElementById('chart-dot2');
+
+                    const pts1 = [[0,85],[40,70],[80,80],[120,55],[160,60],[200,35],[240,25],[280,18],[300,15]];
+                    const pts2 = [[0,95],[40,90],[80,85],[120,75],[160,50],[200,55],[240,38],[280,30],[300,22]];
+
+                    requestAnimationFrame(() => chart.classList.add('visible'));
+
+                    let step = 0;
+                    const totalSteps = pts1.length;
+                    const stepTime = CHART_DURATION / totalSteps;
+
+                    function drawStep() {
+                        if (step >= totalSteps) {
+                            dot1.classList.add('visible');
+                            dot2.classList.add('visible');
+                            setTimeout(() => {
+                                chart.classList.remove('visible');
+                                setTimeout(resolve, 400);
+                            }, 600);
+                            return;
+                        }
+
+                        const slice1 = pts1.slice(0, step + 1);
+                        const slice2 = pts2.slice(0, step + 1);
+
+                        const d1 = 'M' + slice1.map(p => p.join(',')).join(' L');
+                        const d2 = 'M' + slice2.map(p => p.join(',')).join(' L');
+
+                        line1.setAttribute('d', d1);
+                        line2.setAttribute('d', d2);
+
+                        const lastPt1 = slice1[slice1.length - 1];
+                        const lastPt2 = slice2[slice2.length - 1];
+                        area1.setAttribute('d', d1 + ` L${lastPt1[0]},120 L0,120 Z`);
+                        area2.setAttribute('d', d2 + ` L${lastPt2[0]},120 L0,120 Z`);
+
+                        dot1.setAttribute('cx', lastPt1[0]);
+                        dot1.setAttribute('cy', lastPt1[1]);
+                        dot2.setAttribute('cx', lastPt2[0]);
+                        dot2.setAttribute('cy', lastPt2[1]);
+
+                        if (step > 0) {
+                            dot1.classList.add('visible');
+                            dot2.classList.add('visible');
+                        }
+
+                        step++;
+                        setTimeout(drawStep, stepTime);
+                    }
+
+                    setTimeout(drawStep, 300);
+                });
+            }
 
             function createRow(text, type) {
                 const row = document.createElement('div');
@@ -156,9 +243,17 @@
                     await new Promise(r => setTimeout(r, SHOW_DURATION));
                     await exitRows(beforeRows);
 
+                    floatTop.classList.remove('visible');
+                    floatBottom.classList.remove('visible');
+                    await showChart();
+
                     const afterRows = setAfter();
                     await new Promise(r => setTimeout(r, SHOW_DURATION));
                     await exitRows(afterRows);
+
+                    floatTop.classList.remove('visible');
+                    floatBottom.classList.remove('visible');
+                    await new Promise(r => setTimeout(r, 400));
                 }
             }
 

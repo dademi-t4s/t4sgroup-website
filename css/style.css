@@ -244,6 +244,48 @@
         .ba-float-bottom strong { color: var(--white); display: block; font-size: 0.8rem; }
         .ba-float-bottom span { color: var(--gray-400); font-size: 0.7rem; }
 
+        /* Transition chart */
+        .ba-chart {
+            position: relative; width: 100%; height: 160px;
+            opacity: 0; transform: scale(0.95);
+            transition: opacity 0.4s, transform 0.4s;
+        }
+        .ba-chart.visible { opacity: 1; transform: scale(1); }
+        .ba-chart svg { width: 100%; height: 130px; }
+        .ba-chart-line { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+        .ba-chart-area { opacity: 0.1; }
+        .ba-chart-line.line1 { stroke: var(--blue); }
+        .ba-chart-line.line2 { stroke: var(--red); }
+        .ba-chart-area.area1 { fill: var(--blue); }
+        .ba-chart-area.area2 { fill: var(--red); }
+        .ba-chart-dot {
+            r: 4; fill: var(--navy-light); stroke-width: 2;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .ba-chart-dot.visible { opacity: 1; }
+        .ba-chart-dot.dot1 { stroke: var(--blue); }
+        .ba-chart-dot.dot2 { stroke: var(--red); }
+        .ba-chart-grid line {
+            stroke: rgba(255,255,255,0.04); stroke-width: 1;
+        }
+        .ba-chart-legend {
+            display: flex; justify-content: center; gap: 24px; margin-top: 8px;
+        }
+        .ba-chart-legend-item {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 0.7rem; font-weight: 600; color: var(--gray-400);
+        }
+        .ba-chart-legend-dot {
+            width: 10px; height: 3px; border-radius: 2px;
+        }
+        .ba-chart-legend-dot.l1 { background: var(--blue); }
+        .ba-chart-legend-dot.l2 { background: var(--red); }
+        .ba-chart-label {
+            text-align: center; font-size: 0.7rem; font-weight: 600;
+            color: var(--gray-500); text-transform: uppercase; letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
         @keyframes cardShake {
             0%, 100% { transform: translateX(0); }
             20% { transform: translateX(-2px) rotate(-0.3deg); }
