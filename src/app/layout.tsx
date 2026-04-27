@@ -17,7 +17,9 @@ export const metadata: Metadata = {
   title: 'T4S Group® · Strategic by Design, Systemic by Code',
   description:
     'T4S Group costruisce l’infrastruttura digitale delle imprese svizzere. Cloud, AI, sicurezza e dati — un solo team senior, output verificabili.',
-  icons: { icon: '/favicon.png' },
+  icons: {
+    icon: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/favicon.png`,
+  },
 };
 
 export default function RootLayout({

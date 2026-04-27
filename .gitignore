@@ -7,3 +7,6 @@ next-env.d.ts
 
 # Local Claude Code metadata
 .claude/
+
+# Static export output
+out/

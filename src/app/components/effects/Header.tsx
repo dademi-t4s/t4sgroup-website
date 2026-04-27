@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { asset } from '@/lib/asset';
 
 const tabs = [
   { href: '#horizons', label: 'Horizons' },
@@ -24,7 +25,7 @@ export default function Header() {
         {/* Logo */}
         <a href="#home" className="flex items-center gap-3 shrink-0">
           <Image
-            src="/logo.png"
+            src={asset('/logo.png')}
             alt="T4S Group"
             width={52}
             height={52}

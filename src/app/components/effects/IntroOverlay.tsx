@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { asset } from '@/lib/asset';
 
 /**
  * Full-screen logo intro shown on first paint. Locks scroll, reveals the
@@ -64,7 +65,7 @@ export default function IntroOverlay() {
             transition={{ duration: 2.6, times: [0, 0.32, 0.78, 1], ease: 'easeInOut' }}
           >
             <Image
-              src="/logo.png"
+              src={asset('/logo.png')}
               alt="T4S Group"
               width={130}
               height={130}
