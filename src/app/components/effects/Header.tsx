@@ -21,16 +21,19 @@ export default function Header() {
       transition={{ duration: 0.9, delay: 2.7, ease: [0.6, 0.01, 0, 1] }}
       className="fixed top-0 inset-x-0 z-40"
     >
-      <div className="mx-auto max-w-[1400px] px-8 py-5 grid grid-cols-[auto_1fr_auto] items-center gap-8">
+      <div className="mx-auto max-w-[1400px] px-5 md:px-8 py-3 md:py-5 grid grid-cols-[auto_1fr_auto] items-center gap-4 md:gap-8">
         {/* Logo */}
         <a href="#home" className="flex items-center gap-3 shrink-0">
           <Image
             src={asset('/logo.png')}
             alt="T4S Group"
-            width={52}
-            height={52}
+            width={888}
+            height={486}
             priority
-            className="rounded-full"
+            // Natural 888×486 wordmark — declare real source size and scale
+            // via width while letting height follow with `h-auto` so the logo
+            // never gets squashed into a square.
+            className="w-[68px] md:w-[100px] h-auto"
           />
         </a>
 

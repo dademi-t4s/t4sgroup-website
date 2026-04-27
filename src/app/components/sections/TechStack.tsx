@@ -40,7 +40,7 @@ export default function TechStack() {
             style={{ background: 'rgba(255,255,255,0.06)' }}
           >
             {partners.map((p, i) => (
-              <Reveal key={p.name} mode="rise" delay={0.15 + i * 0.18}>
+              <Reveal key={p.name} mode="rise" delay={0.1 + i * 0.2}>
                 <div
                   className="px-8 py-12 flex flex-col items-center justify-center text-center h-full"
                   style={{

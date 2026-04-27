@@ -10,27 +10,33 @@ const N = 6000;
 function globeShape(): Float32Array {
   const a = new Float32Array(N * 3);
   const R = 1.7;
-  const latLines = 12;
-  const lonLines = 24;
-  const perLat = Math.floor((N * 0.45) / latLines);
-  const perLon = Math.floor((N * 0.4) / lonLines);
+  const latLines = 15; // parallels (incl. poles excluded — drawn at non-pole offsets)
+  const lonLines = 30; // meridians
+  const totalLines = latLines + lonLines;
+  // Distribute points uniformly across all lines so the wireframe is crisp
+  // and there's no random scatter creating "noise stars" on the sphere.
+  const perLine = Math.floor(N / totalLines);
   let k = 0;
+
+  // Parallels (latitude rings)
   for (let i = 0; i < latLines && k < N; i++) {
-    const phi = ((i + 0.5) / latLines) * Math.PI;
+    const phi = ((i + 1) / (latLines + 1)) * Math.PI; // skip the poles
     const y = Math.cos(phi) * R;
     const r = Math.sin(phi) * R;
-    for (let j = 0; j < perLat && k < N; j++) {
-      const theta = (j / perLat) * Math.PI * 2;
+    for (let j = 0; j < perLine && k < N; j++) {
+      const theta = (j / perLine) * Math.PI * 2;
       a[k * 3] = r * Math.cos(theta);
       a[k * 3 + 1] = y;
       a[k * 3 + 2] = r * Math.sin(theta);
       k++;
     }
   }
+
+  // Meridians (longitude lines from pole to pole)
   for (let i = 0; i < lonLines && k < N; i++) {
     const theta = (i / lonLines) * Math.PI * 2;
-    for (let j = 0; j < perLon && k < N; j++) {
-      const phi = (j / perLon) * Math.PI;
+    for (let j = 0; j < perLine && k < N; j++) {
+      const phi = (j / perLine) * Math.PI;
       const r = Math.sin(phi) * R;
       a[k * 3] = r * Math.cos(theta);
       a[k * 3 + 1] = Math.cos(phi) * R;
@@ -38,32 +44,74 @@ function globeShape(): Float32Array {
       k++;
     }
   }
+
+  // Top up any leftover points on the equator so we always reach N.
   while (k < N) {
-    const u = Math.random();
-    const v = Math.random();
-    const theta = u * Math.PI * 2;
-    const phi = Math.acos(2 * v - 1);
-    a[k * 3] = R * Math.sin(phi) * Math.cos(theta);
-    a[k * 3 + 1] = R * Math.cos(phi);
-    a[k * 3 + 2] = R * Math.sin(phi) * Math.sin(theta);
+    const theta = ((k - latLines * perLine - lonLines * perLine) / 50) *
+      Math.PI * 2;
+    a[k * 3] = R * Math.cos(theta);
+    a[k * 3 + 1] = 0;
+    a[k * 3 + 2] = R * Math.sin(theta);
     k++;
   }
   return a;
 }
 
-/* 1 — galaxy with 5 spiral arms (natural scatter wobble) */
+/* 1 — 4-rayed compass star with a dense central bulb (HorizonsIntro: "Quattro aree", Partners) */
 function galaxyShape(): Float32Array {
   const a = new Float32Array(N * 3);
-  const arms = 5;
-  for (let i = 0; i < N; i++) {
-    const t = i / N;
-    const arm = i % arms;
-    const r = Math.pow(t, 0.6) * 2.6;
-    const angle = (arm / arms) * Math.PI * 2 + t * 6;
-    const wobble = (Math.random() - 0.5) * 0.32;
-    a[i * 3] = Math.cos(angle) * r + wobble;
-    a[i * 3 + 1] = (Math.random() - 0.5) * 0.18 * (1 + r * 0.4);
-    a[i * 3 + 2] = Math.sin(angle) * r + wobble;
+  // 32% dense centre, 68% spread across 4 rays — overall reads as a tight
+  // bloom radiating in 4 cardinal directions, never as scattered dust.
+  const bulbPts = Math.floor(N * 0.32);
+  const rayBudget = N - bulbPts;
+  const rays: Array<[number, number]> = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
+  const perRay = Math.floor(rayBudget / rays.length);
+  const rayLen = 2.3;
+
+  let k = 0;
+
+  // Central bulb — dense Gaussian-ish sphere, slightly flattened
+  for (let i = 0; i < bulbPts && k < N; i++) {
+    const r = Math.pow(Math.random(), 1.4) * 0.6;
+    const u = Math.random() * Math.PI * 2;
+    const v = Math.acos(2 * Math.random() - 1);
+    a[k * 3] = r * Math.sin(v) * Math.cos(u);
+    a[k * 3 + 1] = r * Math.cos(v) * 0.45;
+    a[k * 3 + 2] = r * Math.sin(v) * Math.sin(u);
+    k++;
+  }
+
+  // 4 rays radiating from the centre, density tapering toward each tip
+  for (const [dx, dy] of rays) {
+    // perpendicular vector for ray-thickness
+    const nx = -dy;
+    const ny = dx;
+    for (let i = 0; i < perRay && k < N; i++) {
+      // sqrt distribution → denser near the centre, sparser at the tip
+      const t = Math.pow(Math.random(), 0.55);
+      const along = t * rayLen;
+      const taper = 1 - t * 0.7;
+      const perp = (Math.random() - 0.5) * 0.18 * taper;
+      a[k * 3] = dx * along + nx * perp;
+      a[k * 3 + 1] = dy * along + ny * perp;
+      a[k * 3 + 2] = (Math.random() - 0.5) * 0.18 * taper;
+      k++;
+    }
+  }
+
+  // Fill any leftover near the centre
+  while (k < N) {
+    const r = Math.random() * 0.1;
+    const ang = Math.random() * Math.PI * 2;
+    a[k * 3] = r * Math.cos(ang);
+    a[k * 3 + 1] = r * Math.sin(ang);
+    a[k * 3 + 2] = 0;
+    k++;
   }
   return a;
 }
@@ -418,6 +466,45 @@ function tilesShape(): Float32Array {
   return a;
 }
 
+/* 9 — three vertical pillars (Partners — "tre profili di cliente") */
+function pillarsShape(): Float32Array {
+  const a = new Float32Array(N * 3);
+  const cols = 3;
+  const W = 0.55; // pillar half-width
+  const H = 1.4;  // pillar half-height
+  const spacing = 1.7;
+  const perPillar = Math.floor(N / cols);
+
+  let k = 0;
+  for (let c = 0; c < cols && k < N; c++) {
+    const cx = (c - 1) * spacing;
+    let placed = 0;
+    let attempts = 0;
+    // Edge-biased rejection sampling so each pillar reads as a solid
+    // rectangle with crisp outline, like the other "card-shaped" phases.
+    while (placed < perPillar && attempts < perPillar * 6 && k < N) {
+      attempts++;
+      const x = (Math.random() - 0.5) * 2 * W;
+      const y = (Math.random() - 0.5) * 2 * H;
+      const dx = W - Math.abs(x);
+      const dy = H - Math.abs(y);
+      const distEdge = Math.min(dx, dy);
+      // Heavy outline + sparse interior for that "particle wireframe" feel
+      if (distEdge > 0.07 && Math.random() < 0.78) continue;
+      a[k * 3] = cx + x;
+      a[k * 3 + 1] = y;
+      a[k * 3 + 2] = (Math.random() - 0.5) * 0.4;
+      k++;
+      placed++;
+    }
+  }
+  while (k < N) {
+    a[k * 3] = a[k * 3 + 1] = a[k * 3 + 2] = 0;
+    k++;
+  }
+  return a;
+}
+
 export default function MorphParticles() {
   const pointsRef = useRef<THREE.Points>(null!);
 
@@ -434,6 +521,7 @@ export default function MorphParticles() {
       layeredDisksShape,
       gridShape,
       tilesShape,
+      pillarsShape, // 9 — Partners
     ];
     cache.current[i] = (fns[i] || fns[0])();
     return cache.current[i];
@@ -504,16 +592,27 @@ export default function MorphParticles() {
     return () => observer.disconnect();
   }, []);
 
+  // Track the global time at which the current phase started, so each new
+  // shape forms upright and the rotation only ramps in afterwards.
+  const phaseStartRef = useRef(0);
+  const lastPhaseSeenRef = useRef(-1);
+
   useFrame((state, delta) => {
     const target = getPhase(phaseRef.current) || getPhase(0);
     const cur = positions;
     const k = Math.min(1, delta * 2.6);
     const t = state.clock.elapsedTime;
 
-    // Per-particle drift around the target so the shape stays alive even
-    // after settling on a phase. Each particle has a unique sine phase
-    // derived from its index — gives organic wobble without burning CPU.
-    const J = 0.025; // jitter amplitude (world units)
+    // On phase change reset the local clock so rotation starts from zero.
+    if (lastPhaseSeenRef.current !== phaseRef.current) {
+      lastPhaseSeenRef.current = phaseRef.current;
+      phaseStartRef.current = t;
+    }
+    const tPhase = t - phaseStartRef.current;
+
+    // Per-particle drift around the target — uses global time so the
+    // background never feels static across phase transitions.
+    const J = 0.025;
     for (let i = 0; i < N; i++) {
       const i3 = i * 3;
       const px = i * 0.71;
@@ -530,11 +629,16 @@ export default function MorphParticles() {
     (geom.attributes.position as THREE.BufferAttribute).needsUpdate = true;
 
     if (pointsRef.current) {
-      // Continuous slow Z-spin (works for 2D and 3D — stays in screen plane)
-      // plus oscillating wobble on X/Y for breathing depth.
-      pointsRef.current.rotation.z = t * 0.025;
-      pointsRef.current.rotation.y = Math.sin(t * 0.13) * 0.10;
-      pointsRef.current.rotation.x = Math.sin(t * 0.10) * 0.045;
+      // Ease-in over ~2.2s after each phase change so the shape forms
+      // upright and the rotation gradually picks up from zero.
+      const ramp = Math.min(1, tPhase / 2.2);
+      const ease = ramp * ramp * (3 - 2 * ramp); // smoothstep
+      // Continuous slow rotation around the vertical (Y) axis — the shape
+      // spins on its own axis like a turntable, not in a flat screen-plane
+      // circle. Tiny X nod adds breathing.
+      pointsRef.current.rotation.y = tPhase * 0.025 * ease;
+      pointsRef.current.rotation.x = Math.sin(tPhase * 0.10) * 0.04 * ease;
+      pointsRef.current.rotation.z = 0;
     }
   });
 

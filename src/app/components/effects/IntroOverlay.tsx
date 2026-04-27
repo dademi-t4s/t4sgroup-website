@@ -14,10 +14,20 @@ export default function IntroOverlay() {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
+    // Always start the experience at the top after a refresh — disable
+    // the browser's automatic scroll restoration and snap to (0, 0).
+    if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
     document.body.style.overflow = 'hidden';
     const t = setTimeout(() => {
       setShow(false);
       document.body.style.overflow = '';
+      // Re-pin the scroll right as the intro lifts so any restore that
+      // sneaked through the lock gets overridden.
+      window.scrollTo(0, 0);
       // Notify the rest of the app intro finished
       window.dispatchEvent(new Event('intro-done'));
     }, 2600);

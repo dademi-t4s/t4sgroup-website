@@ -88,11 +88,19 @@ export default function CameraRig() {
     const zoomTarget = ZOOM_PER_PHASE[phaseRef.current] ?? 0;
     zoomRef.current += (zoomTarget - zoomRef.current) * Math.min(1, delta * 1.1);
 
+    // Auto-fit base distance: on portrait / narrow viewports we need to be
+    // further back so the largest shape (~radius 1.7) still fits horizontally.
+    const persp = camera as THREE.PerspectiveCamera;
+    const aspect = size.width / Math.max(1, size.height);
+    const halfFovTan = Math.tan(((persp.fov ?? 38) * Math.PI) / 360);
+    const desiredHalfWidth = 2.0; // give the globe ~15 % margin on each side
+    const fitZ = desiredHalfWidth / (halfFovTan * aspect);
+    const baseZ = Math.max(6.0, fitZ);
+
     const tx = pointer.current.x * 0.5;
     const ty = -pointer.current.y * 0.3;
-    // Stronger global scroll dolly so the page reads as a continuous "approach"
     const tz =
-      6.0 -
+      baseZ -
       progress * 2.4 +
       zoomRef.current +
       Math.sin(state.clock.elapsedTime * 0.25) * 0.04;

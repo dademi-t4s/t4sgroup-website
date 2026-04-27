@@ -22,7 +22,7 @@ const items = [
 
 export default function Partners() {
   return (
-    <section id="partners" data-phase={1} className="relative">
+    <section id="partners" data-phase={9} className="relative">
       <div className="ic-fh-section">
         <div className="max-w-[1400px] mx-auto w-full">
           <Reveal mode="rise" className="text-center">

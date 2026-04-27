@@ -33,10 +33,16 @@
     background: rgba(239, 68, 68, 0.45);
     color: #fff;
   }
-  /* On touch devices, soften the snap so finger inertia isn't fought */
-  @media (pointer: coarse) {
+  /* Touch / small viewports: drop snap-scroll entirely so finger inertia
+     and animations can run naturally; section reveals still trigger via
+     IntersectionObserver. */
+  @media (pointer: coarse), (max-width: 768px) {
     html {
-      scroll-snap-type: y proximity;
+      scroll-snap-type: none;
+    }
+    section[data-phase] {
+      scroll-snap-align: none;
+      scroll-snap-stop: normal;
     }
   }
 }
@@ -84,9 +90,22 @@
     padding: 8vh 6vw;
     position: relative;
   }
-  @media (max-width: 640px) {
+  /* Mobile: keep full-viewport sections so each block (hero included)
+     occupies its own screen and the 3D scene has room to breathe. */
+  @media (max-width: 768px) {
     .ic-fh-section {
-      padding: 12vh 5vw;
+      min-height: 100svh;
+      padding: 12vh 5vw 8vh;
+    }
+    .ic-typ-h1 {
+      font-size: clamp(2.4rem, 10vw, 4rem);
+      line-height: 1.04;
+    }
+    .ic-typ-h2 {
+      font-size: clamp(1.8rem, 7.5vw, 3rem);
+    }
+    .ic-typ-p {
+      font-size: 1rem;
     }
   }
   .ic-scroll-filler {

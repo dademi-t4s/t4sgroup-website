@@ -2,13 +2,25 @@
 
 import { Canvas } from '@react-three/fiber';
 import { AdaptiveDpr, AdaptiveEvents } from '@react-three/drei';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import SceneBackdrop from './SceneBackdrop';
 import MorphParticles from './MorphParticles';
 import CameraRig from './CameraRig';
 
 export default function MainCanvas() {
+  // Mobile / touch devices get a lower DPR cap so the GPU has fewer pixels
+  // to fill — keeps the particle scene smooth on phones.
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const m = window.matchMedia('(pointer: coarse), (max-width: 768px)');
+    const update = () => setIsMobile(m.matches);
+    update();
+    m.addEventListener('change', update);
+    return () => m.removeEventListener('change', update);
+  }, []);
+
   return (
     <div
       aria-hidden
@@ -22,10 +34,9 @@ export default function MainCanvas() {
           powerPreference: 'high-performance',
           toneMapping: THREE.ACESFilmicToneMapping,
         }}
-        // Cap DPR at 1.5 — on 4K/Retina the native devicePixelRatio is 2-3
-        // which means rendering 4× more pixels for marginal visual gain.
-        // 1.5 looks indistinguishable from 2 but keeps the GPU cool.
-        dpr={[1, 1.5]}
+        // Mobile DPR ≤ 1.1 (huge fillrate saving on 3× retina phones).
+        // Desktop DPR cap stays at 1.5 — crisp on 4K without over-rendering.
+        dpr={isMobile ? [1, 1.1] : [1, 1.5]}
         camera={{ position: [0, 0, 5.6], fov: 38 }}
       >
         <Suspense fallback={null}>

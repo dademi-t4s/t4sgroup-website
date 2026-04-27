@@ -4,7 +4,7 @@ import Reveal from '../ui/Reveal';
 
 const people = [
   {
-    name: 'Devi Ademi',
+    name: 'Deiv Ademi',
     phone: '+41 76 793 08 88',
     phoneHref: 'tel:+41767930888',
     email: 'dademi@t4sgroup.com',
