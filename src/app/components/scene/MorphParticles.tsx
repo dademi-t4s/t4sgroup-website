@@ -539,17 +539,23 @@ export default function MorphParticles() {
 
   const sprite = useMemo(() => {
     const c = document.createElement('canvas');
-    c.width = c.height = 64;
+    // Higher canvas resolution = sharper sprite when scaled up on screen
+    c.width = c.height = 128;
     const ctx = c.getContext('2d')!;
-    const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-    g.addColorStop(0, 'rgba(255,250,245,1)');
-    g.addColorStop(0.25, 'rgba(254,205,211,0.9)');
-    g.addColorStop(0.55, 'rgba(239,68,68,0.55)');
+    const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    // Punchier gradient: bright warm-white core that holds, denser blush
+    // ring, hotter ember falloff. Reads as "vivid red glow" on every screen
+    // size — no more washed-out particles on small/low-DPR displays.
+    g.addColorStop(0, 'rgba(255,235,225,1)');
+    g.addColorStop(0.18, 'rgba(254,180,180,1)');
+    g.addColorStop(0.45, 'rgba(239,90,90,0.85)');
+    g.addColorStop(0.7, 'rgba(180,30,40,0.4)');
     g.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.fillStyle = g;
-    ctx.fillRect(0, 0, 64, 64);
+    ctx.fillRect(0, 0, 128, 128);
     const tex = new THREE.CanvasTexture(c);
     tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 4;
     return tex;
   }, []);
 
@@ -649,11 +655,13 @@ export default function MorphParticles() {
       </bufferGeometry>
       <pointsMaterial
         map={sprite}
-        color="#ffd1cf"
-        size={0.045}
+        // Brighter warm-pink tint — gives the additive sprites more
+        // saturation on every screen, especially small / low-DPR ones.
+        color="#ffb4ad"
+        size={0.052}
         sizeAttenuation
         transparent
-        opacity={0.95}
+        opacity={1}
         depthWrite={false}
         blending={THREE.AdditiveBlending}
         toneMapped={false}
