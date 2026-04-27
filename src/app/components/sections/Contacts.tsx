@@ -272,7 +272,7 @@ export default function Contacts() {
             <p className="ic-typ-p--small">
               © {new Date().getFullYear()} T4S Group®. All rights reserved.
               <br />
-              Transparency by design. Engineering for impact.
+              P. IVA CHE-172.693.419 · Transparency by design.
             </p>
             <div className="flex items-center gap-6 text-[0.8rem] text-white/55">
               <a href="#" className="hover:text-white transition-colors">
