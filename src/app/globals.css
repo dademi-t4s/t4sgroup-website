@@ -40,6 +40,20 @@
   [role='button'] {
     cursor: none;
   }
+
+  /* On touch devices restore the native cursor / behaviour and disable
+     mandatory snap (which can fight finger inertia) */
+  @media (pointer: coarse) {
+    html {
+      scroll-snap-type: y proximity;
+    }
+    body,
+    a,
+    button,
+    [role='button'] {
+      cursor: auto;
+    }
+  }
 }
 
 /* ========== Editorial typography (Infracorp-style) ========== */
@@ -84,6 +98,11 @@
     justify-content: center;
     padding: 8vh 6vw;
     position: relative;
+  }
+  @media (max-width: 640px) {
+    .ic-fh-section {
+      padding: 12vh 5vw;
+    }
   }
   .ic-scroll-filler {
     min-height: 90svh;
