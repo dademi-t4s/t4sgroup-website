@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import IntroOverlay from './components/effects/IntroOverlay';
-import CustomCursor from './components/effects/CustomCursor';
+import CursorGlow from './components/effects/CursorGlow';
 import Header from './components/effects/Header';
 import MainCanvas from './components/scene/MainCanvas';
 
@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="it" className={inter.variable}>
       <body className="bg-bg text-white/70 font-sans relative">
         <IntroOverlay />
-        <CustomCursor />
+        <CursorGlow />
         <MainCanvas />
         <Header />
         <div className="relative z-10">{children}</div>

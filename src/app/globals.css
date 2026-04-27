@@ -23,7 +23,6 @@
   body {
     @apply bg-bg text-white/70 font-sans antialiased;
     overflow-x: hidden;
-    cursor: none;
   }
   /* Each top-level section becomes a snap stop */
   section[data-phase] {
@@ -34,24 +33,10 @@
     background: rgba(239, 68, 68, 0.45);
     color: #fff;
   }
-  /* Default to no native cursor; CustomCursor draws its own */
-  a,
-  button,
-  [role='button'] {
-    cursor: none;
-  }
-
-  /* On touch devices restore the native cursor / behaviour and disable
-     mandatory snap (which can fight finger inertia) */
+  /* On touch devices, soften the snap so finger inertia isn't fought */
   @media (pointer: coarse) {
     html {
       scroll-snap-type: y proximity;
-    }
-    body,
-    a,
-    button,
-    [role='button'] {
-      cursor: auto;
     }
   }
 }

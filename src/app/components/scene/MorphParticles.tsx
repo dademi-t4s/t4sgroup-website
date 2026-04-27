@@ -513,15 +513,15 @@ export default function MorphParticles() {
     // Per-particle drift around the target so the shape stays alive even
     // after settling on a phase. Each particle has a unique sine phase
     // derived from its index — gives organic wobble without burning CPU.
-    const J = 0.013; // jitter amplitude (world units)
+    const J = 0.025; // jitter amplitude (world units)
     for (let i = 0; i < N; i++) {
       const i3 = i * 3;
       const px = i * 0.71;
       const py = i * 1.37;
       const pz = i * 0.93;
-      const tx = target[i3] + Math.sin(t * 0.55 + px) * J;
-      const ty = target[i3 + 1] + Math.sin(t * 0.48 + py) * J;
-      const tz = target[i3 + 2] + Math.sin(t * 0.62 + pz) * J;
+      const tx = target[i3] + Math.sin(t * 0.65 + px) * J;
+      const ty = target[i3 + 1] + Math.sin(t * 0.55 + py) * J;
+      const tz = target[i3 + 2] + Math.sin(t * 0.75 + pz) * J;
       cur[i3] += (tx - cur[i3]) * k;
       cur[i3 + 1] += (ty - cur[i3 + 1]) * k;
       cur[i3 + 2] += (tz - cur[i3 + 2]) * k;
@@ -530,11 +530,11 @@ export default function MorphParticles() {
     (geom.attributes.position as THREE.BufferAttribute).needsUpdate = true;
 
     if (pointsRef.current) {
-      // Multi-axis subtle group rotation (Y/X/Z) so even 2D shapes feel
-      // alive without ever turning their back to the camera.
+      // Continuous slow Z-spin (works for 2D and 3D — stays in screen plane)
+      // plus oscillating wobble on X/Y for breathing depth.
+      pointsRef.current.rotation.z = t * 0.025;
       pointsRef.current.rotation.y = Math.sin(t * 0.13) * 0.10;
       pointsRef.current.rotation.x = Math.sin(t * 0.10) * 0.045;
-      pointsRef.current.rotation.z = Math.sin(t * 0.07) * 0.04;
     }
   });
 
