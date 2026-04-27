@@ -10,10 +10,16 @@ const iconUrl = (icon: string, color?: string) =>
     : `https://api.iconify.design/${icon}.svg`;
 
 const partners: Partner[] = [
-  { icon: 'logos:salesforce', name: 'Salesforce', tier: 'Implementation Partner' },
-  { icon: 'logos:hubspot', name: 'HubSpot', tier: 'Solutions Partner' },
-  { icon: 'logos:microsoft', name: 'Microsoft', tier: 'Cloud Solution Provider' },
-  { icon: 'logos:tableau', name: 'Tableau', tier: 'Visualization Partner' },
+  { icon: 'logos:salesforce', name: 'Salesforce', tier: 'CRM Implementation' },
+  { icon: 'logos:hubspot', name: 'HubSpot', tier: 'Marketing Automation' },
+  {
+    icon: 'simple-icons:mulesoft',
+    name: 'MuleSoft',
+    color: '00A0DF',
+    tier: 'Integration & API',
+  },
+  { icon: 'logos:tableau', name: 'Tableau', tier: 'Data Visualization' },
+  { icon: 'logos:anthropic', name: 'Anthropic', tier: 'AI Integration' },
 ];
 
 export default function TechStack() {
@@ -36,11 +42,22 @@ export default function TechStack() {
           </Reveal>
 
           <div
-            className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-px rounded-xl overflow-hidden"
+            className="mt-20 grid grid-cols-2 md:grid-cols-5 gap-px rounded-xl overflow-hidden"
             style={{ background: 'rgba(255,255,255,0.06)' }}
           >
             {partners.map((p, i) => (
-              <Reveal key={p.name} mode="rise" delay={0.1 + i * 0.2}>
+              <Reveal
+                key={p.name}
+                mode="rise"
+                delay={0.1 + i * 0.2}
+                className={
+                  // Last odd item spans both mobile columns so it doesn't sit
+                  // alone — on desktop it's a single column like the others.
+                  i === partners.length - 1 && partners.length % 2 === 1
+                    ? 'col-span-2 md:col-span-1'
+                    : ''
+                }
+              >
                 <div
                   className="px-8 py-12 flex flex-col items-center justify-center text-center h-full"
                   style={{

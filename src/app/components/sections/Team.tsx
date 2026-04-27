@@ -11,7 +11,7 @@ const team = [
   {
     role: 'Solution Architects',
     body:
-      'Architetture CRM, cloud e dati. Certificati Salesforce CTA, HubSpot Solutions, AWS Solutions Architect Professional, Microsoft Azure Solutions Architect Expert.',
+      'Architetture CRM, cloud e dati. Esperienza diretta su Salesforce, HubSpot, AWS e Microsoft Azure su programmi enterprise pluriennali.',
   },
   {
     role: 'Delivery & Program Managers',
