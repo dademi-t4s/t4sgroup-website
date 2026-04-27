@@ -34,9 +34,9 @@ export default function MainCanvas() {
           powerPreference: 'high-performance',
           toneMapping: THREE.ACESFilmicToneMapping,
         }}
-        // Mobile DPR ≤ 1.1 (huge fillrate saving on 3× retina phones).
-        // Desktop DPR cap stays at 1.5 — crisp on 4K without over-rendering.
-        dpr={isMobile ? [1, 1.1] : [1, 1.5]}
+        // Mobile DPR up to 2 → crisp on retina phones (was 1.1, looked
+        // pixelated). Desktop stays at 1.5 — already fluid on 4K.
+        dpr={isMobile ? [1, 2] : [1, 1.5]}
         camera={{ position: [0, 0, 5.6], fov: 38 }}
       >
         <Suspense fallback={null}>
