@@ -179,107 +179,92 @@ function chipShape(): Float32Array {
   return a;
 }
 
-/* 4 — padlock (closed): rounded body + half-annulus shackle + keyhole */
+/* 4 — heater shield (Cybersecurity) — rounded top, tapered point */
 function padlockShape(): Float32Array {
   const a = new Float32Array(N * 3);
 
-  // Body — rounded rectangle, slightly taller than wide
-  const bodyW = 1.0;
-  const bodyH = 0.92;
-  const bodyCy = -0.45;
-  const cornerR = 0.2;
+  // Shield silhouette parameters
+  const W = 1.15;
+  const yTop = 1.35;
+  const yBot = -1.45;
+  const yShoulder = 0.55; // where rounded top transitions into straight body
+  const yWaist = -0.45; // where body starts tapering toward the point
 
-  // Shackle — half-annulus sitting on body top
-  const shackleR = 0.58;
-  const shackleStroke = 0.18;
-  const shackleBaseY = bodyCy + bodyH;
-
-  // Keyhole — circle + tapered slot
-  const khR = 0.13;
-  const khSlot = 0.3;
-  const khCy = bodyCy + 0.18;
-
-  // Inside-rounded-rectangle test
-  const inBody = (x: number, y: number) => {
+  // Inside-shield test (rounded arch + straight body + tapered tip)
+  const inside = (x: number, y: number) => {
+    if (y > yTop || y < yBot) return false;
     const ax = Math.abs(x);
-    const ay = Math.abs(y - bodyCy);
-    if (ax > bodyW || ay > bodyH) return false;
-    const dx = ax - (bodyW - cornerR);
-    const dy = ay - (bodyH - cornerR);
-    if (dx > 0 && dy > 0) return dx * dx + dy * dy < cornerR * cornerR;
-    return true;
+    if (y >= yShoulder) {
+      // Top arch — half-ellipse
+      const t = (y - yShoulder) / (yTop - yShoulder);
+      const allowed = W * Math.sqrt(Math.max(0, 1 - t * t));
+      return ax <= allowed;
+    }
+    if (y >= yWaist) {
+      // Mid body — full width
+      return ax <= W;
+    }
+    // Bottom — taper to point with a slight curve
+    const u = (yWaist - y) / (yWaist - yBot); // 0..1
+    const allowed = W * (1 - u) * (1 - 0.25 * u);
+    return ax <= allowed;
   };
 
-  // Inside-keyhole test (circle ∪ tapered slot)
-  const inKeyhole = (x: number, y: number) => {
-    const dx = x;
-    const dy = y - khCy;
-    if (dx * dx + dy * dy < khR * khR) return true;
-    const slotTop = khCy;
-    const slotBot = khCy - khSlot;
-    if (y < slotTop && y > slotBot) {
-      const u = (slotTop - y) / khSlot;
-      const halfW = khR * (1 - u * 0.5);
-      if (Math.abs(x) < halfW) return true;
+  // Inner emblem: a small "checkmark" shape rendered as two short
+  // line segments (sloped down then up).
+  const onCheckmark = (x: number, y: number) => {
+    // Two segments: (-0.32, 0.05) → (-0.05, -0.18) → (0.40, 0.32)
+    const segs: [number, number, number, number][] = [
+      [-0.32, 0.05, -0.05, -0.18],
+      [-0.05, -0.18, 0.4, 0.32],
+    ];
+    for (const [x1, y1, x2, y2] of segs) {
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const lenSq = dx * dx + dy * dy;
+      const t = ((x - x1) * dx + (y - y1) * dy) / lenSq;
+      if (t < 0 || t > 1) continue;
+      const px = x1 + t * dx;
+      const py = y1 + t * dy;
+      const ddx = x - px;
+      const ddy = y - py;
+      if (ddx * ddx + ddy * ddy < 0.04 * 0.04) return true;
     }
     return false;
   };
 
-  // Inside-shackle (half-annulus, plus a thin overlap into the body so the
-  // arc visually anchors to the body top)
-  const inShackle = (x: number, y: number) => {
-    const dx = x;
-    const dy = y - shackleBaseY;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    return (
-      dist >= shackleR - shackleStroke &&
-      dist <= shackleR &&
-      y >= shackleBaseY - shackleStroke * 0.4
-    );
-  };
-
-  // Allocations: 60% body, 38% shackle, 2% explicit keyhole ring for clarity.
-  const bodyPts = Math.floor(N * 0.6);
-  const shacklePts = Math.floor(N * 0.38);
-  const khRingPts = N - bodyPts - shacklePts;
-
+  // 70% body fill, 30% emphasised checkmark
+  const bodyPts = Math.floor(N * 0.7);
+  const checkPts = N - bodyPts;
   let k = 0;
 
-  // 1. Uniform body fill (rounded rect minus keyhole)
+  // 1. Uniform fill of shield silhouette
   let attempts = 0;
   while (k < bodyPts && attempts < bodyPts * 10) {
     attempts++;
-    const x = (Math.random() - 0.5) * 2 * bodyW;
-    const y = bodyCy + (Math.random() - 0.5) * 2 * bodyH;
-    if (!inBody(x, y) || inKeyhole(x, y)) continue;
+    const x = (Math.random() - 0.5) * 2.5;
+    const y = yBot + Math.random() * (yTop - yBot);
+    if (!inside(x, y)) continue;
+    // Skip points where the checkmark sits — punches the emblem out
+    if (onCheckmark(x, y)) continue;
     a[k * 3] = x;
     a[k * 3 + 1] = y;
-    a[k * 3 + 2] = (Math.random() - 0.5) * 0.18;
+    a[k * 3 + 2] = (Math.random() - 0.5) * 0.32;
     k++;
   }
 
-  // 2. Uniform shackle fill (half-annulus)
-  attempts = 0;
-  let placed = 0;
-  while (placed < shacklePts && attempts < shacklePts * 12 && k < N) {
-    attempts++;
-    const x = (Math.random() - 0.5) * 2 * shackleR;
-    const y = shackleBaseY + Math.random() * (shackleR + shackleStroke);
-    if (!inShackle(x, y)) continue;
-    a[k * 3] = x;
-    a[k * 3 + 1] = y;
-    a[k * 3 + 2] = (Math.random() - 0.5) * 0.14;
-    k++;
-    placed++;
-  }
-
-  // 3. Explicit keyhole circle ring — emphasises the hole
-  for (let i = 0; i < khRingPts && k < N; i++) {
-    const angle = (i / khRingPts) * Math.PI * 2;
-    const rr = khR + (Math.random() - 0.5) * 0.018;
-    a[k * 3] = Math.cos(angle) * rr + (Math.random() - 0.5) * 0.008;
-    a[k * 3 + 1] = khCy + Math.sin(angle) * rr;
-    a[k * 3 + 2] = (Math.random() - 0.5) * 0.1;
+  // 2. Dense checkmark — points along the two segments
+  for (let i = 0; i < checkPts && k < N; i++) {
+    const segs: [number, number, number, number][] = [
+      [-0.32, 0.05, -0.05, -0.18],
+      [-0.05, -0.18, 0.4, 0.32],
+    ];
+    // Distribute 40% on first segment, 60% on second (which is longer)
+    const seg = i < checkPts * 0.4 ? segs[0] : segs[1];
+    const t = Math.random();
+    a[k * 3] = seg[0] + (seg[2] - seg[0]) * t + (Math.random() - 0.5) * 0.025;
+    a[k * 3 + 1] = seg[1] + (seg[3] - seg[1]) * t + (Math.random() - 0.5) * 0.025;
+    a[k * 3 + 2] = (Math.random() - 0.5) * 0.12;
     k++;
   }
 
