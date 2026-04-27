@@ -11,31 +11,38 @@ import { asset } from '@/lib/asset';
  * uncover the site.
  */
 export default function IntroOverlay() {
-  const [show, setShow] = useState(true);
+  // Skip the intro entirely when the user is returning from the Salesforce
+  // Web-to-Lead redirect (?lead=ok) — that way the thank-you card in the
+  // contacts section is visible immediately without a 2.6 s wait.
+  const isLeadReturn =
+    typeof window !== 'undefined' &&
+    new URLSearchParams(window.location.search).get('lead') === 'ok';
+  const [show, setShow] = useState(!isLeadReturn);
 
   useEffect(() => {
-    // Always start the experience at the top after a refresh — disable
-    // the browser's automatic scroll restoration and snap to (0, 0).
     if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
+    if (isLeadReturn) {
+      // Don't touch scroll — let the browser respect the #contacts hash
+      // so the thank-you card lands in view.
+      window.dispatchEvent(new Event('intro-done'));
+      return;
+    }
+    // Normal first paint: pin to top and lock scroll for the intro.
     window.scrollTo(0, 0);
-
     document.body.style.overflow = 'hidden';
     const t = setTimeout(() => {
       setShow(false);
       document.body.style.overflow = '';
-      // Re-pin the scroll right as the intro lifts so any restore that
-      // sneaked through the lock gets overridden.
       window.scrollTo(0, 0);
-      // Notify the rest of the app intro finished
       window.dispatchEvent(new Event('intro-done'));
     }, 2600);
     return () => {
       clearTimeout(t);
       document.body.style.overflow = '';
     };
-  }, []);
+  }, [isLeadReturn]);
 
   return (
     <AnimatePresence>

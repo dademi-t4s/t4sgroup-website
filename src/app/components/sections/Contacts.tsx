@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Reveal from '../ui/Reveal';
 
 const people = [
@@ -21,6 +22,20 @@ const inputClass =
   'w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-[0.95rem] text-white placeholder-white/35 outline-none focus:border-white/30 focus:bg-white/[0.05] transition-colors';
 
 export default function Contacts() {
+  // Salesforce Web-to-Lead redirects back with ?lead=ok after a successful
+  // submission. Detect it on mount and swap the form for a thank-you card.
+  // We also strip the query param so a refresh shows the form again.
+  const [submitted, setSubmitted] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('lead') === 'ok') {
+      setSubmitted(true);
+      const cleanUrl = window.location.pathname + '#contacts';
+      window.history.replaceState({}, '', cleanUrl);
+    }
+  }, []);
+
   return (
     <section id="contacts" data-phase={0} className="relative">
       <div className="ic-fh-section" style={{ paddingBottom: '4vh' }}>
@@ -88,7 +103,59 @@ export default function Contacts() {
             ))}
           </div>
 
-          {/* Salesforce Web-to-Lead — same configuration as t4sgroup.com */}
+          {submitted ? (
+            // Thank-you card shown after Salesforce returns ?lead=ok
+            <Reveal mode="rise">
+              <div
+                className="mt-20 max-w-[860px] mx-auto text-center p-10 md:p-14 rounded-2xl glass-border"
+                style={{
+                  background:
+                    'linear-gradient(180deg, rgba(20,7,7,0.55), rgba(8,4,5,0.45))',
+                  backdropFilter: 'blur(14px)',
+                  WebkitBackdropFilter: 'blur(14px)',
+                }}
+              >
+                <div
+                  aria-hidden
+                  className="mx-auto mb-7 flex items-center justify-center w-16 h-16 rounded-full"
+                  style={{
+                    background:
+                      'linear-gradient(135deg, rgba(239,68,68,0.95), rgba(127,29,29,0.95))',
+                    boxShadow:
+                      '0 12px 40px -8px rgba(239,68,68,0.55), inset 0 1px 0 rgba(255,255,255,0.22)',
+                  }}
+                >
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg>
+                </div>
+                <h3
+                  className="text-white"
+                  style={{
+                    fontWeight: 500,
+                    fontSize: '1.6rem',
+                    letterSpacing: '-0.015em',
+                  }}
+                >
+                  Grazie, abbiamo ricevuto la tua richiesta.
+                </h3>
+                <p className="ic-typ-p--small mt-4 mx-auto max-w-[52ch]">
+                  Ti ricontatteremo in giornata all&apos;email che hai
+                  indicato. Nel frattempo se preferisci anticipare scrivici
+                  direttamente o chiamaci ai contatti qui sopra.
+                </p>
+              </div>
+            </Reveal>
+          ) : (
           <Reveal mode="rise" delay={0.2}>
             <form
               id="leadForm"
@@ -106,7 +173,7 @@ export default function Contacts() {
               <input
                 type="hidden"
                 name="retURL"
-                value="https://www.t4sgroup.com/?lead=ok#contatti"
+                value="https://www.t4sgroup.com/?lead=ok#contacts"
               />
               <input type="hidden" name="lead_source" value="Web" />
 
@@ -251,6 +318,7 @@ export default function Contacts() {
               </div>
             </form>
           </Reveal>
+          )}
 
           <Reveal mode="rise" delay={0.3}>
             <div className="mt-12 flex justify-center">
