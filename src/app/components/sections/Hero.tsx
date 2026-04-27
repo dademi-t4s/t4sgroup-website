@@ -36,11 +36,10 @@ export default function Hero() {
             className="mt-10 max-w-[640px]"
           >
             <p className="ic-typ-p">
-              T4S Group® è una società svizzera di consulenza tecnologica
-              specializzata in CRM enterprise, integrazione dati e sistemi AI
-              applicati. Affianchiamo PMI e gruppi industriali nel progettare,
-              implementare e adottare le piattaforme su cui passa il loro
-              business.
+              T4S Group® è una società svizzera di consulenza tecnologica al
+              servizio delle PMI. Implementiamo CRM, integrazioni dati e
+              sistemi AI applicati su misura dei processi reali — soluzioni
+              concrete, scalabili e senza vendor-lock.
             </p>
 
             <a href="#horizons" className="ic-btn mt-8 inline-flex">
