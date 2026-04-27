@@ -30,7 +30,7 @@ export default function T4SCore() {
 
           <div className="mt-16 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
             {layers.map((l, i) => (
-              <Reveal key={l.n} delay={i * 0.06}>
+              <Reveal key={l.n} mode="rise" delay={i * 0.16}>
                 <div
                   className="rounded-lg p-5 h-full"
                   style={{

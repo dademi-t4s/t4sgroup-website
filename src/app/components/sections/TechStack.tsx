@@ -35,15 +35,14 @@ export default function TechStack() {
             </p>
           </Reveal>
 
-          <Reveal mode="rise" delay={0.15}>
-            <div
-              className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-px rounded-xl overflow-hidden"
-              style={{ background: 'rgba(255,255,255,0.06)' }}
-            >
-              {partners.map((p) => (
+          <div
+            className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-px rounded-xl overflow-hidden"
+            style={{ background: 'rgba(255,255,255,0.06)' }}
+          >
+            {partners.map((p, i) => (
+              <Reveal key={p.name} mode="rise" delay={0.15 + i * 0.18}>
                 <div
-                  key={p.name}
-                  className="px-8 py-12 flex flex-col items-center justify-center text-center"
+                  className="px-8 py-12 flex flex-col items-center justify-center text-center h-full"
                   style={{
                     background:
                       'linear-gradient(180deg, rgba(20,7,7,0.55), rgba(8,4,5,0.45))',
@@ -65,9 +64,9 @@ export default function TechStack() {
                     {p.tier}
                   </div>
                 </div>
-              ))}
-            </div>
-          </Reveal>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>

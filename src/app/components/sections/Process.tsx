@@ -60,7 +60,7 @@ export default function Process() {
           <div className="ic-process-row">
             {phases.map((p, i) => (
               <Fragment key={p.title}>
-                <Reveal mode="rise" delay={i * 0.1}>
+                <Reveal mode="rise" delay={i * 0.22}>
                   <div className="ic-card">
                     <div className="ic-card-content">
                       <h3>{p.title}</h3>

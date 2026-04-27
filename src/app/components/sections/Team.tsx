@@ -52,7 +52,7 @@ export default function Team() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-14">
             {team.map((p, i) => (
-              <Reveal mode="rise" key={p.role} delay={(i % 3) * 0.08}>
+              <Reveal mode="rise" key={p.role} delay={i * 0.13}>
                 <div className="ic-card h-full">
                   <div className="ic-card-content">
                     <h3 style={{ fontWeight: 500, fontSize: '1.15rem' }}>

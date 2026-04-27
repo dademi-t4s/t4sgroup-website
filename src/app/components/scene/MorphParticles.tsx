@@ -519,15 +519,35 @@ export default function MorphParticles() {
     return () => observer.disconnect();
   }, []);
 
+  // Track whether positions are still changing — once we're effectively at
+  // the target we can skip both the lerp and the GPU buffer upload, which
+  // saves a lot of bandwidth on 4K screens.
+  const settledRef = useRef(false);
+  const lastPhaseRef = useRef(-1);
+
   useFrame((state, delta) => {
     const target = getPhase(phaseRef.current) || getPhase(0);
-    const cur = positions;
-    const k = Math.min(1, delta * 2.6);
-    for (let i = 0; i < N * 3; i++) {
-      cur[i] += (target[i] - cur[i]) * k;
+    if (lastPhaseRef.current !== phaseRef.current) {
+      settledRef.current = false;
+      lastPhaseRef.current = phaseRef.current;
     }
-    const geom = pointsRef.current.geometry as THREE.BufferGeometry;
-    (geom.attributes.position as THREE.BufferAttribute).needsUpdate = true;
+
+    if (!settledRef.current) {
+      const cur = positions;
+      const k = Math.min(1, delta * 2.6);
+      let maxDiff = 0;
+      const len = N * 3;
+      for (let i = 0; i < len; i++) {
+        const diff = target[i] - cur[i];
+        const abs = diff < 0 ? -diff : diff;
+        if (abs > maxDiff) maxDiff = abs;
+        cur[i] += diff * k;
+      }
+      const geom = pointsRef.current.geometry as THREE.BufferGeometry;
+      (geom.attributes.position as THREE.BufferAttribute).needsUpdate = true;
+      // Below this threshold the visual difference is imperceptible.
+      if (maxDiff < 0.001) settledRef.current = true;
+    }
 
     if (pointsRef.current) {
       const t = state.clock.elapsedTime;

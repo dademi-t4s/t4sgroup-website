@@ -40,7 +40,7 @@ export default function Partners() {
 
           <div className="ic-card-wrapper">
             {items.map((it, i) => (
-              <Reveal mode="rise" key={it.title} delay={i * 0.12}>
+              <Reveal mode="rise" key={it.title} delay={i * 0.22}>
                 <div className="ic-card">
                   <div className="ic-card-content">
                     <h3>{it.title}</h3>

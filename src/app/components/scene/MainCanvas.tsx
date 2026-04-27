@@ -22,7 +22,10 @@ export default function MainCanvas() {
           powerPreference: 'high-performance',
           toneMapping: THREE.ACESFilmicToneMapping,
         }}
-        dpr={[1, 1.8]}
+        // Cap DPR at 1.5 — on 4K/Retina the native devicePixelRatio is 2-3
+        // which means rendering 4× more pixels for marginal visual gain.
+        // 1.5 looks indistinguishable from 2 but keeps the GPU cool.
+        dpr={[1, 1.5]}
         camera={{ position: [0, 0, 5.6], fov: 38 }}
       >
         <Suspense fallback={null}>
