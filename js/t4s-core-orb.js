@@ -214,13 +214,21 @@ function init() {
   // Transizione → T4S Core: scivola in basso E al CENTRO orizzontale.
   // Su T4S Core: CENTRATA orizzontalmente, mezzo-tagliata in basso
   // (Infracorp half-cut classico).
+  // Fattore mobile: ridimensiona la palla in base alla larghezza viewport.
+  // Su mobile (≤480px) la palla è ~50% più piccola; transizione lineare
+  // fino a 1024px dove ritorna a scala 1.0.
+  function mobileScale(vw) {
+    if (vw >= 1024) return 1.0;
+    if (vw <= 480) return 0.5;
+    return 0.5 + ((vw - 480) / (1024 - 480)) * 0.5;
+  }
+
   function leftX(vw, vh) {
+    // Su viewport stretto (mobile) il layout di Applied AI diventa
+    // single-column → niente "spazio vuoto a sinistra" → palla CENTRATA.
+    if (vw < 768) return 0;
     const halfW = HALF_H * (vw / vh);
-    // Centro al ~30% del viewport da sinistra: copre lo spazio vuoto a
-    // sinistra del titolo Applied AI senza essere tagliato dal bordo.
     const desired = -halfW * 0.42;
-    // Cap interno: il bordo sinistro della palla (radius * scale ≈ 1.25)
-    // deve restare nel viewport.
     const minX = -halfW + 1.3;
     return Math.max(minX, Math.min(-0.4, desired));
   }
@@ -229,12 +237,15 @@ function init() {
     const xL = leftX(vw, vh);
     const xC = 0; // centro orizzontale per T4S Core
 
-    const Y_HALFCUT  = -HALF_H - 0.55;  // ~33% visibile
-    const Y_LOW      = -HALF_H - 0.30;  // leggera salita
-    const Y_MID      = 0.05;            // centro verticale (Applied AI)
-    const Y_TOP_EXIT = HALF_H + 2.5;    // uscita oltre il top
-    const SCALE_APP  = 1.0;
-    const SCALE_CORE = 1.3;
+    const mScale = mobileScale(vw);
+    // Su mobile l'offset half-cut è proporzionale (ball più piccola
+    // → meno offset per restare sul bordo); su desktop tieni i valori.
+    const Y_HALFCUT  = -HALF_H - 0.55 * mScale;
+    const Y_LOW      = -HALF_H - 0.30 * mScale;
+    const Y_MID      = 0.05;
+    const Y_TOP_EXIT = HALF_H + 2.5;
+    const SCALE_APP  = 1.0 * mScale;
+    const SCALE_CORE = 1.3 * mScale;
 
     const ratioCore = coreRect.top / vh;
     const ratioApp  = appliedRect.top / vh;
