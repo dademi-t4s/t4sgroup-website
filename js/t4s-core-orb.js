@@ -100,13 +100,20 @@ function init() {
     const aFade = visibilityForRect(tApplied.getBoundingClientRect(), vh);
     const cFade = visibilityForRect(tCore.getBoundingClientRect(), vh);
     const sFade = tStack ? visibilityForRect(tStack.getBoundingClientRect(), vh) : 0;
+    const maxFade = Math.max(aFade, cFade, sFade);
 
     overlay.style.opacity = String(cFade);
     appliedOverlay.style.opacity = String(aFade * (1 - cFade));
     if (bgWrapper) {
-      // Nascondiamo il chip nativo anche su Stack, dove riemerge in alto
-      // durante la transizione da T4S Core → Stack.
-      bgWrapper.style.opacity = String(1 - Math.max(aFade, cFade, sFade));
+      // Override l'opacity SOLO quando siamo dentro le nostre 3 sezioni
+      // (Applied AI / T4S Core / Stack). Sulle altre rimuoviamo del tutto
+      // l'inline style così il bundle Next.js controlla normalmente il
+      // chip nativo (intensità, fade, transizioni di fase).
+      if (maxFade > 0) {
+        bgWrapper.style.opacity = String(1 - maxFade);
+      } else {
+        bgWrapper.style.removeProperty('opacity');
+      }
     }
   }
   window.addEventListener('scroll', updateBackground, { passive: true });
