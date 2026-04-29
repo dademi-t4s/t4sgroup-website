@@ -133,7 +133,6 @@ function init() {
     pointerEvents: 'none',
     zIndex: '2',
     opacity: '0',
-    transition: 'opacity 0.45s ease',
   });
   document.body.appendChild(canvas);
 
@@ -343,8 +342,15 @@ function init() {
     curScale += (target.scale - curScale) * k;
     orb.scale.setScalar(curScale);
 
-    const kv = 1 - Math.exp(-VIS_DAMP * dt);
-    curVis += (target.vis - curVis) * kv;
+    // Snap istantaneo a 0 quando target.vis è 0 → niente "ombra"
+    // residua durante lo scroll su sezioni dove la palla non deve
+    // essere visibile. Negli altri casi mantiene il damping morbido.
+    if (target.vis === 0) {
+      curVis = 0;
+    } else {
+      const kv = 1 - Math.exp(-VIS_DAMP * dt);
+      curVis += (target.vis - curVis) * kv;
+    }
     canvas.style.opacity = curVis.toFixed(3);
 
     orb.rotation.y += dt * 0.16;
