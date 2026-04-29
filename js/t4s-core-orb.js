@@ -98,18 +98,20 @@ function init() {
   function updateBackground() {
     const vh = window.innerHeight;
     const aFade = visibilityForRect(tApplied.getBoundingClientRect(), vh);
+    const cFade = visibilityForRect(tCore.getBoundingClientRect(), vh);
+    const sFade = tStack ? visibilityForRect(tStack.getBoundingClientRect(), vh) : 0;
+    const maxFade = Math.max(aFade, cFade, sFade);
 
-    // Overlay dark T4S Core: disabilitato (T4S Core mantiene bg nativo)
+    // Overlay dark T4S Core: disabilitato (utente: non cambiare overlay)
     overlay.style.opacity = '0';
-    // Soft warm glow solo su Applied AI (compensa il chip rimosso)
+    // Soft warm glow solo su Applied AI
     appliedOverlay.style.opacity = String(aFade);
     if (bgWrapper) {
-      // Chip nativo nascosto SOLO quando Applied AI è in vista.
-      // Tutte le altre sezioni (T4S Core, Stack, Security, Engineer,
-      // Cloud, Home, Horizons, From Vision, Team, Contatti) → bg nativo
-      // intatto.
-      if (aFade > 0) {
-        bgWrapper.style.opacity = String(1 - aFade);
+      // Chip nativo nascosto su Applied AI + T4S Core + Stack (così la
+      // palla half-cut su T4S Core resta visibile senza chip che la
+      // copre, e niente "leak" durante la transizione T4S Core → Stack).
+      if (maxFade > 0) {
+        bgWrapper.style.opacity = String(1 - maxFade);
       } else {
         bgWrapper.style.removeProperty('opacity');
       }
@@ -225,41 +227,72 @@ function init() {
 
   function getTrajectory(coreRect, appliedRect, vw, vh) {
     const xL = leftX(vw, vh);
-    const Y_MID = 0.05;          // centro verticale (Applied AI)
-    const SCALE_APP = 1.0;
+    const xC = 0; // centro orizzontale per T4S Core
 
-    // Palla SOLO su Applied AI. Niente transizione, niente half-cut su
-    // T4S Core, niente fade su Security/Engineer. Visibile solo quando
-    // Applied AI è dominantemente nel viewport.
-    const ratioApp = appliedRect.top / vh;
+    const Y_HALFCUT  = -HALF_H - 0.55;  // ~33% visibile
+    const Y_LOW      = -HALF_H - 0.30;  // leggera salita
+    const Y_MID      = 0.05;            // centro verticale (Applied AI)
+    const Y_TOP_EXIT = HALF_H + 2.5;    // uscita oltre il top
+    const SCALE_APP  = 1.0;
+    const SCALE_CORE = 1.3;
 
-    // Fuori dalla banda visibile → palla nascosta
-    if (ratioApp > 0.5 || ratioApp < -0.5) {
+    const ratioCore = coreRect.top / vh;
+    const ratioApp  = appliedRect.top / vh;
+
+    // Hard guard: né Applied AI né T4S Core → nascosta
+    const appliedInView = appliedRect.bottom > 0 && appliedRect.top < vh;
+    const coreInView    = coreRect.bottom > 0 && coreRect.top < vh;
+    if (!appliedInView && !coreInView) {
       return { x: xL, y: Y_MID, vis: 0, scale: SCALE_APP };
     }
 
-    // Banda di fade-in alta [0.5, 0.3]
-    if (ratioApp > 0.3) {
+    // 1) Applied AI ancora sotto → palla nascosta
+    if (ratioApp > 0.5) {
+      return { x: xL, y: Y_MID, vis: 0, scale: SCALE_APP };
+    }
+
+    // 2) Banda fade-in [0.5, 0.3]
+    if (ratioApp > 0.3 && ratioCore > 1.0) {
       return {
-        x: xL,
-        y: Y_MID,
+        x: xL, y: Y_MID,
         vis: smooth((0.5 - ratioApp) / 0.2),
         scale: SCALE_APP,
       };
     }
 
-    // Banda di fade-out bassa [-0.3, -0.5]
-    if (ratioApp < -0.3) {
+    // 2b) Applied AI dominante, T4S Core non ancora arrivato
+    if (ratioCore > 1.0) {
+      return { x: xL, y: Y_MID, vis: 1, scale: SCALE_APP };
+    }
+
+    // 3) Transizione Applied → T4S Core (sinistra-centro → centro-bottom)
+    if (ratioCore > 0.0) {
+      const t = smooth((1.0 - ratioCore) / 1.0);
       return {
-        x: xL,
-        y: Y_MID,
-        vis: smooth((ratioApp + 0.5) / 0.2),
-        scale: SCALE_APP,
+        x: lerp(xL, xC, t),
+        y: lerp(Y_MID, Y_HALFCUT, t),
+        vis: 1,
+        scale: lerp(SCALE_APP, SCALE_CORE, t),
       };
     }
 
-    // Centrale: piena visibilità su Applied AI
-    return { x: xL, y: Y_MID, vis: 1, scale: SCALE_APP };
+    // 4) T4S Core attivo → half-cut + uscita verso il top
+    if (coreRect.bottom <= vh * 0.05) {
+      return { x: xC, y: Y_TOP_EXIT, vis: 0, scale: SCALE_CORE };
+    }
+    const sectionScrollVh = Math.max(coreRect.height / vh, 1);
+    const p = clamp(-ratioCore / sectionScrollVh, 0, 1);
+    if (p < 0.55) {
+      const t = smooth(p / 0.55);
+      return { x: xC, y: lerp(Y_HALFCUT, Y_LOW, t), vis: 1, scale: SCALE_CORE };
+    }
+    const t = smooth((p - 0.55) / 0.45);
+    return {
+      x: xC,
+      y: lerp(Y_LOW, Y_TOP_EXIT, t),
+      vis: 1 - t,
+      scale: SCALE_CORE,
+    };
   }
 
   const target = { x: leftX(window.innerWidth, window.innerHeight), y: 0, vis: 0, scale: 1.0 };
