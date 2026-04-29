@@ -1,86 +1,95 @@
 // Re-animate cards / headings every time they enter the viewport.
-// Il bundle Next.js (framer-motion) anima questi elementi solo UNA volta
-// (`once: true`). Questo script li intercetta — anche dopo che framer
-// li ha già toccati — e li ri-anima ad ogni entrata in viewport.
+// v3: usa data-attributes + CSS !important per vincere su qualsiasi
+// inline style che il bundle Next.js (framer-motion) potrebbe applicare.
 
 (function () {
-  const ENTER_TRANSITION =
-    'opacity 0.7s ease-out, transform 0.7s ease-out';
-
-  // Stato di reset hardcoded (sostituisce il valore originale del bundle
-  // se framer-motion l'ha già modificato).
-  function resetStyleFor(el) {
-    const cls = el.className || '';
-    // Heading h1 (es. titolo Strategic by Design): translateY(20px)
-    if (el.tagName === 'H1' || cls.includes('ic-typ-h1')) {
-      return 'opacity:0;transform:translateY(20px)';
-    }
-    // Heading h2: translateY(14px) scale(0.94)
-    if (el.tagName === 'H2' || cls.includes('ic-typ-h2')) {
-      return 'opacity:0;transform:translateY(14px) scale(0.94)';
-    }
-    // Default per card / paragraph wrapper: translateY(90px)
-    return 'opacity:0;transform:translateY(90px)';
+  // Inietta stylesheet con regole !important che sovrascrivono framer.
+  function injectCSS() {
+    if (document.getElementById('cr-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'cr-styles';
+    style.textContent = `
+      [data-cr-hidden] {
+        opacity: 0 !important;
+        transform: translateY(60px) !important;
+        transition: none !important;
+      }
+      [data-cr-show] {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: opacity 0.7s ease-out, transform 0.7s ease-out !important;
+      }
+    `;
+    document.head.appendChild(style);
   }
 
-  function findAnimatables() {
-    // Match SIA gli elementi ancora in stato iniziale (opacity:0) SIA
-    // quelli che framer-motion ha già animato a opacity:1+transform:none.
-    const allDivs = Array.from(
+  function findTargets() {
+    // Match qualsiasi elemento con inline style che contenga sia
+    // "opacity" che "transform" (catch sia stato iniziale opacity:0
+    // sia post-framer opacity:1; transform:none).
+    const all = Array.from(
       document.querySelectorAll('div[style], h1[style], h2[style]')
     );
-    return allDivs.filter((el) => {
+    return all.filter((el) => {
       const s = el.getAttribute('style') || '';
-      const hasOpacity = /opacity\s*:/i.test(s);
-      const hasTransform = /transform\s*:/i.test(s);
-      // Esclude lo splash di caricamento / overlay vari (z-index alti)
-      if (s.includes('z-index:[100]') || s.includes('z-index: 100')) {
-        return false;
-      }
-      return hasOpacity && hasTransform;
+      if (!/opacity\s*:/i.test(s)) return false;
+      if (!/transform\s*:/i.test(s)) return false;
+      // Esclude lo splash di caricamento e overlay z-index alti
+      if (/z-index\s*:\s*\[?100\]?/i.test(s)) return false;
+      // Deve avere contenuto figlio (esclude wrapper vuoti)
+      if (el.children.length === 0 && !el.textContent.trim()) return false;
+      return true;
     });
   }
 
-  function init() {
-    const els = findAnimatables();
-    if (els.length === 0) {
-      setTimeout(init, 200);
-      return;
-    }
-
-    const items = els.map((el) => ({
-      el,
-      reset: resetStyleFor(el),
-    }));
+  function applyObserver(el) {
+    // Stato iniziale: nascosto
+    el.removeAttribute('style'); // tolgo inline che framer ha lasciato
+    el.setAttribute('data-cr-hidden', '');
 
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const item = items.find((it) => it.el === entry.target);
-          if (!item) return;
-          const el = entry.target;
           if (entry.isIntersecting) {
-            // Animate in
-            el.style.transition = ENTER_TRANSITION;
-            el.style.opacity = '1';
-            el.style.transform = 'none';
+            el.removeAttribute('data-cr-hidden');
+            el.setAttribute('data-cr-show', '');
           } else {
-            // Snap back allo stato iniziale, pronto per ri-animare
-            el.style.transition = 'none';
-            el.setAttribute('style', item.reset);
+            el.removeAttribute('data-cr-show');
+            el.setAttribute('data-cr-hidden', '');
           }
         });
       },
-      { threshold: 0.12, rootMargin: '0px 0px -10% 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -5% 0px' }
     );
+    io.observe(el);
+  }
 
-    items.forEach((it) => io.observe(it.el));
+  let initialized = new WeakSet();
+  function init() {
+    injectCSS();
+    const targets = findTargets();
+    if (targets.length === 0) {
+      setTimeout(init, 200);
+      return;
+    }
+    targets.forEach((el) => {
+      if (initialized.has(el)) return;
+      initialized.add(el);
+      applyObserver(el);
+    });
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', () => setTimeout(init, 100));
   } else {
-    // Aspetta un tick per dare tempo al bundle Next.js di idratare
-    setTimeout(init, 50);
+    setTimeout(init, 100);
   }
+
+  // Re-scan periodicamente per catturare elementi aggiunti tardivamente
+  // dal bundle Next.js (es. componenti idratati dopo il primo init).
+  let rescans = 0;
+  const rescanTimer = setInterval(() => {
+    init();
+    if (++rescans >= 20) clearInterval(rescanTimer);
+  }, 500);
 })();
