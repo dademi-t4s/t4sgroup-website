@@ -89,10 +89,10 @@ function init() {
   function visibilityForRect(rect, vh) {
     if (rect.bottom < 0 || rect.top > vh) return 0;
     const visible = Math.min(rect.bottom, vh) - Math.max(rect.top, 0);
-    // Banda stretta: l'overlay raggiunge piena opacità quando la sezione
-    // copre ≥15% del viewport. Così la fade-in/out finisce in pochi px di
-    // scroll e non si vede l'"ombra" su Security/Stack.
-    return clamp(visible / (vh * 0.15), 0, 1);
+    // Banda strettissima: overlay/bg-hide a piena intensità solo quando
+    // la sezione copre ≥8% del viewport. Fade in/out in pochissimi px di
+    // scroll → niente residui visibili sulle sezioni adiacenti.
+    return clamp(visible / (vh * 0.08), 0, 1);
   }
 
   function updateBackground() {
@@ -243,6 +243,17 @@ function init() {
     // Ratio del top di T4S Core nel viewport
     const ratioCore = coreRect.top / vh;
     const ratioApp  = appliedRect.top / vh;
+
+    // ── HARD GUARD ────────────────────────────────────────────────
+    // Palla SOLO se Applied AI o T4S Core hanno qualunque presenza nel
+    // viewport. Su Cloud, Engineer, Security, Stack, Processo, Team,
+    // Contatti, Home, Horizons → vis 0. Niente "palla dappertutto".
+    const appliedInView =
+      appliedRect.bottom > 0 && appliedRect.top < vh;
+    const coreInView = coreRect.bottom > 0 && coreRect.top < vh;
+    if (!appliedInView && !coreInView) {
+      return { x: xL, y: Y_MID, vis: 0, scale: SCALE_APP };
+    }
 
     // 1) Applied AI sotto/sopra il viewport dominante → palla nascosta
     //    Banda tight: la palla compare solo quando la sezione è quasi
