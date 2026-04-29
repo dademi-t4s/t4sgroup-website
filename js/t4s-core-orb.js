@@ -102,8 +102,8 @@ function init() {
     const sFade = tStack ? visibilityForRect(tStack.getBoundingClientRect(), vh) : 0;
     const maxFade = Math.max(aFade, cFade, sFade);
 
-    // Overlay dark T4S Core: disabilitato (utente: non cambiare overlay)
-    overlay.style.opacity = '0';
+    // Overlay dark warm-burgundy su T4S Core
+    overlay.style.opacity = String(cFade);
     // Soft warm glow solo su Applied AI
     appliedOverlay.style.opacity = String(aFade);
     if (bgWrapper) {
