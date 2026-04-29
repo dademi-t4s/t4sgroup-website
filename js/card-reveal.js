@@ -1,18 +1,19 @@
 // Re-animate cards / headings every time they enter the viewport.
-// v3: usa data-attributes + CSS !important per vincere su qualsiasi
-// inline style che il bundle Next.js (framer-motion) potrebbe applicare.
+// Mantiene la stessa animazione che avevano (slide-up + fade) ma la
+// ri-applica ad ogni entrata in viewport, non solo al primo refresh.
 
 (function () {
-  // Inietta stylesheet con regole !important che sovrascrivono framer.
   function injectCSS() {
     if (document.getElementById('cr-styles')) return;
     const style = document.createElement('style');
     style.id = 'cr-styles';
+    // !important per vincere su qualsiasi inline style applicato dal
+    // bundle Next.js / framer-motion.
     style.textContent = `
       [data-cr-hidden] {
         opacity: 0 !important;
         transform: translateY(60px) !important;
-        transition: none !important;
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out !important;
       }
       [data-cr-show] {
         opacity: 1 !important;
@@ -23,28 +24,31 @@
     document.head.appendChild(style);
   }
 
+  // Match elementi che hanno (avevano) animazione: hanno style inline con
+  // opacity + transform. Esclude lo splash di caricamento (z-index 100).
   function findTargets() {
-    // Match qualsiasi elemento con inline style che contenga sia
-    // "opacity" che "transform" (catch sia stato iniziale opacity:0
-    // sia post-framer opacity:1; transform:none).
     const all = Array.from(
-      document.querySelectorAll('div[style], h1[style], h2[style]')
+      document.querySelectorAll('div[style], h1[style], h2[style], form[style]')
     );
     return all.filter((el) => {
       const s = el.getAttribute('style') || '';
       if (!/opacity\s*:/i.test(s)) return false;
       if (!/transform\s*:/i.test(s)) return false;
-      // Esclude lo splash di caricamento e overlay z-index alti
-      if (/z-index\s*:\s*\[?100\]?/i.test(s)) return false;
-      // Deve avere contenuto figlio (esclude wrapper vuoti)
-      if (el.children.length === 0 && !el.textContent.trim()) return false;
+      // Esclude splash + overlay
+      if (/z-index/i.test(s)) return false;
+      // Deve essere un wrapper con contenuto
+      if (!el.firstElementChild && !el.textContent.trim()) return false;
       return true;
     });
   }
 
-  function applyObserver(el) {
-    // Stato iniziale: nascosto
-    el.removeAttribute('style'); // tolgo inline che framer ha lasciato
+  const initialized = new WeakSet();
+
+  function attach(el) {
+    if (initialized.has(el)) return;
+    initialized.add(el);
+
+    // Stato iniziale: nascosto (sotto, opacity 0)
     el.setAttribute('data-cr-hidden', '');
 
     const io = new IntersectionObserver(
@@ -59,37 +63,27 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -5% 0px' }
+      { threshold: 0.05 }
     );
     io.observe(el);
   }
 
-  let initialized = new WeakSet();
-  function init() {
+  function scan() {
     injectCSS();
-    const targets = findTargets();
-    if (targets.length === 0) {
-      setTimeout(init, 200);
-      return;
-    }
-    targets.forEach((el) => {
-      if (initialized.has(el)) return;
-      initialized.add(el);
-      applyObserver(el);
-    });
+    findTargets().forEach(attach);
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => setTimeout(init, 100));
+    document.addEventListener('DOMContentLoaded', scan);
   } else {
-    setTimeout(init, 100);
+    scan();
   }
 
-  // Re-scan periodicamente per catturare elementi aggiunti tardivamente
-  // dal bundle Next.js (es. componenti idratati dopo il primo init).
-  let rescans = 0;
-  const rescanTimer = setInterval(() => {
-    init();
-    if (++rescans >= 20) clearInterval(rescanTimer);
+  // Re-scan periodicamente per i primi 10 secondi: cattura componenti
+  // che il bundle Next.js idrata in ritardo.
+  let n = 0;
+  const t = setInterval(() => {
+    scan();
+    if (++n >= 20) clearInterval(t);
   }, 500);
 })();
