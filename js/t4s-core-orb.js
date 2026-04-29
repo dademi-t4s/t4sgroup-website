@@ -98,19 +98,18 @@ function init() {
   function updateBackground() {
     const vh = window.innerHeight;
     const aFade = visibilityForRect(tApplied.getBoundingClientRect(), vh);
-    const cFade = visibilityForRect(tCore.getBoundingClientRect(), vh);
-    const sFade = tStack ? visibilityForRect(tStack.getBoundingClientRect(), vh) : 0;
-    const maxFade = Math.max(aFade, cFade, sFade);
 
-    overlay.style.opacity = String(cFade);
-    appliedOverlay.style.opacity = String(aFade * (1 - cFade));
+    // Overlay dark T4S Core: disabilitato (T4S Core mantiene bg nativo)
+    overlay.style.opacity = '0';
+    // Soft warm glow solo su Applied AI (compensa il chip rimosso)
+    appliedOverlay.style.opacity = String(aFade);
     if (bgWrapper) {
-      // Override l'opacity SOLO quando siamo dentro le nostre 3 sezioni
-      // (Applied AI / T4S Core / Stack). Sulle altre rimuoviamo del tutto
-      // l'inline style così il bundle Next.js controlla normalmente il
-      // chip nativo (intensità, fade, transizioni di fase).
-      if (maxFade > 0) {
-        bgWrapper.style.opacity = String(1 - maxFade);
+      // Chip nativo nascosto SOLO quando Applied AI è in vista.
+      // Tutte le altre sezioni (T4S Core, Stack, Security, Engineer,
+      // Cloud, Home, Horizons, From Vision, Team, Contatti) → bg nativo
+      // intatto.
+      if (aFade > 0) {
+        bgWrapper.style.opacity = String(1 - aFade);
       } else {
         bgWrapper.style.removeProperty('opacity');
       }
@@ -226,92 +225,41 @@ function init() {
 
   function getTrajectory(coreRect, appliedRect, vw, vh) {
     const xL = leftX(vw, vh);
-    const xC = 0; // centro orizzontale per T4S Core
+    const Y_MID = 0.05;          // centro verticale (Applied AI)
+    const SCALE_APP = 1.0;
 
-    // Posizioni di riferimento (y = world units; HALF_H ≈ 1.72)
-    // Y_HALFCUT è il punto di "meno della metà visibile" su T4S Core:
-    // centro ball 0.55 sotto il bordo → solo ~33% del cerchio sopra.
-    const Y_HALFCUT    = -HALF_H - 0.55; // ~33% visibile (meno della metà)
-    const Y_LOW        = -HALF_H - 0.30; // leggera salita (~40% visibile)
-    const Y_MID        = 0.05;           // centro verticale (Applied AI)
-    const Y_TOP_EXIT   = HALF_H + 2.5;   // uscita ben oltre il top (no leak)
+    // Palla SOLO su Applied AI. Niente transizione, niente half-cut su
+    // T4S Core, niente fade su Security/Engineer. Visibile solo quando
+    // Applied AI è dominantemente nel viewport.
+    const ratioApp = appliedRect.top / vh;
 
-    // Scale: leggermente più grande sulle altre fasi, +30% su T4S Core
-    const SCALE_APP  = 1.0;
-    const SCALE_CORE = 1.3;
-
-    // Ratio del top di T4S Core nel viewport
-    const ratioCore = coreRect.top / vh;
-    const ratioApp  = appliedRect.top / vh;
-
-    // ── HARD GUARD ────────────────────────────────────────────────
-    // Palla SOLO se Applied AI o T4S Core hanno qualunque presenza nel
-    // viewport. Su Cloud, Engineer, Security, Stack, Processo, Team,
-    // Contatti, Home, Horizons → vis 0. Niente "palla dappertutto".
-    const appliedInView =
-      appliedRect.bottom > 0 && appliedRect.top < vh;
-    const coreInView = coreRect.bottom > 0 && coreRect.top < vh;
-    if (!appliedInView && !coreInView) {
+    // Fuori dalla banda visibile → palla nascosta
+    if (ratioApp > 0.5 || ratioApp < -0.5) {
       return { x: xL, y: Y_MID, vis: 0, scale: SCALE_APP };
     }
 
-    // 1) Applied AI sotto/sopra il viewport dominante → palla nascosta
-    //    Banda tight: la palla compare solo quando la sezione è quasi
-    //    completamente in viewport. Niente "ombra" residua durante lo
-    //    scroll-up verso Security.
-    if (ratioApp > 0.5) {
-      return { x: xL, y: Y_MID, vis: 0, scale: SCALE_APP };
-    }
-
-    // 2) Banda stretta di fade-in/out: ratioApp [0.5, 0.3]
-    if (ratioApp > 0.3 && ratioCore > 1.0) {
-      const t = smooth((0.5 - ratioApp) / 0.2);
-      return { x: xL, y: Y_MID, vis: t, scale: SCALE_APP };
-    }
-
-    // 2b) Applied AI dominantemente in viewport → palla piena, no fade
-    if (ratioCore > 1.0) {
-      return { x: xL, y: Y_MID, vis: 1, scale: SCALE_APP };
-    }
-
-    // 3) Transizione Applied → T4S Core: scende, va al centro, ingrandisce
-    if (ratioCore > 0.0) {
-      const t = smooth((1.0 - ratioCore) / 1.0);
+    // Banda di fade-in alta [0.5, 0.3]
+    if (ratioApp > 0.3) {
       return {
-        x: lerp(xL, xC, t),
-        y: lerp(Y_MID, Y_HALFCUT, t),
-        vis: 1,
-        scale: lerp(SCALE_APP, SCALE_CORE, t),
+        x: xL,
+        y: Y_MID,
+        vis: smooth((0.5 - ratioApp) / 0.2),
+        scale: SCALE_APP,
       };
     }
 
-    // 4) T4S Core attivo: progress relativo all'altezza della sezione
-    if (coreRect.bottom <= vh * 0.05) {
-      return { x: xC, y: Y_TOP_EXIT, vis: 0, scale: SCALE_CORE };
-    }
-
-    const sectionScrollVh = Math.max(coreRect.height / vh, 1);
-    const p = clamp(-ratioCore / sectionScrollVh, 0, 1);
-
-    if (p < 0.55) {
-      // Prima parte: centrata, half-cut con leggera salita, fully visible
-      const t = smooth(p / 0.55);
+    // Banda di fade-out bassa [-0.3, -0.5]
+    if (ratioApp < -0.3) {
       return {
-        x: xC,
-        y: lerp(Y_HALFCUT, Y_LOW, t),
-        vis: 1,
-        scale: SCALE_CORE,
+        x: xL,
+        y: Y_MID,
+        vis: smooth((ratioApp + 0.5) / 0.2),
+        scale: SCALE_APP,
       };
     }
 
-    // Ultima parte: sale verso il top e fade COMPLETO a 0 (no leak su Stack)
-    const t = smooth((p - 0.55) / 0.45);
-    return {
-      x: xC,
-      y: lerp(Y_LOW, Y_TOP_EXIT, t),
-      vis: 1 - t,
-      scale: SCALE_CORE,
-    };
+    // Centrale: piena visibilità su Applied AI
+    return { x: xL, y: Y_MID, vis: 1, scale: SCALE_APP };
   }
 
   const target = { x: leftX(window.innerWidth, window.innerHeight), y: 0, vis: 0, scale: 1.0 };
