@@ -280,11 +280,11 @@ function init() {
     if (ratioCore > 0.0) {
       const tRaw = clamp((1.0 - ratioCore) / 1.0, 0, 1);
       const t = smooth(tRaw);
-      // Su mobile la palla è già centrata: la transizione non si sposta
-      // orizzontalmente, quindi smoothstep sulla scala (derivata 0 agli
-      // estremi → "stallo + scatto") fa sembrare la crescita un pop.
-      // Lineare + dampening esistente = gonfiore continuo e naturale.
-      const tScale = isMobile ? tRaw : t;
+      // Su mobile la palla deve restare alla scala iniziale all'inizio
+      // della transizione (mentre scende), e gonfiarsi solo nella seconda
+      // metà avvicinandosi all'half-cut. Lineare nella seconda metà =
+      // gonfiore graduale e naturale, senza pop iniziale.
+      const tScale = isMobile ? clamp((tRaw - 0.5) / 0.5, 0, 1) : t;
       return {
         x: lerp(xL, xC, t),
         y: lerp(Y_MID, Y_HALFCUT, t),
