@@ -280,11 +280,11 @@ function init() {
     if (ratioCore > 0.0) {
       const tRaw = clamp((1.0 - ratioCore) / 1.0, 0, 1);
       const t = smooth(tRaw);
-      // Su mobile la palla deve restare alla scala iniziale all'inizio
-      // della transizione (mentre scende), e gonfiarsi solo nella seconda
-      // metà avvicinandosi all'half-cut. Lineare nella seconda metà =
-      // gonfiore graduale e naturale, senza pop iniziale.
-      const tScale = isMobile ? clamp((tRaw - 0.5) / 0.5, 0, 1) : t;
+      // Su mobile la palla deve gonfiarsi in modo molto graduale: cubic
+      // ease-in (t³) → con poco scroll la scala è quasi invariata, poi
+      // accelera dolcemente avvicinandosi al T4S Core. Curva continua
+      // (no kink) ai bordi della transizione → niente pop visibile.
+      const tScale = isMobile ? tRaw * tRaw * tRaw : t;
       return {
         x: lerp(xL, xC, t),
         y: lerp(Y_MID, Y_HALFCUT, t),
