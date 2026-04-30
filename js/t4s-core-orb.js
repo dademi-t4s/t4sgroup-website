@@ -285,9 +285,11 @@ function init() {
     if (ratioCore > 0.0) {
       const tRaw = clamp((1.0 - ratioCore) / 1.0, 0, 1);
       const t = smooth(tRaw);
-      // Su mobile la magnitude è già ridotta sopra → lineare è uniforme,
-      // niente picchi di derivata = nessun pop in entrata o uscita.
-      const tScale = isMobile ? tRaw : t;
+      // Su mobile usa smoothstep anche per la scala: derivata 0 ai bordi
+      // → si raccorda allo slope-0 delle zone 2b/4 senza kink. Combinato
+      // alla magnitude ridotta (sopra) e al damping più lento (sotto),
+      // il gonfiore non ha più punti di "scatto" visibili.
+      const tScale = t;
       return {
         x: lerp(xL, xC, t),
         y: lerp(Y_MID, Y_HALFCUT, t),
@@ -338,6 +340,7 @@ function init() {
 
   const clock = new THREE.Clock();
   const POS_DAMP = 8;
+  const SCALE_DAMP_MOBILE = 2.5; // ~3x più lento di POS_DAMP → gonfiore "settling"
   const VIS_DAMP = 14; // più reattivo: il fade-out finisce in pochi frame, niente "ombra"
   let curVis = 0;
   let curScale = target.scale;
@@ -349,7 +352,12 @@ function init() {
     const k = 1 - Math.exp(-POS_DAMP * dt);
     orb.position.x += (target.x - orb.position.x) * k;
     orb.position.y += (target.y - orb.position.y) * k;
-    curScale += (target.scale - curScale) * k;
+    // Su mobile la scala usa damping molto più lento: anche se target.scale
+    // cambia velocemente (scroll a scatti), curScale insegue piano = niente
+    // pop visibile, sembra un gonfiore che si "assesta" naturalmente.
+    const scaleDamp = window.innerWidth < 768 ? SCALE_DAMP_MOBILE : POS_DAMP;
+    const ks = 1 - Math.exp(-scaleDamp * dt);
+    curScale += (target.scale - curScale) * ks;
     orb.scale.setScalar(curScale);
 
     // Snap istantaneo a 0 quando target.vis è 0 → niente "ombra"
