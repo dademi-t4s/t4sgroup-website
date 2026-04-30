@@ -243,9 +243,14 @@ function init() {
     const Y_LOW      = -HALF_H - 0.30 * mScale;
     const Y_MID      = 0.05;
     const Y_TOP_EXIT = HALF_H + 2.5;
-    const SCALE_APP  = 1.0 * mScale;
-    const SCALE_CORE = 1.3 * mScale;
     const isMobile = vw < 768;
+    // Su mobile riduci la differenza SCALE_APP↔SCALE_CORE: 30% di crescita
+    // in 1vh di scroll è troppo per qualsiasi curva (linear, smoothstep,
+    // cubic) → si vedeva un pop in entrata/uscita. Magnitude dimezzata
+    // (~13%) + lineare = gonfiore impercettibile e naturale. T4S Core
+    // invariato.
+    const SCALE_APP  = (isMobile ? 1.15 : 1.0) * mScale;
+    const SCALE_CORE = 1.3 * mScale;
 
     const ratioCore = coreRect.top / vh;
     const ratioApp  = appliedRect.top / vh;
@@ -280,11 +285,9 @@ function init() {
     if (ratioCore > 0.0) {
       const tRaw = clamp((1.0 - ratioCore) / 1.0, 0, 1);
       const t = smooth(tRaw);
-      // Su mobile la palla deve gonfiarsi in modo molto graduale: cubic
-      // ease-in (t³) → con poco scroll la scala è quasi invariata, poi
-      // accelera dolcemente avvicinandosi al T4S Core. Curva continua
-      // (no kink) ai bordi della transizione → niente pop visibile.
-      const tScale = isMobile ? tRaw * tRaw * tRaw : t;
+      // Su mobile la magnitude è già ridotta sopra → lineare è uniforme,
+      // niente picchi di derivata = nessun pop in entrata o uscita.
+      const tScale = isMobile ? tRaw : t;
       return {
         x: lerp(xL, xC, t),
         y: lerp(Y_MID, Y_HALFCUT, t),
