@@ -245,6 +245,7 @@ function init() {
     const Y_TOP_EXIT = HALF_H + 2.5;
     const SCALE_APP  = 1.0 * mScale;
     const SCALE_CORE = 1.3 * mScale;
+    const isMobile = vw < 768;
 
     const ratioCore = coreRect.top / vh;
     const ratioApp  = appliedRect.top / vh;
@@ -277,12 +278,18 @@ function init() {
 
     // 3) Transizione Applied → T4S Core (sinistra-centro → centro-bottom)
     if (ratioCore > 0.0) {
-      const t = smooth((1.0 - ratioCore) / 1.0);
+      const tRaw = clamp((1.0 - ratioCore) / 1.0, 0, 1);
+      const t = smooth(tRaw);
+      // Su mobile la palla è già centrata: la transizione non si sposta
+      // orizzontalmente, quindi smoothstep sulla scala (derivata 0 agli
+      // estremi → "stallo + scatto") fa sembrare la crescita un pop.
+      // Lineare + dampening esistente = gonfiore continuo e naturale.
+      const tScale = isMobile ? tRaw : t;
       return {
         x: lerp(xL, xC, t),
         y: lerp(Y_MID, Y_HALFCUT, t),
         vis: 1,
-        scale: lerp(SCALE_APP, SCALE_CORE, t),
+        scale: lerp(SCALE_APP, SCALE_CORE, tScale),
       };
     }
 
