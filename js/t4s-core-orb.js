@@ -340,7 +340,6 @@ function init() {
 
   const clock = new THREE.Clock();
   const POS_DAMP = 8;
-  const SCALE_DAMP_MOBILE = 2.5; // ~3x più lento di POS_DAMP → gonfiore "settling"
   const VIS_DAMP = 14; // più reattivo: il fade-out finisce in pochi frame, niente "ombra"
   let curVis = 0;
   let curScale = target.scale;
@@ -349,15 +348,19 @@ function init() {
     requestAnimationFrame(tick);
     const dt = clock.getDelta();
 
+    // Aggiorna target ogni frame, non solo sui scroll events: su iOS gli
+    // scroll events durante momentum scroll arrivano a scatti irregolari
+    // → target.scale saltava di colpo e curScale rincorreva con un pop
+    // visibile. Calcolando il target a 60fps dal rect corrente, il target
+    // evolve smoothly e curScale lo segue senza scatti. Posizione e scala
+    // usano lo stesso damping → si muovono in sincronia, niente "cresce
+    // sul posto" da un lato.
+    updateTarget();
+
     const k = 1 - Math.exp(-POS_DAMP * dt);
     orb.position.x += (target.x - orb.position.x) * k;
     orb.position.y += (target.y - orb.position.y) * k;
-    // Su mobile la scala usa damping molto più lento: anche se target.scale
-    // cambia velocemente (scroll a scatti), curScale insegue piano = niente
-    // pop visibile, sembra un gonfiore che si "assesta" naturalmente.
-    const scaleDamp = window.innerWidth < 768 ? SCALE_DAMP_MOBILE : POS_DAMP;
-    const ks = 1 - Math.exp(-scaleDamp * dt);
-    curScale += (target.scale - curScale) * ks;
+    curScale += (target.scale - curScale) * k;
     orb.scale.setScalar(curScale);
 
     // Snap istantaneo a 0 quando target.vis è 0 → niente "ombra"
